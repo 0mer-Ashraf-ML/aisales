@@ -1,0 +1,27 @@
+<section id="solution" class="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
+    <i class="fa-solid fa-lg fa-circle-half-stroke text-sky-500 "></i>
+    <div class="space-y-6 justify-between text-gray-600 md:flex flex-row-reverse md:gap-6 md:space-y-0 lg:gap-12 lg:items-center">
+        <div class="md:5/12 lg:w-1/2">
+            <img src="./images/pie.svg" alt="image" loading="lazy" class="w-full" />
+        </div>
+        <div class="md:7/12 lg:w-1/2">
+            <h2 class="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">Nuxt development is carried out by
+                passionate developers</h2>
+            <p class="my-8 text-gray-600 dark:text-gray-300">Nobis minus voluptatibus pariatur dignissimos libero
+                quaerat iure expedita at? Asperiores nemo possimus nesciunt dicta veniam aspernatur quam mollitia. <br>
+                <br> Vitae error, quaerat officia delectus voluptatibus explicabo quo pariatur impedit, at reprehenderit
+                aliquam a ipsum quas voluptatem. Quo pariatur asperiores eum amet.</p>
+            <div *ngFor="let feature of features" class="divide-y space-y-4 divide-gray-100 dark:divide-gray-800">
+                <div class="mt-8 flex gap-4 md:items-center">
+                    <div class="w-12 h-12 flex gap-4 rounded-full bg-indigo-100 dark:bg-indigo-900/20">
+                        <i class="fa-solid {{feature.icon}} fa-xl m-auto text-indigo-500 dark:text-indigo-400"></i>
+                    </div>
+                    <div class="w-5/6">
+                        <h4 class="font-semibold text-lg text-gray-700 dark:text-indigo-300">{{ feature.title }}</h4>
+                        <p class="text-gray-500 dark:text-gray-400">{{ feature.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

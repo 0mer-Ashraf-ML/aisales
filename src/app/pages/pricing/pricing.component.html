@@ -1,0 +1,27 @@
+<section class="px-[6.3%] py-8 dark:bg-black">
+    <h1 class="text-gray-900 dark:text-white font-bold text-4xl xl:text-5xl text-center">Pricing Plans</h1>
+    <h2 class="text-2xl font-bold text-gray-700 dark:text-white md:text-4xl text-center my-4">Choose a plan that's right for you</h2>
+    <p class="text-gray-700 dark:text-gray-300 text-center mb-10">Choose the deployment option for your application and explore our transparent pricing plans</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div *ngFor="let plan of pricingPlans; let i = index" class="relative p-6 bg-white dark:bg-gray-800 border-2 border-gray-100 hover:border-gray-200 rounded-2xl dark:border-gray-800 hover:dark:border-red-950 hover:scale-105 active:scale-95 duration-300">
+            <!-- Popular Badge for the First Item (Index 0) -->
+            <span *ngIf="i === 0" class="absolute top-0 left-8 -mt-3 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</span>
+            <h3 class="text-2xl font-semibold text-gray-800 dark:text-white text-center">{{plan.type}}</h3>
+            <h2 class="text-gray-900 dark:text-white font-bold text-4xl xl:text-5xl text-center my-3">{{plan.price}}</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-2">{{plan.desc}}</p>
+
+            <div class="flex justify-center my-6">
+                <app-cbutton1 btnText="Get Started"></app-cbutton1>
+            </div>
+
+            <hr class="border border-gray-100 dark:border-gray-800 my-3">
+            <h4 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Features</h4>
+
+            <ul *ngFor="let feature of plan.features" class="list-outside flex ml-3">
+                <mat-icon class="text-lg text-gray-700 dark:text-gray-300 mt-1">check_circle</mat-icon>
+                <li class="text-sm text-gray-700 dark:text-gray-300 my-2 ml-1">{{feature}}</li>
+            </ul>
+        </div>
+    </div>
+</section>

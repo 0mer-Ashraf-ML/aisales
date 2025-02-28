@@ -1,0 +1,193 @@
+<div *ngIf="loading" class="fixed inset-0 flex items-center justify-center bg-black dark:bg-white bg-opacity-50 dark:bg-opacity-50 z-50 dark:z-50">
+    <div
+      class="h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-e-transparent text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-gray-800"
+      role="status">
+      <span
+        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Loading...</span>
+    </div>
+    <p>It may take up to 30 seconds. Please don't close the window!</p>
+</div>
+  
+<section class="flex min-h-screen dark:bg-[#212121]">
+    <!-- Sidebar -->
+    <div *ngIf="isSidebarOpen" [ngClass]="isSidebarOpen ? 'w-1/6' : 'w-0'"
+        class="h-full px-4 fixed bg-[#f9f9f9] dark:bg-[#171717] text-gray-800 dark:text-gray-100">
+        <!-- Sidebar header -->
+        <div class="flex justify-between items-center h-14 fixed z-10 pl-3 py-3 left-0 right-[83%]">
+            <div (click)="toggleSidebar()" *ngIf="isSidebarOpen" (mouseenter)="showToggleBadge = true"
+                (mouseleave)="showToggleBadge = false"
+                class="relative cursor-pointer p-2 rounded-lg text-gray-800 dark:text-gray-100 hover:bg-[#e3e3e3] dark:hover:bg-gray-600">
+                <i class="fa-solid fa-toggle-on"></i>
+                <div *ngIf="showToggleBadge"
+                    class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-28 px-3 py-2 text-sm text-white dark:text-gray-100 bg-gray-800 dark:bg-gray-600 border dark:border-gray-800 rounded-lg">
+                    Close sidebar
+                    <div
+                        class="absolute left-0 top-1/2 -translate-y-1/2 -ml-[6px] w-0 h-0 border-t-[6px] border-b-[6px] border-r-[6px] border-t-transparent border-b-transparent border-r-gray-800 dark:border-r-gray-600">
+                    </div>
+                </div>
+            </div>
+            <a routerLink=""
+                class="relative cursor-pointer p-2 mr-8 rounded-lg hover:bg-[#e3e3e3] dark:hover:bg-gray-600"
+                (mouseenter)="showNewChatBadge = true" (mouseleave)="showNewChatBadge = false">
+                <i class="fa-solid fa-lg fa-pen-to-square"></i>
+                <div *ngIf="showNewChatBadge"
+                    class="absolute left-1/2 top-full mt-2 w-24 px-3 py-2 text-sm text-white bg-gray-800 dark:bg-gray-600 rounded-lg -translate-x-1/2">
+                    New chat
+                    <div
+                        class="absolute left-1/2 w-0 h-0 -top-[6px] -translate-x-1/2 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-gray-800 dark:border-b-gray-600">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Sidebar body -->
+        <div *ngFor="let prompt of prompts; let i = index" class="relative top-14 flex flex-col gap-4">
+            <div
+                class="flex justify-between items-center rounded-lg hover:bg-[#e3e3e3] text-gray-800 dark:text-gray-100 dark:hover:bg-[#212121]">
+                <p class="px-2 py-1 my-1 text-sm flex justify-start items-center">
+                    {{ prompt.question.split(" ").slice(0, 3).join(" ") + " ..." }}
+                </p>
+                <div class="cursor-pointer p-2 rounded-lg hover:bg-[#e3e3e3] dark:hover:bg-gray-600 ellipsis-icon"
+                    (click)="toggleModal(i)" (mouseenter)="showEllipsisBadge = i"
+                    (mouseleave)="showEllipsisBadge = null">
+                    <i class="fa-solid fa-ellipsis"></i>
+                    <div *ngIf="showEllipsisBadge === i"
+                        class="absolute left-[83%] bottom-full -mb-2 z-20 w-20 px-3 py-2 text-sm text-white bg-gray-800 dark:bg-gray-600 rounded-lg -translate-x-1/2">
+                        Options
+                        <div
+                            class="absolute left-3/4 top-full -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-gray-800 dark:border-t-gray-600">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Individual modal for each prompt -->
+            <div *ngIf="activeModalIndex === i"
+                class="absolute left-24 mt-8 z-20 bg-[#f8f8f8] w-28 p-2 rounded-lg shadow-lg border border-gray-300 modal">
+                <p class="hover:bg-[#e3e3e3] text-sm p-2 cursor-pointer rounded-md">
+                    <i class="fa-solid fa-pen mr-2"></i>Edit
+                </p>
+                <p class="hover:bg-[#e3e3e3] text-sm text-red-400 p-2 cursor-pointer rounded-md">
+                    <i class="fa-solid fa-trash mr-2"></i>Delete
+                </p>
+            </div>
+        </div>
+        <!-- Sidebar footer -->
+        <div
+            class="flex justify-center items-center h-14 cursor-pointer fixed left-2 bottom-0 right-[85%] rounded-md text-gray-800 dark:text-gray-100 bg-[#f9f9f9] dark:bg-[#171717] hover:bg-[#e3e3e3] dark:hover:bg-[#212121]">
+            <i class="fa-solid fa-lg fa-pen-to-square"></i>
+            <p class="ml-2">Upgrade Plan</p>
+        </div>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="grid place-items-center w-full h-full dark:bg-[#212121]" [ngClass]="isSidebarOpen ? 'ml-[16%]' : ''">
+        <!--Chat Window Header -->
+        <div class="fixed top-0 right-0 left-0 h-14 z-10 flex items-center justify-between p-3 bg-white dark:bg-[#212121]"
+            [ngClass]="{ 'left-1/6 w-5/6': isSidebarOpen, 'left-0': !isSidebarOpen }">
+            <div class="flex items-center justify-between gap-4">
+                <div (click)="toggleSidebar()" *ngIf="!isSidebarOpen" (mouseenter)="showToggleBadge = true"
+                    (mouseleave)="showToggleBadge = false"
+                    class="relative cursor-pointer p-2 rounded-lg hover:bg-[#e3e3e3] dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100">
+                    <i class="fa-solid fa-toggle-on"></i>
+                    <div *ngIf="showToggleBadge"
+                        class="absolute left-1/2 top-full ml-8 mt-2 w-28 px-3 py-2 text-sm text-white bg-gray-800 dark:bg-gray-600 rounded-lg -translate-x-1/2">
+                        Open sidebar
+                        <div
+                            class="absolute left-1/4 w-0 h-0 -top-[6px] -translate-x-1/2 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-gray-800 dark:border-b-gray-600">
+                        </div>
+                    </div>
+                </div>
+                <a *ngIf="!isSidebarOpen" routerLink=""
+                    class="relative cursor-pointer p-2 rounded-lg hover:bg-[#e3e3e3] dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100"
+                    (mouseenter)="showNewChatBadge = true" (mouseleave)="showNewChatBadge = false">
+                    <i class="fa-solid fa-lg fa-pen-to-square"></i>
+                    <div *ngIf="showNewChatBadge"
+                        class="absolute left-1/2 top-full mt-2 w-24 px-3 py-2 text-sm text-white bg-gray-800 dark:bg-gray-600 rounded-lg -translate-x-1/2">
+                        New chat
+                        <div
+                            class="absolute left-1/2 w-0 h-0 -top-[6px] -translate-x-1/2 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-gray-800 dark:border-b-gray-600">
+                        </div>
+                    </div>
+                </a>
+                <h2 class="text-xl font-medium dark:text-gray-300">Chatbot</h2>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+                <span (click)="toggleTheme()" class="mr-4 cursor-pointer dark:text-gray-300">{{ isDarkMode ? "Dark" :
+                    "Light" }}</span>
+                <a class="px-3 py-2 text-sm bg-black dark:bg-gray-600 text-white font-medium rounded-3xl cursor-pointer"
+                    routerLink="login">Log in</a>
+                <a class="px-3 py-2 text-sm bg-transparent text-black dark:text-white dark:bg-gray-600 font-medium rounded-3xl border border-slate-400 cursor-pointer"
+                    routerLink="signup">Sign up</a>
+            </div>
+        </div>
+        <!-- Chat Window Body -->
+        <div #chatWindow id="chatWindow" class="text-sm leading-[24px] pt-14 pb-36 max-h-screen overflow-y-auto"
+            [ngClass]="isSidebarOpen ? 'w-1/2' : 'w-2/5'">
+            <ng-container *ngFor="let key of questionKeys.slice(0, currentQuestionIndex + 1)">
+                <!-- Question -->
+                <p
+                    class="w-fit min-w-min max-w-lg bg-[#f3f3f3] dark:bg-[#303030] text-gray-800 dark:text-gray-100 rounded-3xl p-4 my-4">
+                    {{ QUESTIONS_MAP[key] }}
+                </p>
+
+                <!-- Answer (Only show if answer exists) -->
+                <p *ngIf="ANSWER_MAP[key]"
+                    class="w-fit min-w-min max-w-lg p-3 text-gray-800 dark:text-gray-100 rounded-3xl ml-auto bg-gray-100 dark:bg-[#606060]">
+                    {{ ANSWER_MAP[key] }}
+                </p>
+            </ng-container>
+        </div>
+        <!-- Chat Window Footer -->
+        <div class="relative" [ngClass]="isSidebarOpen ? 'w-1/2' : 'w-2/5'">
+            <div class="pb-4 -mb-2 rounded-tr-3xl rounded-tl-3xl bg-white dark:bg-[#212121]" [ngClass]="{
+          'fixed w-[42%] bottom-2 z-10': prompts.length > 0,
+          'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full mt-80':
+            prompts.length === 0
+        }">
+                <h1 *ngIf="prompts.length === 0"
+                    class="text-3xl font-medium text-center text-gray-800 dark:text-gray-100 mb-4">
+                    How can I help you?
+                </h1>
+                <div
+                    class="bg-white dark:bg-[#303030] w-full mx-auto rounded-3xl border border-slate-300 dark:border-none shadow-sm p-5 flex flex-col justify-between">
+                    <!-- Input Box -->
+                    <textarea #textarea
+                        class="w-full bg-transparent border-none focus:outline-none overflow-y-auto resize-none text-gray-800 dark:text-white"
+                        placeholder="Write something here..." rows="2" (input)="onTextareaInput(textarea)"
+                        (keydown.enter)="onSubmitAnswer($event, textarea)"></textarea>
+
+                    <div class="flex items-center justify-between pb-1">
+                        <div class="relative text-gray-800 dark:text-gray-100 invisible">
+                            <label for="fileInput" (mouseenter)="showUploadBadge = true"
+                                (mouseleave)="showUploadBadge = false" class="cursor-pointer">
+                                <i class="fa-solid fa-xl fa-paperclip"></i>
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" />
+                            <div *ngIf="showUploadBadge"
+                                class="absolute left-1/2 bottom-8 w-24 px-3 py-2 text-sm text-white bg-gray-800 dark:bg-gray-600 rounded-lg -translate-x-1/2">
+                                Attach file
+                                <div
+                                    class="absolute left-1/2 w-0 h-0 top-9 -translate-x-1/2 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-gray-800 dark:border-t-gray-600">
+                                </div>
+                            </div>
+                        </div>
+                        <i *ngIf="currentQuestionIndex != questionKeys.length - 1" [ngClass]="{
+                'text-gray-800/40 dark:text-gray-100/40': isTextareaEmpty
+              }" [class.pointer-events-none]="isTextareaEmpty"
+                            class="fa-solid fa-xl fa-circle-arrow-up cursor-pointer text-gray-800 dark:text-gray-100"
+                            (click)="onSubmitAnswer($event, textarea)"></i>
+                            <a *ngIf="currentQuestionIndex == questionKeys.length - 1"
+                            [class.opacity-50]="isTextareaEmpty"
+                            [class.pointer-events-none]="isTextareaEmpty"
+                            (click)="onSubmitAnswer($event, textarea)"
+                            class="relative flex w-full items-center justify-center px-3 py-[6px] rounded-lg bg-primary sm:w-max transition-opacity">
+                           <span class="relative text-xs font-medium text-white cursor-pointer">Fetch Prospects</span>
+                         </a>
+                         
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

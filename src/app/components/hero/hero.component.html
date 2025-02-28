@@ -1,0 +1,36 @@
+<section class="relative px-[4%]">
+    <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
+        <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
+        <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
+    </div>
+    <div class="pt-10 ml-auto">
+        <div class="lg:w-2/3 text-center mx-auto">
+            <h1 class="text-gray-900 dark:text-white font-bold text-4xl xl:text-5xl">Unleash
+                seamless conversations with our <span class="text-primary dark:text-white">cutting-edge AI
+                    chatbot!.</span></h1>
+            <p class="mt-8 text-gray-700 dark:text-gray-300">Transform the way you connect with your customers
+                using our advanced AI chatbot. Designed to provide seamless, personalized conversations, it
+                enhances customer satisfaction while reducing response time. Whether answering queries, guiding
+                purchases, or delivering tailored recommendations, our chatbot is your ultimate tool for
+                efficient and effective customer communication—anytime, anywhere.</p>
+            <div class="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
+                <app-cbutton1 btnText="Get started" routerLink="chatbot"></app-cbutton1>
+                <app-cbutton2 btnText="Learn more" routerLink=""></app-cbutton2>
+            </div>
+            <!-- features -->
+            <div class="hidden py-8 mt-16 border-y border-gray-100 dark:border-gray-800 sm:flex justify-between">
+                <div *ngFor="let feature of features" class="text-left">
+                    <h4 class="text-lg font-semibold text-gray-700 dark:text-white">{{ feature.title }}</h4>
+                    <p class="mt-2 text-gray-500">{{ feature.desc }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- clients -->
+        <div class="mt-12 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
+            <div *ngFor="let client of clients"
+                class="p-4 grayscale  hover:grayscale-0 transition duration-300 ease-in-out">
+                <img [src]="client" class="h-12 w-auto mx-auto" loading="lazy" alt="client logo" width="" height="" />
+            </div>
+        </div>
+    </div>
+</section>
