@@ -50,7 +50,6 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.sessionId = uuidv4();
-    
   }
 
   ngAfterViewChecked(): void {
