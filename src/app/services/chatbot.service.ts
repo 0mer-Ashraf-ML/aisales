@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatbotService {
-  private apiUrl = 'https://dummyjson.com/products/1';
+  private apiUrl = 'http://134.199.142.5:8000';
 
   constructor(private http: HttpClient) {}
 
-  getProduct(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+  conservation(params: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + '/Chat', null , { params });
   }
 }

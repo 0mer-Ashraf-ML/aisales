@@ -6,19 +6,23 @@ import {
   ElementRef,
   AfterViewChecked,
   CUSTOM_ELEMENTS_SCHEMA,
+  OnInit,
 } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { ChatbotService } from '../../services/chatbot.service';
 import { MatIconModule } from '@angular/material/icon';
+import { v4 as uuidv4 } from 'uuid';
+import { Router } from '@angular/router';
+import { ProspectsStore } from '../../store/prospects.store';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './chatbot.component.html',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ChatbotComponent implements AfterViewChecked {
+export class ChatbotComponent implements OnInit, AfterViewChecked {
   @ViewChild('chatWindow') chatWindow!: ElementRef;
   isTextareaEmpty: boolean = true;
   product: any;
@@ -30,14 +34,23 @@ export class ChatbotComponent implements AfterViewChecked {
   showEllipsisBadge: number | null = null;
   activeModalIndex: number | null = null;
   isDarkMode: boolean = false;
-
+  sessionId = '';
+  conversation: any[] = [];
+  prospects: any;
   constructor(
     private themeService: ThemeService,
-    private chatbotService: ChatbotService
+    private chatbotService: ChatbotService,
+    private router: Router,
+    private prospectsStore: ProspectsStore
   ) {
     this.themeService.currentTheme.subscribe((theme) => {
       this.isDarkMode = theme;
     });
+  }
+
+  ngOnInit(): void {
+    this.sessionId = uuidv4();
+    
   }
 
   ngAfterViewChecked(): void {
@@ -119,46 +132,74 @@ export class ChatbotComponent implements AfterViewChecked {
   async onSubmitAnswer(event: Event, textarea: HTMLTextAreaElement) {
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
+    
+    const question = textarea.value.trim();
+    this.conversation.push({role: "user",content: question})
+    if (!question) return;
+    this.loading = true;
+    this.chatbotService
+      .conservation({
+        user_input: question,
+        session_id: this.sessionId,
+      })
+      .subscribe({
+        next: (data) => {
+          this.conversation = data.conversation;
+          this.prospects = data.prospect_output;
+          if(this.prospects != null)
+          {
+            console.log(this.prospects);
+            this.prospectsStore.setProspects(data.prospect_output.results);
+            console.log(this.prospectsStore.prospects());
+            this.router.navigate(["/prospects"]);
+          }
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error fetching Conversation:', error);
+          this.loading = false;
+        },
+      });
 
-    const answer = textarea.value.trim();
-    if (!answer) return;
-
-    const currentKey = this.questionKeys[this.currentQuestionIndex];
-    if (this.currentQuestionIndex < this.questionKeys.length) {
-      this.ANSWER_MAP[currentKey] = answer;
-      if (this.currentQuestionIndex == this.questionKeys.length - 1) {
-        this.getProductData();
-      }
-    }
-    textarea.value = "";
+    textarea.value = '';
     this.onTextareaInput(textarea);
-    if (this.currentQuestionIndex === this.questionKeys.length - 1) {
-      console.log(this.currentQuestionIndex);
-    }
-    if (this.currentQuestionIndex === this.questionKeys.length) {
-      return;
-    }
 
-    if (this.currentQuestionIndex < this.questionKeys.length) {
-      this.currentQuestionIndex++;
-    }
+    // const currentKey = this.questionKeys[this.currentQuestionIndex];
+    // if (this.currentQuestionIndex < this.questionKeys.length) {
+    //   this.ANSWER_MAP[currentKey] = answer;
+    //   if (this.currentQuestionIndex == this.questionKeys.length - 1) {
+    //     this.getProductData();
+    //   }
+    // }
+    // textarea.value = '';
+    // this.onTextareaInput(textarea);
+    // if (this.currentQuestionIndex === this.questionKeys.length - 1) {
+    //   console.log(this.currentQuestionIndex);
+    // }
+    // if (this.currentQuestionIndex === this.questionKeys.length) {
+    //   return;
+    // }
+
+    // if (this.currentQuestionIndex < this.questionKeys.length) {
+    //   this.currentQuestionIndex++;
+    // }
   }
   onTextareaInput(textarea: HTMLTextAreaElement) {
     this.isTextareaEmpty = textarea.value.trim().length === 0;
   }
 
   getProductData(): void {
-    this.loading = true;
-    this.chatbotService.getProduct().subscribe({
-      next: (data) => {
-        console.log('Product Data:', data);
-        this.product = data;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error fetching product:', error);
-        this.loading = false;
-      },
-    });
+    // this.loading = true;
+    // this.chatbotService.getProduct().subscribe({
+    //   next: (data) => {
+    //     console.log('Product Data:', data);
+    //     this.product = data;
+    //     this.loading = false;
+    //   },
+    //   error: (error) => {
+    //     console.error('Error fetching product:', error);
+    //     this.loading = false;
+    //   },
+    // });
   }
 }
