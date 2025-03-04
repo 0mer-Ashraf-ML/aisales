@@ -21,7 +21,7 @@ export class AppComponent {
   constructor(private router: Router,private route: ActivatedRoute, private commonSrv: CommonService) {}
 
   async ngOnInit(): Promise<void> {
-    await this.commonSrv.getConfig();
+    // await this.commonSrv.getConfig();
     this.router.events.subscribe(() => {
       const currentRoute = this.router.url;
       this.emptyLayout = currentRoute.includes('login') || currentRoute.includes('register') || currentRoute.includes('chatbot');
