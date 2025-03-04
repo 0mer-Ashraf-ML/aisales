@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import '@iconify/iconify'
+import { CommonService } from './services/common.service';
 
 @Component({
   selector: 'app-root',
@@ -17,9 +18,10 @@ export class AppComponent {
 
   emptyLayout = true;
 
-  constructor(private router: Router,private route: ActivatedRoute) {}
+  constructor(private router: Router,private route: ActivatedRoute, private commonSrv: CommonService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.commonSrv.getConfig();
     this.router.events.subscribe(() => {
       const currentRoute = this.router.url;
       this.emptyLayout = currentRoute.includes('login') || currentRoute.includes('register') || currentRoute.includes('chatbot');

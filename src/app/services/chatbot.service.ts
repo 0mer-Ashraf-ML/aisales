@@ -1,16 +1,20 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatbotService {
-  private apiUrl = 'http://134.199.142.5:8000';
+  private commonSrv = inject(CommonService);
+  private api = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.api = this.commonSrv.config.Api + '/Chat';
+  }
 
   conservation(params: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl + '/Chat', null , { params });
+    return this.http.post<any>(this.api, null , { params });
   }
 }
