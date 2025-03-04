@@ -7,11 +7,11 @@ import { CommonService } from './common.service';
   providedIn: 'root'
 })
 export class ChatbotService {
-  // private commonSrv = inject(CommonService);
-  private api = 'https://134.199.142.5:8000/Chat';
+  private commonSrv = inject(CommonService);
+  private api = '';
 
   constructor(private http: HttpClient) {
-    // this.api = this.commonSrv.config.Api + '/Chat';
+    this.api = this.commonSrv.config.Api + '/Chat';
   }
 
   conservation(params: any): Observable<any> {

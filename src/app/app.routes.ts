@@ -39,6 +39,11 @@ export const routes: Routes = [
         title: 'account'
     },
     {
+        path: 'kpi',
+        loadComponent: () => import('./pages/kpi/kpi.component').then(m => m.KpiComponent),
+        title: 'KPI'
+    },
+    {
         path: '404',
         component: Page404Component,
         title: '404 Not Found',
