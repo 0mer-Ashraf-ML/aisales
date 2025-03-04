@@ -147,9 +147,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
           this.prospects = data.prospect_output;
           if(this.prospects != null)
           {
-            console.log(this.prospects);
             this.prospectsStore.setProspects(data.prospect_output.results);
-            console.log(this.prospectsStore.prospects());
             this.router.navigate(["/prospects"]);
           }
           this.loading = false;
