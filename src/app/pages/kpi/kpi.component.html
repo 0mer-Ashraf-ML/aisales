@@ -1,3 +1,51 @@
-<section>
-    
+<section class="px-[4%] sm:px-[10%] py-8 bg-gray-50 dark:bg-gray-900">
+  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">KPI</h1>
+  <div class="flex flex-col md:flex-row justify-end items-center gap-4">
+    <label class="text-gray-700 dark:text-gray-300 font-medium">From</label>
+    <input
+      type="date"
+      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300"
+    />
+
+    <label class="text-gray-700 dark:text-gray-300 font-medium">To</label>
+    <input
+      type="date"
+      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300"
+    />
+
+    <select
+      class="p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300"
+    >
+      <option value="">All Projects</option>
+      <option value="">Project 1</option>
+      <option value="">Project 2</option>
+      <option value="">Project 3</option>
+    </select>
+  </div>
+  <!-- KPI Cards -->
+  <div
+    class="px-[10%] md:px-12 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+  >
+    <div
+      *ngFor="let kpi of kpis"
+      class="p-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
+    >
+      <div class="flex flex-col space-x-3">
+        <i class="fa-solid fa-hand-sparkles text-primary text-3xl"></i>
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">
+          {{ kpi.title }}
+        </h3>
+
+        <div class="flex justify-between items-center mt-4">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+            {{ kpi.quantity }}
+          </h2>
+          <h3 class="text-lg font-medium text-green-600 dark:text-green-400">
+            {{ kpi.percentage }}
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div echarts [options]="chartOption" class="demo-chart h-[400px]" ></div>
 </section>

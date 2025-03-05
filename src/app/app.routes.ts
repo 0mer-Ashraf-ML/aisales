@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { Page404Component } from './components/page404/page404.component';
+import { AiAgentComponent } from './pages/ai-agent/ai-agent.component';
 
 export const routes: Routes = [
     {
@@ -42,6 +43,16 @@ export const routes: Routes = [
         path: 'kpi',
         loadComponent: () => import('./pages/kpi/kpi.component').then(m => m.KpiComponent),
         title: 'KPI'
+    },
+    {
+        path: 'ai-agent',
+        loadComponent: () => import('./pages/ai-agent/ai-agent.component').then(m => m.AiAgentComponent),
+        title: 'AI Agent'
+    },
+    {
+        path: 'projects',
+        loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
+        title: 'Projects'
     },
     {
         path: '404',

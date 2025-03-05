@@ -176,15 +176,15 @@
         <!-- Question -->
         <p
           *ngIf="prompt.role === 'user'"
-          class="w-fit min-w-min max-w-lg bg-[#f3f3f3] dark:bg-[#303030] text-gray-800 dark:text-gray-100 rounded-3xl p-4 my-4"
+          class="w-fit min-w-min max-w-lg bg-[#f3f3f3] dark:bg-[#303030] text-gray-800 ml-auto dark:text-gray-100 rounded-3xl p-4 my-4"
         >
           {{ prompt.content }}
         </p>
 
         <!-- Answer (Only show if answer exists) -->
         <p
-          *ngIf="prompt.role !== 'user'"
-          class="w-fit min-w-min max-w-lg p-3 text-gray-800 dark:text-gray-100 rounded-3xl ml-auto bg-gray-100 dark:bg-[#606060]"
+          *ngIf="prompt.role === 'assistant'"
+          class="w-fit min-w-min max-w-lg p-3 text-gray-800 dark:text-gray-100 rounded-3xl bg-gray-100 dark:bg-[#606060]"
         >
           {{ prompt.content }}
         </p>
