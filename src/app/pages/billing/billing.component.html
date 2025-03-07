@@ -1,0 +1,227 @@
+<section class="px-[4%] sm:px-[10%] py-6 dark:bg-black">
+    <!-- Credit Card Information -->
+    <div class="flex items-center justify-between mb-2">
+        <h1 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">Credit Card Information</h1>
+        <!-- Here toggle behaviour is not working -->
+        <app-cbutton1 (click)="toggleCardModal()" btnText="Update Credit Card"></app-cbutton1>
+    </div>
+    <hr class="border border-gray-200 dark:border-gray-700 mb-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+        <!-- Card Information -->
+        <div class="p-4 border border-gray-100 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 shadow max-w-sm">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Card Information</h2>
+            <hr class="border-gray-300 dark:border-gray-700 my-2">
+            <p class="text-gray-700 dark:text-gray-300 inline-block mr-4">Card Number:</p>
+            <span class="font-semibold text-gray-900 dark:text-white">**** **** **** 1068</span>
+            <p class="mt-2 text-gray-700 dark:text-gray-300 inline-block mr-4">Expiration Date:</p>
+            <span class="font-semibold text-gray-900 dark:text-white">18/2088</span>
+        </div>
+        
+        <!-- Billing Address -->
+        <div class="p-4 border border-gray-100 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 shadow max-w-sm">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Billing Address on Card</h2>
+            <hr class="border-gray-300 dark:border-gray-700 my-2">
+            <p class="text-gray-700 dark:text-gray-300">18888 E Valley Blvd Industry, 91744, CA, US</p>
+        </div>
+    </div>
+
+    <div class="mt-6">
+        <app-cbutton1 btnText="Make a Payment"></app-cbutton1>
+    </div>
+
+    <!-- Company Information -->
+    <div class="flex items-center justify-between mt-10 mb-4">
+        <h1 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">Company Information</h1>
+        <app-cbutton1 (click)="toggleCompanyModal()" btnText="Update Company Info"></app-cbutton1>
+    </div>
+    <hr class="border border-gray-200 dark:border-gray-700 mb-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+        <!-- Company Name -->
+        <div class="p-4 border border-gray-100 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 shadow max-w-sm">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Company Name</h2>
+            <hr class="border-gray-300 dark:border-gray-700 my-2">
+            <p class="font-semibold text-gray-900 dark:text-white">ABC Inc</p>
+        </div>
+
+        <!-- Company Address -->
+        <div class="p-4 border border-gray-100 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 shadow max-w-sm">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Company Address</h2>
+            <hr class="border-gray-300 dark:border-gray-700 my-2">
+            <p class="text-gray-700 dark:text-gray-300">18888 E Valley Blvd Industry, 91744, CA, US</p>
+        </div>
+    </div>
+
+    <!-- Billing Information -->
+    <div class="flex items-center justify-between mt-10 mb-4">
+        <h1 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">Billing Information</h1>
+        <app-cbutton1 btnText="Save Billing Info"></app-cbutton1>
+    </div>
+    <hr class="border border-gray-200 dark:border-gray-700 mb-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Invoice Email -->
+        <div class="p-4 border border-gray-100 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 shadow max-w-md">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white text-center">Send Invoice To</h2>
+            <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">AI.Sales users with permission to manage billing will receive those emails.</p>
+            <input type="email" placeholder="Enter email" class="mt-2 w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+        </div>
+
+        <!-- Additional Invoice Information -->
+        <div class="p-4 border border-gray-100 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 shadow max-w-md">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white text-center">Additional Invoice Information</h2>
+            <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">This information will attach to all your future invoices. If your accounting department uses PO Boxes, you can use this to note down your PO Box number for AI.Sales. If you are a German or Chinese company, you can note down the full location required for the invoice to payments.</p>
+            <textarea placeholder="Enter additional info..." class="mt-2 w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white h-24"></textarea>
+        </div>
+    </div>
+</section>
+
+<!-- Credit Card Modal Box -->
+<section *ngIf="isCardModalVisible" class="fixed inset-0 bg-black/60 flex justify-center items-center z-50" (click)="toggleCardModal()">
+    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 max-w-lg relative" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-xl font-bold text-gray-900 dark:text-white">Link Credit Card</h1>
+        <button class="text-gray-500 dark:text-gray-400 hover:text-red-500" (click)="toggleCardModal()">
+            <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+    </div>
+    
+    <!-- Billing Address -->
+    <h2 class="font-semibold text-gray-900 dark:text-white mb-1">Billing Address</h2>
+    <form class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">First Name</label>
+                <input type="text" placeholder="First Name" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">Last Name</label>
+                <input type="text" placeholder="Last Name" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+            </div>
+        </div>
+
+        <div>
+            <label class="text-gray-700 dark:text-gray-300">Address</label>
+            <input type="text" placeholder="Address" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">City</label>
+                <input type="text" placeholder="City" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">State</label>
+                <input type="text" placeholder="State / Province" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">Country</label>
+                <select class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+                    <option>Select</option>
+                    <option>USA</option>
+                    <option>Canada</option>
+                    <option>UK</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">Postal Code</label>
+                <input type="text" placeholder="Postal Code" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+            </div>
+        </div>
+
+        <!-- Payment Method -->
+        <h2 class="font-semibold text-gray-900 dark:text-white mb-1">Payment Method</h2>
+
+        <div>
+            <label class="text-gray-700 dark:text-gray-300">Credit Card Number</label>
+            <input type="text" placeholder="1234 1234 1234 1234" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">Card Expiration Date</label>
+                <input type="date" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-300">Card CVC</label>
+                <input type="text" placeholder="CVC" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-4 flex justify-center">
+            <app-cbutton1 btnText="Add Credit Card"></app-cbutton1>
+        </div>
+    </form>
+</div>
+</section>
+
+<!-- Company Modal Box -->
+<section *ngIf="isCompanyModalVisible" class="fixed inset-0 bg-black/60 flex justify-center items-center z-50" (click)="toggleCompanyModal()">
+    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 max-w-lg relative" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-xl font-bold text-gray-900 dark:text-white">Edit Company Information</h1>
+        <button class="text-gray-500 dark:text-gray-400 hover:text-red-500" (click)="toggleCompanyModal()">
+            <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Company Name -->
+    <div class="mb-4">
+        <label class="text-gray-700 dark:text-gray-300 font-semibold">Company Name</label>
+        <input type="text" placeholder="Company Name"
+            class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+    </div>
+
+    <!-- Company Address -->
+    <div class="mb-4">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Company Address</h2>
+        <label class="text-gray-700 dark:text-gray-300">Address</label>
+        <input type="text" placeholder="Address"
+            class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+    </div>
+
+    <!-- City & State -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="text-gray-700 dark:text-gray-300 font-semibold">City</label>
+            <input type="text" placeholder="City"
+                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+        </div>
+        <div>
+            <label class="text-gray-700 dark:text-gray-300 font-semibold">State</label>
+            <input type="text" placeholder="State / Province"
+                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+        </div>
+    </div>
+
+    <!-- Country & Postal Code -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="text-gray-700 dark:text-gray-300 font-semibold">Country</label>
+            <select class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+                <option>Select</option>
+                <option>USA</option>
+                <option>Canada</option>
+                <option>UK</option>
+            </select>
+        </div>
+        <div>
+            <label class="text-gray-700 dark:text-gray-300 font-semibold">Postal Code</label>
+            <input type="text" placeholder="Postal Code"
+                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-white">
+        </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="mt-4 flex justify-center">
+        <app-cbutton1 btnText="Submit"></app-cbutton1>
+    </div>
+</div>
+</section>

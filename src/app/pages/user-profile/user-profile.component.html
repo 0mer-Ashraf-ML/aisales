@@ -1,0 +1,42 @@
+<section class="py-8 px-6 dark:bg-black">
+    <div class="p-6 space-y-4 bg-white dark:bg-gray-900 shadow-md rounded-lg max-w-lg mx-auto">
+        <!-- First Name -->
+        <label class="block text-gray-700 dark:text-gray-300 font-medium">First Name:</label>
+        <input type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+
+        <!-- Last Name -->
+        <label class="block text-gray-700 dark:text-gray-300 font-medium">Last Name:</label>
+        <input type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+
+        <!-- Email -->
+        <label class="block text-gray-700 dark:text-gray-300 font-medium">Email:</label>
+        <input type="email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+
+        <!-- Mobile Phone (Country Code + Phone Number) -->
+        <label class="block text-gray-700 dark:text-gray-300 font-medium">Mobile Phone:</label>
+        <div class="flex space-x-2">
+            <!-- Country Code Dropdown -->
+            <select class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+91">🇮🇳 +91</option>
+                <option value="+61">🇦🇺 +61</option>
+                <option value="+81">🇯🇵 +81</option>
+                <option value="+49">🇩🇪 +49</option>
+            </select>
+
+            <!-- Phone Number Input -->
+            <input type="tel" placeholder="123 456 7890" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+        </div>
+
+        <!-- Password -->
+        <label class="block text-gray-700 dark:text-gray-300 font-medium">Password:</label>
+        <input type="password" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+
+        <!-- Buttons -->
+        <div class="flex justify-center gap-4 mt-4">
+            <app-cbutton1 btnText="Edit"></app-cbutton1>
+            <app-cbutton1 btnText="Reset Password"></app-cbutton1>
+        </div>
+    </div>
+</section>

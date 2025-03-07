@@ -55,6 +55,26 @@ export const routes: Routes = [
         title: 'Projects'
     },
     {
+        path: 'wallet',
+        loadComponent: () => import('./pages/wallet/wallet.component').then(m => m.WalletComponent),
+        title: 'Wallet'
+    },
+    {
+        path: 'billing',
+        loadComponent: () => import('./pages/billing/billing.component').then(m => m.BillingComponent),
+        title: 'Billing'
+    },
+    {
+        path: 'invoice',
+        loadComponent: () => import('./pages/invoice/invoice.component').then(m => m.InvoiceComponent),
+        title: 'Invoice'
+    },
+    {
+        path: 'user',
+        loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+        title: 'User'
+    },
+    {
         path: '404',
         component: Page404Component,
         title: '404 Not Found',

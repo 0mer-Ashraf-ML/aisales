@@ -1,0 +1,107 @@
+<section class="px-[4%] sm:px-[9.3%] py-6 dark:bg-black">
+    <!-- Wallet Header -->
+    <div class="flex items-center justify-between mb-2">
+        <h1 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">Your Wallet Balance</h1>
+        <app-cbutton1 btnText="Add Balance"></app-cbutton1>
+    </div>
+    <hr class="border border-gray-200 dark:border-gray-800 mb-4">
+    <!-- Balance & Auto Recharge -->
+    <p class="text-2xl font-semibold text-primary">$100.00</p>
+        <div class="flex flex-wrap items-center gap-4 text-gray-700 dark:text-gray-300">
+            <i class="fa-solid fa-credit-card text-lg"></i>
+            <span>Auto recharge with</span>
+            <select class="p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-md">
+                <option value="">$100</option>
+                <option value="">$200</option>
+                <option value="">$500</option>
+                <option value="">$1000</option>
+            </select>
+            <span>when balance is lower than</span>
+            <select class="p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-md">
+                <option value="">$100</option>
+                <option value="">$200</option>
+                <option value="">$500</option>
+                <option value="">$1000</option>
+            </select>
+        </div>
+
+    <!-- Wallet Transactions -->
+    <div class="mt-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Wallet Transactions</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Updated every 24 hours</p>
+    </div>
+
+    <!-- Transaction Summary -->
+    <div class="mt-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Transaction Summary</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10 lg:gap-20 mt-2 text-center">
+            <div class="p-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg">
+                <p class="text-sm text-gray-600 dark:text-gray-400 font-bold">This month so far</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 my-1 font-medium">Dec. 1st 2024 - Present</p>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">$200.00</h2>
+            </div>
+            <div class="p-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg">
+                <p class="text-sm text-gray-600 dark:text-gray-400 font-bold">Last month</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 my-1 font-medium">November 2024</p>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">$300.00</h2>
+            </div>
+            <div class="p-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg">
+                <p class="text-sm text-gray-600 dark:text-gray-400 font-bold">The previous month</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 my-1 font-medium">October 2024</p>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">$300.00</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="mt-6 overflow-x-auto">
+        <table class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg min-w-max text-center shadow-md">
+            <!-- Caption -->
+            <caption class="text-lg font-semibold text-gray-900 dark:text-white mb-4 text-left">
+                Detailed Transactions
+            </caption>
+    
+            <!-- Table Head -->
+            <thead class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-bold uppercase border-b border-gray-400 dark:border-gray-600 shadow-md">
+                <tr>
+                    <th class="p-4 border border-gray-300 dark:border-gray-700">Transaction ID</th>
+                    <th class="p-4 border border-gray-300 dark:border-gray-700">Billing Date</th>
+                    <th class="p-4 border border-gray-300 dark:border-gray-700">Activity Date</th>
+                    <th class="p-4 border border-gray-300 dark:border-gray-700">Description</th>
+                    <th class="p-4 border border-gray-300 dark:border-gray-700">Amount</th>
+                    <th class="p-4 border border-gray-300 dark:border-gray-700">Account Balance</th>
+                </tr>
+            </thead>
+    
+            <!-- Table Body -->
+            <tbody class="text-gray-700 dark:text-gray-300">
+                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">TRX_001</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">03/01/2025</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">02/28/2025</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">Subscription Payment</td>
+                    <td class="p-4 font-semibold text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700">$50</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">$950</td>
+                </tr>
+    
+                <tr class="bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">TRX_002</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">03/02/2025</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">03/01/2025</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">Refund Processed</td>
+                    <td class="p-4 font-semibold text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 text-green-500">+ $20</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">$970</td>
+                </tr>
+    
+                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">TRX_003</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">03/03/2025</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">03/02/2025</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">Invoice Payment</td>
+                    <td class="p-4 font-semibold text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700">$30</td>
+                    <td class="p-4 border border-gray-300 dark:border-gray-700">$940</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>   
+</section>

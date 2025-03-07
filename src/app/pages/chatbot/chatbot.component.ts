@@ -12,13 +12,13 @@ import { ThemeService } from '../../services/theme.service';
 import { ChatbotService } from '../../services/chatbot.service';
 import { MatIconModule } from '@angular/material/icon';
 import { v4 as uuidv4 } from 'uuid';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ProspectsStore } from '../../store/prospects.store';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, RouterLink],
   templateUrl: './chatbot.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -49,7 +49,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.sessionId = uuidv4();
+    this.sessionId = localStorage.getItem('sessionId')!;
   }
 
   ngAfterViewChecked(): void {
@@ -131,33 +131,33 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   async onSubmitAnswer(event: Event, textarea: HTMLTextAreaElement) {
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
-    
+  
     const question = textarea.value.trim();
     this.conversation.push({role: "user",content: question})
     if (!question) return;
     this.loading = true;
     this.chatbotService
       .conservation({
-        user_input: question,
-        session_id: this.sessionId,
+      user_input: question,
+      session_id: this.sessionId,
       })
       .subscribe({
-        next: (data) => {
-          this.conversation = data.conversation;
-          this.prospects = data.prospect_output;
+      next: (data) => {
+        this.conversation = data.conversation;
+        this.prospects = data.prospect_output;
           if(this.prospects != null)
           {
-            this.prospectsStore.setProspects(data.prospect_output.results);
+          this.prospectsStore.setProspects(data.prospect_output.results);
             this.router.navigate(["/prospects"]);
-          }
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Error fetching Conversation:', error);
-          this.loading = false;
-        },
-      });
-
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching Conversation:', error);
+        this.loading = false;
+      },
+    });
+  
     textarea.value = '';
     this.onTextareaInput(textarea);
 

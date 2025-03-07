@@ -5,7 +5,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import '@iconify/iconify'
 import { CommonService } from './services/common.service';
-
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -40,7 +40,7 @@ export class AppComponent {
         }
       }
     });
-
+    localStorage.setItem('sessionId',uuidv4())
     await this.commonSrv.getConfig();
   }  
 }

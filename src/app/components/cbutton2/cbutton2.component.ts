@@ -5,8 +5,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-cbutton2',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './cbutton2.component.html',
-  styleUrl: './cbutton2.component.scss'
+  templateUrl: './cbutton2.component.html'
 })
 export class Cbutton2Component {
   @Input() btnText: string = '';
