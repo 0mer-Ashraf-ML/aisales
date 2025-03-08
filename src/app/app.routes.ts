@@ -36,47 +36,49 @@ export const routes: Routes = [
     {
         path: 'account',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent),
-        title: 'Account'
-    },
-    {
-        path: 'kpi',
-        loadComponent: () => import('./pages/kpi/kpi.component').then(m => m.KpiComponent),
-        title: 'KPI'
-    },
-    {
-        path: 'ai-agent',
-        loadComponent: () => import('./pages/ai-agent/ai-agent.component').then(m => m.AiAgentComponent),
-        title: 'AI Agent'
-    },
-    {
-        path: 'projects',
-        loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
-        title: 'Projects'
-    },
-    {
-        path: 'wallet',
-        loadComponent: () => import('./pages/wallet/wallet.component').then(m => m.WalletComponent),
-        title: 'Wallet'
-    },
-    {
-        path: 'billing',
-        loadComponent: () => import('./pages/billing/billing.component').then(m => m.BillingComponent),
-        title: 'Billing'
-    },
-    {
-        path: 'invoice',
-        loadComponent: () => import('./pages/invoice/invoice.component').then(m => m.InvoiceComponent),
-        title: 'Invoice'
-    },
-    {
-        path: 'user',
-        loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
-        title: 'User'
-    },
-    {
-        path: 'leads',
-        loadComponent: () => import('./pages/leads/leads.component').then(m => m.LeadsComponent),
-        title: 'Leads'
+        title: 'Account',
+        children: [
+            {
+                path: 'kpi',
+                loadComponent: () => import('./pages/kpi/kpi.component').then(m => m.KpiComponent),
+                title: 'KPI'
+            },
+            {
+                path: 'ai-agent',
+                loadComponent: () => import('./pages/ai-agent/ai-agent.component').then(m => m.AiAgentComponent),
+                title: 'AI Agent'
+            },
+            {
+                path: 'projects',
+                loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
+                title: 'Projects'
+            },
+            {
+                path: 'leads',
+                loadComponent: () => import('./pages/leads/leads.component').then(m => m.LeadsComponent),
+                title: 'Leads'
+            },
+            {
+                path: 'wallet',
+                loadComponent: () => import('./pages/wallet/wallet.component').then(m => m.WalletComponent),
+                title: 'Wallet'
+            },
+            {
+                path: 'billing',
+                loadComponent: () => import('./pages/billing/billing.component').then(m => m.BillingComponent),
+                title: 'Billing'
+            },
+            {
+                path: 'invoice',
+                loadComponent: () => import('./pages/invoice/invoice.component').then(m => m.InvoiceComponent),
+                title: 'Invoice'
+            },
+            {
+                path: 'user',
+                loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+                title: 'User'
+            },
+        ]
     },
     {
         path: '404',

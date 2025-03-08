@@ -57,6 +57,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   open() {
     const absoluteUrl = location.origin + this.router.serializeUrl(this.router.createUrlTree(['/prospects']));
     this.openTabLink.nativeElement.href = absoluteUrl;
+    console.log(absoluteUrl);
     this.openTabLink.nativeElement.click();
   }
 

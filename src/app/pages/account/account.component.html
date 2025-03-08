@@ -1,15 +1,70 @@
-<section class="px-[4%] sm:px-[6.3%] py-8 lg:py-10 dark:bg-black flex flex-col items-center text-center">
-    <img class="w-20 h-20 object-cover mb-4" src="profile.png" alt="img">
-    <h3 class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-2">Hi user</h3>
-    <h4 class="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-3">I'm your AI Sales Assistant</h4>
-    <p class="text-gray-600 dark:text-gray-400 max-w-lg mb-6">What can I help you sell today?</p>
-    <div class="flex flex-wrap justify-center items-center gap-3 w-full max-w-lg">
-        <input type="text" placeholder="Type your message here..." 
-            class="flex-1 px-4 py-2 w-full md:w-auto text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400">
-        <button class="text-primary dark:text-primary hover:scale-105 text-4xl duration-300">
-            <i class="fa-solid fa-circle-arrow-right"></i>
-        </button>
+<div class="flex dark:bg-black">
+  <aside
+    class="w-64 bg-white dark:bg-gray-900 min-h-screen p-4 border-r dark:border-gray-700 mt-20"
+  >
+    <div class="flex items-center space-x-2 mb-6">
+      <img src="logo.png" alt="AI Sales" class="h-10" />
     </div>
-    <hr class="border border-gray-100 dark:border-gray-800 w-full sm:w-3/5 my-10">
-    <h4 class="text-lg md:text-xl font-medium text-gray-700 dark:text-gray-300 mb-3 w-3/5 text-left sm:mx-auto">Chatting History</h4>
-</section>
+    <nav class="space-y-4">
+      <a
+        routerLink="/account/ai-agent"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500 cursor-pointer"
+      >
+        <i class="fa-solid fa-robot"></i>
+        <span>AI Agent</span>
+      </a>
+      <a
+      routerLink="/account/kpi"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+      >
+        <i class="fa-solid fa-chart-line"></i>
+        <span>KPI</span>
+      </a>
+      <a
+      routerLink="/account/projects"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+      >
+        <i class="fa-solid fa-folder"></i>
+        <span>Projects</span>
+      </a>
+      <a
+      routerLink="/account/leads"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+      >
+        <i class="fa-solid fa-phone"></i>
+        <span>Leads</span>
+      </a>
+      <a
+      routerLink="/account/user"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+      >
+        <i class="fa-solid fa-handshake"></i>
+        <span>User</span>
+      </a>
+      <a
+      routerLink="/account/billing"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+      >
+        <i class="fa-solid fa-handshake"></i>
+        <span>Billing</span>
+      </a>
+      <a
+      routerLink="/account/wallet"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+      >
+        <i class="fa-solid fa-handshake"></i>
+        <span>Wallet</span>
+      </a>
+      <a
+      routerLink="/account/invoice"
+        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+      >
+        <i class="fa-solid fa-handshake"></i>
+        <span>Invoice</span>
+      </a>
+    </nav>
+  </aside>
+  <main class="flex-1 p-6">
+    <router-outlet></router-outlet>
+  </main>
+</div>
