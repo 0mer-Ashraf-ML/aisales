@@ -6,8 +6,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-features',
   standalone: true,
   imports: [RouterLink, CommonModule],
-  templateUrl: './features.component.html',
-  styleUrl: './features.component.scss'
+  templateUrl: './features.component.html'
 })
 export class FeaturesComponent {
 cards:any[] = [

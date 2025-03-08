@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 })
 
 export class AppComponent {
-  title = 'ai-sales-marketing';
+  title = 'ai-sales';
 
   emptyLayout = true;
 

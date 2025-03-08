@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-testimonials',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './testimonials.component.html',
-  styleUrl: './testimonials.component.scss'
+  templateUrl: './testimonials.component.html'
 })
 export class TestimonialsComponent {
 testimonials:any[] = [

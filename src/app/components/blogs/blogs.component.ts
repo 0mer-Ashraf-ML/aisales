@@ -6,8 +6,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-blogs',
   standalone: true,
   imports: [RouterLink, CommonModule],
-  templateUrl: './blogs.component.html',
-  styleUrl: './blogs.component.scss'
+  templateUrl: './blogs.component.html'
 })
 export class BlogsComponent {
   blogs:any[] = [

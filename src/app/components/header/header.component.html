@@ -8,17 +8,18 @@
     <div class="flex flex-wrap items-center justify-center py-2 gap-6 md:py-4 md:gap-14 relative">
       <input aria-hidden="true" type="checkbox" name="toggle_nav" id="toggle_nav" class="hidden peer" [checked]="isMenuOpen" (change)="toggleMenu()" />
       
-      <div class="relative z-20 w-full flex justify-between lg:w-max md:px-0">
-        <a routerLink="/" aria-label="logo" class="flex space-x-2 items-center ml-3">
-          <div aria-hidden="true" class="flex space-x-1">
+      <div class="relative z-20 w-full flex items-center justify-between lg:w-max md:px-0">
+        <a routerLink="/" aria-label="logo" class="flex space-x-2 items-center ml-5">
+          <!-- <div aria-hidden="true" class="flex space-x-1">
             <div class="h-4 w-4 rounded-full bg-gray-900 dark:bg-white"></div>
             <div class="h-6 w-2 bg-primary"></div>
-          </div>
-          <span class="text-2xl font-bold text-gray-900 dark:text-white">AI Sales</span>
+          </div> -->
+          <img class="w-10 sm:w-12 dark:invert-0" src="logo.png" alt="logo">
+          <!-- <span class="text-2xl font-bold text-gray-900 dark:text-white">AI Sales</span> -->
         </a>
 
         <div class="relative lg:hidden max-h-10">
-          <label role="button" for="toggle_nav" aria-hidden="true" class="relative p-6 -mr-3">
+          <label role="button" for="toggle_nav" aria-hidden="true" class="relative mr-5">
             <i class="fa-solid fa-xl fa-bars text-sky-900 dark:text-gray-300 transition duration-300 ease-in-out"></i>
           </label>
         </div>

@@ -8,8 +8,7 @@ import { Cbutton2Component } from "../cbutton2/cbutton2.component";
   selector: 'app-hero',
   standalone: true,
   imports: [RouterLink, CommonModule, Cbutton1Component, Cbutton2Component],
-  templateUrl: './hero.component.html',
-  styleUrl: './hero.component.scss'
+  templateUrl: './hero.component.html'
 })
 export class HeroComponent {
 features:any[] = [

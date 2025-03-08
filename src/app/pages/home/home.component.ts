@@ -10,8 +10,7 @@ import { BlogsComponent } from '../../components/blogs/blogs.component';
   selector: 'app-home',
   standalone: true,
   imports: [HeroComponent, FeaturesComponent, SolutionComponent, TestimonialsComponent, BlogsComponent,CallToActionComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  templateUrl: './home.component.html'
 })
 
 export class HomeComponent {

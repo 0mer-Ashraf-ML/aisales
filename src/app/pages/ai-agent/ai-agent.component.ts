@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-ai-agent',
   standalone: true,
   imports: [],
-  templateUrl: './ai-agent.component.html',
-  styleUrl: './ai-agent.component.scss'
+  templateUrl: './ai-agent.component.html'
 })
 export class AiAgentComponent {
 

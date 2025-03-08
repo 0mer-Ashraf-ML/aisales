@@ -1,20 +1,21 @@
-<section class="px-[4%] sm:px-[10%] py-8 bg-gray-50 dark:bg-gray-900">
-  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">KPI</h1>
-  <div class="flex flex-col md:flex-row justify-end items-center gap-4">
+<section class="px-[4%] sm:px-[9%] py-8 lg:py-10 dark:bg-black">
+  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">KPI</h1>
+  <hr class="border border-gray-200 dark:border-gray-700 mb-14" />
+  <div class="flex flex-wrap sm:justify-end items-center gap-4">
     <label class="text-gray-700 dark:text-gray-300 font-medium">From</label>
     <input
       type="date"
-      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300"
+      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300"
     />
 
     <label class="text-gray-700 dark:text-gray-300 font-medium">To</label>
     <input
       type="date"
-      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300"
+      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300"
     />
 
     <select
-      class="p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300"
+      class="p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300"
     >
       <option value="">All Projects</option>
       <option value="">Project 1</option>
@@ -47,5 +48,5 @@
       </div>
     </div>
   </div>
-  <div echarts [options]="chartOption" class="demo-chart h-[400px]" ></div>
+  <!-- <div echarts [options]="chartOption" class="demo-chart h-[400px]"></div> -->
 </section>

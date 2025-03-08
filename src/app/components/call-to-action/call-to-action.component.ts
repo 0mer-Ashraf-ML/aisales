@@ -7,8 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-call-to-action',
   standalone: true,
   imports: [CommonModule ,Cbutton1Component, Cbutton2Component],
-  templateUrl: './call-to-action.component.html',
-  styleUrl: './call-to-action.component.scss'
+  templateUrl: './call-to-action.component.html'
 })
 export class CallToActionComponent {
   experts:any[] = [

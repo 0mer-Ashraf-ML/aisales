@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-solution',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './solution.component.html',
-  styleUrl: './solution.component.scss'
+  templateUrl: './solution.component.html'
 })
 export class SolutionComponent {
 features:any[] = [

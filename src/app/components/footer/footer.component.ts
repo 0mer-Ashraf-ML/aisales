@@ -6,8 +6,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-footer',
   standalone: true,
   imports: [RouterLink, CommonModule],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  templateUrl: './footer.component.html'
 })
 export class FooterComponent {
 menuItems:any[] = [

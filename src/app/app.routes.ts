@@ -37,7 +37,7 @@ export const routes: Routes = [
     {
         path: 'account',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent),
-        title: 'account'
+        title: 'Account'
     },
     {
         path: 'kpi',
@@ -73,6 +73,11 @@ export const routes: Routes = [
         path: 'user',
         loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent),
         title: 'User'
+    },
+    {
+        path: 'leads',
+        loadComponent: () => import('./pages/leads/leads.component').then(m => m.LeadsComponent),
+        title: 'Leads'
     },
     {
         path: '404',
