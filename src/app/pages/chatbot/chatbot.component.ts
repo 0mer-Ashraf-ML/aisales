@@ -24,6 +24,7 @@ import { ProspectsStore } from '../../store/prospects.store';
 })
 export class ChatbotComponent implements OnInit, AfterViewChecked {
   @ViewChild('chatWindow') chatWindow!: ElementRef;
+ @ViewChild('openTabLink') openTabLink!: ElementRef<HTMLAnchorElement>;
   isTextareaEmpty: boolean = true;
   product: any;
   loading: boolean = false;
@@ -36,7 +37,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   isDarkMode: boolean = false;
   sessionId = '';
   conversation: any[] = [];
-  prospects: any;
+  prospects: any = null;
+  private previousProspects: any = null;
   constructor(
     private themeService: ThemeService,
     private chatbotService: ChatbotService,
@@ -50,6 +52,12 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.sessionId = localStorage.getItem('sessionId')!;
+  }
+
+  open() {
+    const absoluteUrl = location.origin + this.router.serializeUrl(this.router.createUrlTree(['/prospects']));
+    this.openTabLink.nativeElement.href = absoluteUrl;
+    this.openTabLink.nativeElement.click();
   }
 
   ngAfterViewChecked(): void {
@@ -131,7 +139,6 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   async onSubmitAnswer(event: Event, textarea: HTMLTextAreaElement) {
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
-  
     const question = textarea.value.trim();
     this.conversation.push({role: "user",content: question})
     if (!question) return;
@@ -145,10 +152,12 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
       next: (data) => {
         this.conversation = data.conversation;
         this.prospects = data.prospect_output;
-          if(this.prospects != null)
-          {
+        if (this.prospects != null) {
           this.prospectsStore.setProspects(data.prospect_output.results);
-            this.router.navigate(["/prospects"]);
+          console.log("In set prospects")
+          setTimeout(() => {
+            this.open();
+          }, 0);
         }
         this.loading = false;
       },
