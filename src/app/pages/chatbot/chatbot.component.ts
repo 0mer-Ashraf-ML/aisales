@@ -25,6 +25,7 @@ import { ProspectsStore } from '../../store/prospects.store';
 export class ChatbotComponent implements OnInit, AfterViewChecked {
   @ViewChild('chatWindow') chatWindow!: ElementRef;
  @ViewChild('openTabLink') openTabLink!: ElementRef<HTMLAnchorElement>;
+ absoluteUrl: any;
   isTextareaEmpty: boolean = true;
   product: any;
   loading: boolean = false;
@@ -52,6 +53,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.sessionId = localStorage.getItem('sessionId')!;
+    this.absoluteUrl = location.origin + this.router.serializeUrl(this.router.createUrlTree(['/prospects']));
   }
 
   open() {

@@ -153,14 +153,19 @@
           class="mr-4 cursor-pointer dark:text-gray-300"
           >{{ isDarkMode ? "Dark" : "Light" }}</span
         >
+        <a *ngIf="prospects"
+          class="px-3 py-2 text-sm bg-primary text-white font-medium rounded-3xl cursor-pointer"
+          href="{{absoluteUrl}}" target="_blank"
+          >Prospects</a
+        >
         <a
           class="px-3 py-2 text-sm bg-black dark:bg-gray-600 text-white font-medium rounded-3xl cursor-pointer"
-          routerLink="/prospects"
+          routerLink="/login"
           >Log in</a
         >
         <a
           class="px-3 py-2 text-sm bg-transparent text-black dark:text-white dark:bg-gray-600 font-medium rounded-3xl border border-slate-400 cursor-pointer"
-          routerLink="signup"
+          routerLink="/signup"
           >Sign up</a
         >
       </div>
@@ -269,6 +274,3 @@
     </div>
   </div>
 </section>
-
-<a #openTabLink style="display: none;" target="_blank"></a>
-
