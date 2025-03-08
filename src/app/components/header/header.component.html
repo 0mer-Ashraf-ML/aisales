@@ -33,14 +33,15 @@
         <div class="text-gray-600 dark:text-gray-300 lg:pr-4 lg:w-auto w-full lg:pt-0">
           <ul class="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
             <li *ngFor="let item of menuItems">
-              <a [routerLink]="'/'" [fragment]="item.link" class="block md:px-4 transition hover:text-primary" (click)="closeMenu()">
+              <a [routerLink]="'/'" [fragment]="item.link" class="block md:px-4 transition hover:text-primary" (click)="closeMenu(item.link)">
                 <span>{{ item.label }}</span>
               </a>
             </li>
-            <a routerLink="/pricing">Pricing</a>
             <li (click)="toggleTheme()">
               <a class="block md:px-4 transition hover:text-primary cursor-pointer">
-                <span>{{ isDarkMode ? 'Dark' : 'Light' }}</span>
+                <span>
+                  <i [ngClass]="isDarkMode ? 'fa-solid fa-xl fa-moon' : 'fa-solid fa-xl fa-sun'"></i>
+                </span>
               </a>
             </li>
           </ul>

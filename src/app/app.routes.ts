@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { Page404Component } from './components/page404/page404.component';
-import { AiAgentComponent } from './pages/ai-agent/ai-agent.component';
 
 export const routes: Routes = [
     {

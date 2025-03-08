@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,6 @@ import { ThemeService } from '../../services/theme.service';
   imports: [RouterLink, CommonModule],
   templateUrl: './header.component.html'
 })
-
 export class HeaderComponent {
 
   menuItems = [
@@ -22,7 +22,11 @@ export class HeaderComponent {
   isDarkMode: boolean = false;
   isMenuOpen: boolean = false;
 
-  constructor(private themeService: ThemeService) {
+  constructor(
+    private themeService: ThemeService,
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document
+  ) {
     this.themeService.currentTheme.subscribe((theme) => {
       this.isDarkMode = theme;
     });
@@ -32,12 +36,20 @@ export class HeaderComponent {
     this.themeService.toggleTheme();
   }
 
-
-  closeMenu(): void {
-    this.isMenuOpen = false;
-  }
-
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu(fragment?: string): void {
+    this.isMenuOpen = false;
+
+    if (fragment) {
+      setTimeout(() => {
+        const element = this.document.getElementById(fragment);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100); // Small delay ensures the DOM updates before scrolling
+    }
   }
 }
