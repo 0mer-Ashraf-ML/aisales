@@ -1,71 +1,121 @@
-import { Component, OnInit } from "@angular/core";
-import { BarChart } from "echarts/charts";
-import {
-  TooltipComponent,
-  GridComponent,
-  LegendComponent
-} from "echarts/components";
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import * as echarts from 'echarts';
 
 @Component({
-  selector: "app-bar-chart",
-  templateUrl: "./chart.component.html",
-  styleUrls: ["./chart.component.scss"]
+  selector: 'app-chart',
+  standalone: true,
+  templateUrl: './chart.component.html',
 })
-export class BarChartComponent implements OnInit {
-  readonly echartsExtentions: any[];
-  echartsOptions: object = {};
+export class ChartComponent implements AfterViewInit {
+  @Input() chartData: any; // Input for chart data
+  @Input() chartOptions: any; // Input for chart options
+  chartId: string = '';
 
-  constructor() {
-    this.echartsExtentions = [
-      BarChart,
-      TooltipComponent,
-      GridComponent,
-      LegendComponent
-    ];
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngAfterViewInit(): void {
+    this.chartId = 'chart-' + Math.random().toString(36).substring(2, 9);
+    this.cdr.detectChanges(); // Manually trigger change detection
+    this.initChart();
   }
 
-  ngOnInit() {
-    this.echartsOptions = {
+  initChart(): void {
+    const chartDom = document.getElementById(this.chartId);
+    if (!chartDom) {
+      console.error('Chart container not found for ID:', this.chartId);
+      return;
+    }
+
+    const myChart = echarts.init(chartDom);
+    console.log('ECharts instance:', myChart);
+
+    // Use the provided chart options or fallback to default options
+    const option = this.chartOptions || {
       tooltip: {
-        trigger: "axis",
+        trigger: 'axis',
         axisPointer: {
-          type: "shadow"
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
         }
       },
-      grid: {
-        left: "3%",
-        right: "4%",
-        bottom: "8%",
-        top: "3%",
-        containLabel: true
-      },
-      xAxis: {
-        type: "value"
-      },
-      yAxis: {
-        type: "category",
-        data: ["sat", "sun", "mon", "tue", "wed", "thu", "fri"],
-        axisLabel: {
-          interval: 0,
-          rotate: 15
+      toolbox: {
+        feature: {
+          dataView: { show: true, readOnly: false },
+          magicType: { show: true, type: ['line', 'bar'] },
+          restore: { show: true },
+          saveAsImage: { show: true }
         }
       },
       legend: {
-        data: ["ali", "behrooz"],
-        bottom: 0
+        data: ['Evaporation', 'Precipitation', 'Temperature']
       },
-      series: [
+      xAxis: [
         {
-          name: "ali",
-          type: "bar",
-          data: [10, 15, 17, 4, 15, 31, 2]
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          axisPointer: {
+            type: 'shadow'
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          name: 'Precipitation',
+          min: 0,
+          max: 250,
+          interval: 50,
+          axisLabel: {
+            formatter: '{value} ml'
+          }
         },
         {
-          name: "behrooz",
-          type: "bar",
-          data: [1, 17, 12, 11, 40, 3, 21]
+          type: 'value',
+          name: 'Temperature',
+          min: 0,
+          max: 25,
+          interval: 5,
+          axisLabel: {
+            formatter: '{value} °C'
+          }
+        }
+      ],
+      series: [
+        {
+          name: 'Evaporation',
+          type: 'bar',
+          tooltip: {
+            valueFormatter: function (value: number) {
+              return value + ' ml';
+            }
+          },
+          data: this.chartData?.evaporation
+        },
+        {
+          name: 'Precipitation',
+          type: 'bar',
+          tooltip: {
+            valueFormatter: function (value: number) {
+              return value + ' ml';
+            }
+          },
+          data: this.chartData?.precipitation
+        },
+        {
+          name: 'Temperature',
+          type: 'line',
+          yAxisIndex: 1,
+          tooltip: {
+            valueFormatter: function (value: number) {
+              return value + ' °C';
+            }
+          },
+          data: this.chartData?.temperature
         }
       ]
     };
+    myChart.setOption(option);
   }
 }

@@ -48,10 +48,22 @@
       </div>
     </div>
   </div>
-  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center">Visitor Trends</h2>
-  <div echarts [options]="chartOption" class="demo-chart h-[400px]"></div>
-  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center">Leads Trends</h2>
-  <div echarts [options]="chartOption" class="demo-chart h-[400px]"></div>
-  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center">CPL Trends</h2>
-  <div echarts [options]="chartOption" class="demo-chart h-[400px]"></div>
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center mb-6">Visitor Trends</h2>
+  <app-chart [chartData]="{
+    evaporation: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+    precipitation: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+    temperature: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+  }"></app-chart>
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center mb-6">Leads Trends</h2>
+  <app-chart [chartData]="{
+    evaporation: [10, 20, 30, 40, 50, 60, 70],
+    precipitation: [5, 15, 25, 35, 45, 55, 65],
+    temperature: [1, 2, 3, 4, 5, 6, 7]
+  }"></app-chart>
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center mb-6">CPL Trends</h2>
+  <app-chart [chartData]="{
+    evaporation: [10, 20, 30, 40, 110, 160, 200],
+    precipitation: [5, 15, 25, 35, 145, 155, 210],
+    temperature: [1, 2, 3, 4, 5, 6, 7]
+  }"></app-chart>
 </section>

@@ -9,5 +9,5 @@ import { provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts/core';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), provideAnimationsAsync(), provideEchartsCore({echarts})]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), provideAnimationsAsync(), provideEchartsCore({echarts}),]
 };
