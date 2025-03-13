@@ -43,11 +43,11 @@
             <div class="space-y-3">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Product Information</h2>
                 <div class="ml-4 text-gray-700 dark:text-gray-300 space-y-1">
-                    <p><span class="font-medium">Company:</span> ABC Inc</p>
-                    <p><span class="font-medium">Product:</span> Home appliances, Mug warmer</p>
-                    <p><span class="font-medium">Product URL:</span> 
+                    <p><span class="font-medium mr-2">Company:</span>{{company.company_name}}</p>
+                    <p><span class="font-medium mr-2">Product:</span>{{company.products_services}}</p>
+                    <p><span class="font-medium mr-2">Product URL:</span> 
                         <a href="https://abc.com/landing-page.html" class="text-blue-500 hover:underline">
-                            abc.com/landing-page.html
+                            {{company.web_url}}
                         </a>
                     </p>
                 </div>
@@ -57,10 +57,10 @@
             <div class="space-y-3 mt-3">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">ICP</h2>
                 <div class="ml-4 text-gray-700 dark:text-gray-300 space-y-1">
-                    <p><span class="font-medium">Region:</span> MENA</p>
-                    <p><span class="font-medium">Industry:</span> Home appliance retail stores</p>
-                    <p><span class="font-medium">Company Size:</span> SME</p>
-                    <p><span class="font-medium">Contact Seniority:</span> VP</p>
+                    <p><span class="font-medium mr-2">Region:</span> {{company.target_region}}</p>
+                    <p><span class="font-medium mr-2">Industry:</span> {{company.target_industries}}</p>
+                    <p><span class="font-medium mr-2">Company Size:</span> {{company.preferred_company_size}}</p>
+                    <p><span class="font-medium mr-2">Contact Seniority:</span> {{company.preferred_contact_department}}</p>
                 </div>
             </div>
         </div>

@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { v4 as uuidv4 } from 'uuid';
 import { Router, RouterLink } from '@angular/router';
 import { ProspectsStore } from '../../store/prospects.store';
+import { CompanyStore } from '../../store/company.store';
 
 @Component({
   selector: 'app-chatbot',
@@ -44,7 +45,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     private themeService: ThemeService,
     private chatbotService: ChatbotService,
     private router: Router,
-    private prospectsStore: ProspectsStore
+    private prospectsStore: ProspectsStore,
+    private compantStore: CompanyStore
   ) {
     this.themeService.currentTheme.subscribe((theme) => {
       this.isDarkMode = theme;
@@ -157,7 +159,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
         this.prospects = data.prospect_output;
         if (this.prospects != null) {
           this.prospectsStore.setProspects(data.prospect_output.results);
-          console.log("In set prospects")
+          this.compantStore.setCompany(data.standardized_json);
           setTimeout(() => {
             this.open();
           }, 0);

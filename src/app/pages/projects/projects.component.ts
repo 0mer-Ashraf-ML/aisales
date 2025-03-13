@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CompanyStore } from '../../store/company.store';
 
 @Component({
   selector: 'app-projects',
@@ -7,7 +8,15 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './projects.component.html'
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
+  company: any = {};
+  
+    constructor(private companyStore: CompanyStore){};
+  
+    ngOnInit(): void {
+      this.company = this.companyStore.company();
+      console.log("Company: ",this.company)
+    }
   isExpanded: boolean = false;
   
 details:any[] = [
