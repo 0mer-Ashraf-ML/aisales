@@ -80,6 +80,7 @@
 <!-- Credit Card Modal Box -->
 <section *ngIf="isCardModalVisible" class="fixed inset-0 bg-black/60 flex justify-center items-center z-50" (click)="toggleCardModal()">
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-lg relative" (click)="$event.stopPropagation()">
+    
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
         <h1 class="text-xl font-bold text-gray-900 dark:text-white">Link Credit Card</h1>
@@ -87,83 +88,116 @@
             <i class="fa-solid fa-xmark text-2xl"></i>
         </button>
     </div>
-    
-    <!-- Billing Address -->
+
     <h2 class="font-semibold text-gray-900 dark:text-white mb-1">Billing Address</h2>
-    <form class="space-y-4">
+    
+    <form [formGroup]="cardForm" (ngSubmit)="submitCardForm($event)" class="space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="text-gray-700 dark:text-gray-300">First Name</label>
-                <input type="text" placeholder="First Name" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <input type="text" formControlName="firstName" placeholder="First Name"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="cardForm.get('firstName')?.invalid && cardForm.get('firstName')?.touched">
+                    First name is required.
+                </small>
             </div>
             <div>
                 <label class="text-gray-700 dark:text-gray-300">Last Name</label>
-                <input type="text" placeholder="Last Name" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <input type="text" formControlName="lastName" placeholder="Last Name"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="cardForm.get('lastName')?.invalid && cardForm.get('lastName')?.touched">
+                    Last name is required.
+                </small>
             </div>
         </div>
 
         <div>
             <label class="text-gray-700 dark:text-gray-300">Address</label>
-            <input type="text" placeholder="Address" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+            <input type="text" formControlName="address" placeholder="Address"
+                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+            <small class="text-red-500" *ngIf="cardForm.get('address')?.invalid && cardForm.get('address')?.touched">
+                Address is required.
+            </small>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="text-gray-700 dark:text-gray-300">City</label>
-                <input type="text" placeholder="City" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <input type="text" formControlName="city" placeholder="City"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="cardForm.get('city')?.invalid && cardForm.get('city')?.touched">
+                    City is required.
+                </small>
             </div>
             <div>
                 <label class="text-gray-700 dark:text-gray-300">State</label>
-                <input type="text" placeholder="State / Province" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <input type="text" formControlName="state" placeholder="State / Province"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="cardForm.get('state')?.invalid && cardForm.get('state')?.touched">
+                    State is required.
+                </small>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="text-gray-700 dark:text-gray-300">Country</label>
-                <select class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
-                    <option>Select</option>
-                    <option>USA</option>
-                    <option>Canada</option>
-                    <option>UK</option>
+                <select formControlName="country" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                    <option value="">Select</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="UK">UK</option>
                 </select>
+                <small class="text-red-500" *ngIf="cardForm.get('country')?.invalid && cardForm.get('country')?.touched">
+                    Please choose a country.
+                </small>
             </div>
             <div>
                 <label class="text-gray-700 dark:text-gray-300">Postal Code</label>
-                <input type="text" placeholder="Postal Code" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <input type="text" formControlName="postalCode" placeholder="Postal Code"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="cardForm.get('postalCode')?.invalid && cardForm.get('postalCode')?.touched">
+                    Enter a valid 5-digit postal code.
+                </small>
             </div>
         </div>
 
-        <!-- Payment Method -->
         <h2 class="font-semibold text-gray-900 dark:text-white mb-1">Payment Method</h2>
 
         <div>
             <label class="text-gray-700 dark:text-gray-300">Credit Card Number</label>
-            <input type="text" placeholder="1234 1234 1234 1234" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+            <input type="text" formControlName="cardNumber" placeholder="1234 1234 1234 1234"
+                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+            <small class="text-red-500" *ngIf="cardForm.get('cardNumber')?.invalid && cardForm.get('cardNumber')?.touched">
+                Enter a valid 16-digit card number.
+            </small>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label class="text-gray-700 dark:text-gray-300">Card Expiration Date</label>
-                <input type="date" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <label class="text-gray-700 dark:text-gray-300">Expiration Date</label>
+                <input type="date" formControlName="expirationDate"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
             </div>
             <div>
                 <label class="text-gray-700 dark:text-gray-300">Card CVC</label>
-                <input type="text" placeholder="CVC" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <input type="text" formControlName="cvc" placeholder="CVC"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
             </div>
         </div>
 
-        <!-- Submit Button -->
         <div class="mt-4 flex justify-center">
-            <app-cbutton1 btnText="Add Credit Card"></app-cbutton1>
+            <app-cbutton1 (click)="toggleCardModal()" btnText="Add Credit Card" [disabled]="cardForm.invalid" type="submit"></app-cbutton1>
         </div>
     </form>
 </div>
 </section>
 
+
 <!-- Company Modal Box -->
 <section *ngIf="isCompanyModalVisible" class="fixed inset-0 bg-black/60 flex justify-center items-center z-50" (click)="toggleCompanyModal()">
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-lg relative" (click)="$event.stopPropagation()">
+    
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
         <h1 class="text-xl font-bold text-gray-900 dark:text-white">Edit Company Information</h1>
@@ -172,56 +206,77 @@
         </button>
     </div>
 
-    <!-- Company Name -->
-    <div class="mb-4">
-        <label class="text-gray-700 dark:text-gray-300 font-semibold">Company Name</label>
-        <input type="text" placeholder="Company Name"
-            class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
-    </div>
-
-    <!-- Company Address -->
-    <div class="mb-4">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Company Address</h2>
-        <label class="text-gray-700 dark:text-gray-300">Address</label>
-        <input type="text" placeholder="Address"
-            class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
-    </div>
-
-    <!-- City & State -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div>
-            <label class="text-gray-700 dark:text-gray-300 font-semibold">City</label>
-            <input type="text" placeholder="City"
+    <form [formGroup]="companyForm" (ngSubmit)="submitForm($event)">
+        <!-- Company Name -->
+        <div class="mb-4">
+            <label class="text-gray-700 dark:text-gray-300 font-semibold">Company Name</label>
+            <input type="text" formControlName="companyName" placeholder="Company Name"
                 class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+            <small class="text-red-500" *ngIf="companyForm.get('companyName')?.invalid && companyForm.get('companyName')?.touched">
+                Company name is required.
+            </small>
         </div>
-        <div>
-            <label class="text-gray-700 dark:text-gray-300 font-semibold">State</label>
-            <input type="text" placeholder="State / Province"
-                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
-        </div>
-    </div>
 
-    <!-- Country & Postal Code -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div>
-            <label class="text-gray-700 dark:text-gray-300 font-semibold">Country</label>
-            <select class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
-                <option>Select</option>
-                <option>USA</option>
-                <option>Canada</option>
-                <option>UK</option>
-            </select>
-        </div>
-        <div>
-            <label class="text-gray-700 dark:text-gray-300 font-semibold">Postal Code</label>
-            <input type="text" placeholder="Postal Code"
+        <!-- Company Address -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Company Address</h2>
+            <label class="text-gray-700 dark:text-gray-300">Address</label>
+            <input type="text" formControlName="address" placeholder="Address"
                 class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+            <small class="text-red-500" *ngIf="companyForm.get('address')?.invalid && companyForm.get('address')?.touched">
+                Address is required.
+            </small>
         </div>
-    </div>
 
-    <!-- Save Button -->
-    <div class="mt-4 flex justify-center">
-        <app-cbutton1 btnText="Submit"></app-cbutton1>
-    </div>
+        <!-- City & State -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="text-gray-700 dark:text-gray-300 font-semibold">City</label>
+                <input type="text" formControlName="city" placeholder="City"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="companyForm.get('city')?.invalid && companyForm.get('city')?.touched">
+                    City is required.
+                </small>
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-300 font-semibold">State</label>
+                <input type="text" formControlName="state" placeholder="State / Province"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="companyForm.get('state')?.invalid && companyForm.get('state')?.touched">
+                    State is required.
+                </small>
+            </div>
+        </div>
+
+        <!-- Country & Postal Code -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="text-gray-700 dark:text-gray-300 font-semibold">Country</label>
+                <select formControlName="country" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                    <option value="">Select</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="UK">UK</option>
+                </select>
+                <small class="text-red-500" *ngIf="companyForm.get('country')?.invalid && companyForm.get('country')?.touched">
+                    Please choose a country.
+                </small>
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-300 font-semibold">Postal Code</label>
+                <input type="text" formControlName="postalCode" placeholder="Postal Code"
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-900 dark:text-white">
+                <small class="text-red-500" *ngIf="companyForm.get('postalCode')?.invalid && companyForm.get('postalCode')?.touched">
+                    Enter a valid 5-digit postal code.
+                </small>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="mt-4 flex justify-center">
+            <app-cbutton1 (click)="toggleCompanyModal()" btnText="Submit" [disabled]="companyForm.invalid" type="submit"></app-cbutton1>
+        </div>
+    </form>
 </div>
 </section>
+

@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-cbutton1',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './cbutton1.component.html'
 })
 export class Cbutton1Component {
-  @Input() btnText: string = '';
-  @Input() routerLink: string = '';
+  @Input() btnText: string = 'Submit';
+  @Input() disabled: boolean = false;
+  @Input() type: 'button' | 'submit' = 'button';
 }

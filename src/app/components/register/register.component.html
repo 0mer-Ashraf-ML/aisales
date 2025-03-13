@@ -8,30 +8,38 @@
         <div class="w-full sm:w-1/2 flex flex-col px-[3%] lg:px-[5%] text-sm text-gray-700 dark:text-gray-300 z-10">
             <h1 class="text-2xl text-gray-800 dark:text-white font-bold">Get Started Now</h1>
             <p class="mt-2 mb-8">Enter to explore more about our products.</p>
-            <form>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
                 <!-- Name -->
                 <div class="flex items-center border-b-2 border-b-black/20 dark:border-gray-700">
                     <label class="p-1" for="userName"><i class="fa-sharp fa-solid fa-user text-primary"></i></label>
-                    <input class="w-full p-2 focus:outline-none bg-transparent" type="text" placeholder="Enter name" id="userName">
+                    <input class="w-full p-2 focus:outline-none bg-transparent" type="text" formControlName="userName" placeholder="Enter name" id="userName">
                 </div>
+                <div *ngIf="registerForm.get('userName')?.touched && registerForm.get('userName')?.invalid" class="text-red-500 text-sm mt-1 -mb-5">Name is required.</div>
+                
                 <!-- Email -->
                 <div class="flex items-center border-b-2 border-b-black/20 dark:border-gray-700 my-8">
                     <label class="p-1" for="email"><i class="fa-sharp fa-solid fa-envelope text-primary"></i></label>
-                    <input class="w-full p-2 focus:outline-none bg-transparent" type="email" placeholder="Enter email" id="email">
+                    <input class="w-full p-2 focus:outline-none bg-transparent" type="email" formControlName="email" placeholder="Enter email" id="email">
                 </div>
+                <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-red-500 text-sm -mt-7 mb-6">Enter a valid email.</div>
+                
                 <!-- Password -->
                 <div class="flex items-center border-b-2 border-b-black/20 dark:border-gray-700 mb-8">
                     <label class="p-1" for="password"><i class="fa-sharp fa-solid fa-lock text-primary"></i></label>
-                    <input class="w-full p-2 focus:outline-none bg-transparent" type="password" placeholder="Enter password" id="password">
+                    <input class="w-full p-2 focus:outline-none bg-transparent" type="password" formControlName="password" placeholder="Enter password" id="password">
                 </div>
+                <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="text-red-500 text-sm -mt-7 mb-6">Password must be at least 8 characters.</div>
+                
                 <!-- Confirm Password -->
                 <div class="flex items-center border-b-2 border-b-black/20 dark:border-gray-700 mb-10">
-                    <label class="p-1" for="password"><i class="fa-sharp fa-solid fa-lock text-primary"></i></label>
-                    <input class="w-full p-2 focus:outline-none bg-transparent" type="password" placeholder="Confirm password" id="password">
+                    <label class="p-1" for="confirmPassword"><i class="fa-sharp fa-solid fa-lock text-primary"></i></label>
+                    <input class="w-full p-2 focus:outline-none bg-transparent" type="password" formControlName="confirmPassword" placeholder="Confirm password" id="confirmPassword">
                 </div>
+                <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="text-red-500 text-sm -mt-9 mb-7">Passwords must match.</div>
+                
                 <button class="w-full text-white font-semibold py-3 rounded-lg bg-primary hover:bg-primary/80 transition-all duration-500 ease-in-out" type="submit">Register</button>
             </form>
-            <a class="w-full py-2 border border-black/20 hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-700 dark:bg-gray-700 flex justify-center items-center gap-2 rounded-md mt-8 mb-12" routerLink=""><img class="object-cover w-7" src="google.svg" alt=""><span>Continue with Google</span></a>
+            <a class="w-full py-2 border border-black/20 hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-700 dark:bg-gray-700 flex justify-center items-center gap-2 rounded-md mt-8 mb-12 cursor-pointer"><img class="object-cover w-7" src="google.svg" alt=""><span>Continue with Google</span></a>
             <p class="text-center text-sm text-dark-gray1 ">Already have an account?<a
                     class="ml-1 cursor-pointer text-info hover:text-primary dark:text-blue-300 transition-all duration-500 ease-in-out" routerLink="/login">Login here.</a></p>
         </div>
