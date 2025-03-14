@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -11,16 +11,33 @@ import { RouterLink } from '@angular/router';
 })
 export class LogInComponent {
   loginForm: FormGroup;
+  showPassword = false;
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        this.passwordPatternValidator
+      ]],
       rememberMe: [null]
     });
   }
 
-  ngOnInit(): void {}
+  // Password Strength Validator
+  passwordPatternValidator: ValidatorFn = (control: AbstractControl) => {
+    const password = control.value;
+    if (!password) return null;
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    
+    return passwordRegex.test(password) ? null : { invalidPassword: true };
+  };
 
   onSubmit(event: Event): void {
     event.preventDefault();
