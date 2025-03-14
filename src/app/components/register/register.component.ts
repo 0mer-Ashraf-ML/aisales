@@ -30,7 +30,7 @@ export class RegisterComponent {
         password: ['', [
           Validators.required,
           Validators.minLength(8),
-          this.passwordPatternValidator // Enforcing strong password rules
+          this.passwordPatternValidator
         ]],
         confirmPassword: ['', Validators.required]
       },
