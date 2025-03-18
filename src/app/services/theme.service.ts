@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
+import Iconify from '@iconify/iconify/dist/iconify.js';
 
 @Injectable({
   providedIn: 'root',

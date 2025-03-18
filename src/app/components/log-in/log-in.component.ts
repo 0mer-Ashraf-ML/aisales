@@ -1,13 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidatorFn } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  ValidatorFn,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
   standalone: true,
   imports: [RouterLink, ReactiveFormsModule, CommonModule],
-  templateUrl: './log-in.component.html'
+  templateUrl: './log-in.component.html',
 })
 export class LogInComponent {
   loginForm: FormGroup;
@@ -20,22 +27,22 @@ export class LogInComponent {
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        this.passwordPatternValidator
-      ]],
-      rememberMe: [null]
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          this.passwordPatternValidator,
+        ],
+      ],
+      rememberMe: [null],
     });
   }
 
-  // Password Strength Validator
   passwordPatternValidator: ValidatorFn = (control: AbstractControl) => {
     const password = control.value;
     if (!password) return null;
-
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!#$%&'*+\-/=?^_`{|}~.@()\[\]\\:;"',<>])[A-Za-z\d!#$%&'*+\-/=?^_`{|}~.@()\[\]\\:;"',<>]{8,}$/;
     return passwordRegex.test(password) ? null : { invalidPassword: true };
   };
 
