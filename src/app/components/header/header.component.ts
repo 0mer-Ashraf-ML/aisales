@@ -8,19 +8,23 @@ import { DOCUMENT } from '@angular/common';
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, CommonModule],
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-
   menuItems = [
     { label: 'Features', link: 'features' },
     { label: 'Solution', link: 'solution' },
     { label: 'Testimonials', link: 'testimonials' },
-    { label: 'Blog', link: 'blog' }
+    { label: 'Blog', link: 'blog' },
   ];
 
   isDarkMode: boolean = false;
   isMenuOpen: boolean = false;
+  isLoggedIn: boolean = false;
+
+  ngOnInit() {
+    this.isLoggedIn = localStorage.getItem('token') ? true : false;
+  }
 
   constructor(
     private themeService: ThemeService,
@@ -50,6 +54,15 @@ export class HeaderComponent {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }, 100); // Small delay ensures the DOM updates before scrolling
+    }
+  }
+
+  login() {
+    if (this.isLoggedIn) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 }

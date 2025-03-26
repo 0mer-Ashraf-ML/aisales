@@ -19,9 +19,29 @@ export const routes: Routes = [
         title: 'Register'
     },
     {
+        path: 'forgot-password',
+        loadComponent: () => import('./components/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+        title: 'Forgot Password'
+    },
+    {
+        path: 'otp-verification',
+        loadComponent: () => import('./components/otp/otp.component').then(m => m.OtpComponent),
+        title: 'Verify Code'
+    },
+    {
+        path: 'reset-password',
+        loadComponent: () => import('./components/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+        title: 'Reset Password'
+    },
+    {
         path: 'chatbot',
         loadComponent: () => import('./pages/chatbot/chatbot.component').then(m => m.ChatbotComponent),
         title: 'Chatbot'
+    },
+    {
+        path: 'callback',
+        loadComponent: () => import('./pages/info/info.component').then(m => m.InfoComponent),
+        title: 'Info'
     },
     {
         path: 'prospects',

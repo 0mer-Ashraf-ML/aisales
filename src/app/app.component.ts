@@ -24,7 +24,7 @@ export class AppComponent {
     
     this.router.events.subscribe(() => {
       const currentRoute = this.router.url;
-      this.emptyLayout = currentRoute.includes('login') || currentRoute.includes('register') || currentRoute.includes('chatbot');
+      this.emptyLayout = currentRoute.includes('login') || currentRoute.includes('register') || currentRoute.includes('chatbot') || currentRoute.includes('forgot-password') || currentRoute.includes('otp-verification') || currentRoute.includes('reset-password');
     });
   
     this.route.fragment.subscribe((fragment) => {

@@ -8,7 +8,8 @@ import {
   AbstractControl,
   ValidatorFn,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-log-in',
@@ -19,14 +20,17 @@ import { RouterLink } from '@angular/router';
 export class LogInComponent {
   loginForm: FormGroup;
   showPassword = false;
+  loginError: string | null = null;
+  isLoading = false;
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      // email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required]],
       password: [
         '',
         [
@@ -35,24 +39,40 @@ export class LogInComponent {
           this.passwordPatternValidator,
         ],
       ],
-      rememberMe: [null],
+      rememberMe: [false],
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   passwordPatternValidator: ValidatorFn = (control: AbstractControl) => {
     const password = control.value;
     if (!password) return null;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!#$%&'*+\-/=?^_`{|}~.@()\[\]\\:;"',<>])[A-Za-z\d!#$%&'*+\-/=?^_`{|}~.@()\[\]\\:;"',<>]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!#$%&'*+\-/=?^_`{|}~.@()\[\]\\:;"',<>])[A-Za-z\d!#$%&'*+\-/=?^_`{|}~.@()\[\]\\:;"',<>]{8,}$/;
     return passwordRegex.test(password) ? null : { invalidPassword: true };
   };
 
   onSubmit(event: Event): void {
     event.preventDefault();
-    if (this.loginForm.valid) {
-      console.log('Form Submitted:', this.loginForm.value);
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
+    // if (this.loginForm.invalid) {
+    //   this.loginForm.markAllAsTouched();
+    //   return;
+    // }
+
+    this.isLoading = true;
+    this.loginError = null;
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe((data) => {
+      console.log(data);
+      this.isLoading = false;
+      localStorage.setItem('token', data.data.accessToken.access_token);
+      this.router.navigate(['/pricing']);
+    });
   }
 
   get email() {

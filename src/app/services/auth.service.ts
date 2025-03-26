@@ -1,0 +1,66 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  private apiUrl = 'http://localhost:4000/api';
+  private tokenKey = 'token';
+  private userSubject = new BehaviorSubject<any>(null); // Store user data
+  user$ = this.userSubject.asObservable(); // Observable to track user state
+
+  constructor(private http: HttpClient) {}
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { email: email, password }).pipe(
+      tap((response) => {
+        console.log("In login",response);
+        if (response.data.accessToken.access_token) {
+          localStorage.setItem(this.tokenKey, response.data.accessToken.access_token);
+          localStorage.setItem("stripeId", response.data.user.stripe_customer_id);
+          this.getUserDetails().subscribe();
+        }
+      })
+    );
+  }
+
+  register(fullname: string, email: string, password: string): Observable<any> {
+    console.log(fullname , " -> ",email)
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, { fullname,email, password }).pipe(
+      tap((response) => {
+        if (response.token) {
+          this.getUserDetails().subscribe();
+        }
+      })
+    );
+  }
+
+  stripePaymentIntent(amount: number, currency: string, customerId?: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/payment/create-payment-intent`, { amount,currency, customerId });
+  }
+
+  getUserDetails(): Observable<any> {
+    // const token = localStorage.getItem(this.tokenKey);
+    // if (!token) return new Observable(); // No token, return empty observable
+
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${token}`,
+    // });
+
+    console.log('api')
+
+    return this.http.get<any>(`${this.apiUrl}/me`).pipe(
+      tap((user) => {
+        this.userSubject.next(user);
+      })
+    );
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    this.userSubject.next(null);
+  }
+}
