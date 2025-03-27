@@ -19,7 +19,7 @@
             <h4 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Features</h4>
 
             <ul *ngFor="let feature of plan.features" class="list-outside flex ml-3">
-                <mat-icon class="text-lg text-gray-700 dark:text-gray-300 mt-1">check_circle</mat-icon>
+                <mat-icon class="text-lg text-gray-700 dark:text-gray-300 mt-1">✔️</mat-icon>
                 <li class="text-sm text-gray-700 dark:text-gray-300 my-2 ml-1">{{feature}}</li>
             </ul>
         </div>
@@ -27,12 +27,11 @@
 </section>
 
 <!-- Stripe Payment Modal -->
-<div id="stripeModal" [class.hidden]="!isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center overflow-y-scroll z-50">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h2 class="text-lg font-bold">Complete Your Payment</h2>
+<div id="stripeModal" [class.hidden]="!isModalOpen" class="fixed inset-0 bg-black/60 flex justify-center items-center overflow-y-scroll z-50" (click)="closeModal()">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+        <h2 class="text-lg font-bold mb-2">Complete Your Payment</h2>
         <div id="payment-element-modal"></div>
-        <button (click)="closeModal()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded-lg">Close</button>
+        <button (click)="closeModal()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded-lg mr-2">Close</button>
         <button (click)="confirmPayment()" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg">Pay Now</button>
     </div>
 </div>
-

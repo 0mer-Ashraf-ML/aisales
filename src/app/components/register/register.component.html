@@ -3,20 +3,24 @@
         <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
         <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
     </div>
-    <div class="flex items-center gap-6 lg:gap-10 flex-col sm:flex-row sm:shadow-xl rounded-xl p-[2%] bg-white dark:bg-gray-800">
+    <div
+        class="flex items-center gap-6 lg:gap-10 flex-col sm:flex-row sm:shadow-xl rounded-xl p-[2%] bg-white dark:bg-gray-800">
         <!-- content section -->
         <div class="w-full sm:w-1/2 flex flex-col px-4 lg:px-20 text-sm text-gray-700 dark:text-gray-300 z-10">
             <h1 class="text-3xl text-gray-900 dark:text-white font-extrabold">Create an Account</h1>
-            <p class="mt-2 mb-8 text-gray-700 dark:text-gray-300">Register to unlock AI-powered features and insights.</p>
+            <p class="mt-2 mb-8 text-gray-700 dark:text-gray-300">Register to unlock AI-powered features and insights.
+            </p>
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
                 <!-- Name -->
                 <div class="mb-5">
                     <label for="userName"></label>
                     <div class="flex items-center border-b-2 border-gray-300 dark:border-gray-700">
                         <i class="fa-solid fa-user text-primary p-2"></i>
-                        <input formControlName="userName" class="w-full p-3 focus:outline-none bg-transparent" type="text" placeholder="Enter your name" id="userName" />
+                        <input formControlName="userName" class="w-full p-3 focus:outline-none bg-transparent"
+                            type="text" placeholder="Enter your name" id="userName" />
                     </div>
-                    <div *ngIf="registerForm.get('userName')?.touched && registerForm.get('userName')?.invalid" class="text-red-500 text-sm mt-1">
+                    <div *ngIf="registerForm.get('userName')?.touched && registerForm.get('userName')?.invalid"
+                        class="text-red-500 text-sm mt-1">
                         Name is required.
                     </div>
                 </div>
@@ -25,9 +29,11 @@
                     <label for="email"></label>
                     <div class="flex items-center border-b-2 border-gray-300 dark:border-gray-700">
                         <i class="fa-solid fa-envelope text-primary p-2"></i>
-                        <input formControlName="email" class="w-full p-3 focus:outline-none bg-transparent" type="email" placeholder="Enter your email" id="email" />
+                        <input formControlName="email" class="w-full p-3 focus:outline-none bg-transparent" type="email"
+                            placeholder="Enter your email" id="email" />
                     </div>
-                    <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-red-500 text-sm mt-1">
+                    <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+                        class="text-red-500 text-sm mt-1">
                         Enter a valid email.
                     </div>
                 </div>
@@ -36,13 +42,19 @@
                     <label for="password"></label>
                     <div class="flex items-center border-b-2 border-gray-300 dark:border-gray-700 relative">
                         <i class="fa-solid fa-lock text-primary p-2"></i>
-                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="w-full p-3 focus:outline-none bg-transparent" placeholder="Enter your password" id="password" />
-                        <i class="fa-solid {{ showPassword ? 'fa-eye-slash' : 'fa-eye' }} absolute right-3 text-gray-500 dark:text-gray-300 cursor-pointer transition-opacity duration-300" (click)="togglePasswordVisibility()"></i>
+                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                            class="w-full p-3 focus:outline-none bg-transparent" placeholder="Enter your password"
+                            id="password" />
+                        <i class="fa-solid {{ showPassword ? 'fa-eye-slash' : 'fa-eye' }} absolute right-3 text-gray-500 dark:text-gray-300 cursor-pointer transition-opacity duration-300"
+                            (click)="togglePasswordVisibility()"></i>
                     </div>
-                    <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="text-red-500 text-sm mt-1">
+                    <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+                        class="text-red-500 text-sm mt-1">
                         <div *ngIf="registerForm.get('password')?.hasError('required')">Password is required.</div>
-                        <div *ngIf="registerForm.get('password')?.hasError('minlength')">Password must be at least 8 characters.</div>
-                        <div *ngIf="registerForm.get('password')?.hasError('invalidPassword')">Password must include uppercase, lowercase, a digit, and a special character.</div>
+                        <div *ngIf="registerForm.get('password')?.hasError('minlength')">Password must be at least 8
+                            characters.</div>
+                        <div *ngIf="registerForm.get('password')?.hasError('invalidPassword')">Password must include
+                            uppercase, lowercase, a digit, and a special character.</div>
                     </div>
                 </div>
                 <!-- Confirm Password -->
@@ -50,15 +62,21 @@
                     <label for="confirmPassword"></label>
                     <div class="flex items-center border-b-2 border-gray-300 dark:border-gray-700 relative">
                         <i class="fa-solid fa-lock text-primary p-2"></i>
-                        <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword" class="w-full p-3 focus:outline-none bg-transparent" placeholder="Confirm your password" id="confirmPassword" />
-                        <i class="fa-solid {{ showConfirmPassword ? 'fa-eye-slash' : 'fa-eye' }} absolute right-3 text-gray-500 dark:text-gray-300 cursor-pointer transition-opacity duration-300" (click)="toggleConfirmPasswordVisibility()"></i>
+                        <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword"
+                            class="w-full p-3 focus:outline-none bg-transparent" placeholder="Confirm your password"
+                            id="confirmPassword" />
+                        <i class="fa-solid {{ showConfirmPassword ? 'fa-eye-slash' : 'fa-eye' }} absolute right-3 text-gray-500 dark:text-gray-300 cursor-pointer transition-opacity duration-300"
+                            (click)="toggleConfirmPasswordVisibility()"></i>
                     </div>
-                    <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.hasError('mismatch')" class="text-red-500 text-sm mt-1">
+                    <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.hasError('mismatch')"
+                        class="text-red-500 text-sm mt-1">
                         Passwords must match.
                     </div>
                 </div>
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-primary/80 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-6" [disabled]="registerForm.invalid">
+                <button type="submit"
+                    class="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-primary/80 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+                    [disabled]="registerForm.invalid">
                     Register
                 </button>
             </form>
@@ -75,7 +93,7 @@
             </a> -->
             <!-- Already have an account? -->
             <p class="text-center mt-8 text-gray-700 dark:text-gray-300">
-                Already have an account? 
+                Already have an account?
                 <a class="text-primary hover:underline transition-all duration-300" routerLink="/login">Login here.</a>
             </p>
         </div>
