@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,7 +15,7 @@ export class ForgotPasswordComponent {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
@@ -35,14 +36,24 @@ export class ForgotPasswordComponent {
     // Simulate API request delay
     setTimeout(() => {
       const enteredEmail = this.forgotPasswordForm.value.email;
-
-      // Mock backend response
-      if (enteredEmail === 'test@example.com') {
-        alert('Password reset link sent! Check your email.');
-        this.router.navigate(['/login']); // Redirect to login after success
-      } else {
-        this.errorMessage = 'Email not found. Please try again.';
-      }
+      this.authService.forgotPassword(enteredEmail).subscribe({
+        next: (data) => {
+          this.isLoading = false;
+          if (data?.success === true) {
+            this.router.navigate(['/otp-verification']
+              , {
+              queryParams: {
+                otpType: 'password_reset',
+                email: enteredEmail 
+              }
+            }
+          );
+          }
+        },
+        error: (err) => {
+          console.error('Registration failed:', err);
+        }
+      });
 
       this.isLoading = false;
     }, 2000);

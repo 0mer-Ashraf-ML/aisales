@@ -28,14 +28,19 @@ export class AuthService {
   }
 
   register(fullname: string, email: string, password: string): Observable<any> {
-    console.log(fullname , " -> ",email)
-    return this.http.post<any>(`${this.apiUrl}/auth/register`, { fullname,email, password }).pipe(
-      tap((response) => {
-        if (response.token) {
-          this.getUserDetails().subscribe();
-        }
-      })
-    );
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, { fullname,email, password });
+  }
+
+  verifyOtp(otpCode: string, email: string,type:string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/verify-otp`, { email, otpCode, type });
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  resetPassword(email: string, otpCode: string, newPassword: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/reset-password`, { email, otpCode, newPassword });
   }
 
   stripePaymentIntent(amount: number, currency: string, customerId?: string): Observable<any> {

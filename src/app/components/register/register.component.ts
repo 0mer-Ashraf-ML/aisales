@@ -89,14 +89,13 @@ export class RegisterComponent {
         next: (data) => {
           if (data?.success === true) {
             // localStorage.setItem('token', data.data.accessToken.access_token);
-            this.router.navigate(['/login']
-            //   , {
-            //   queryParams: {
-            //     otpType: 'account_verification',
-            //     email: data.data.user.email
-            //   }
-            // }
-          );
+            console.log(data)
+            this.router.navigate(['/otp-verification'], {
+              queryParams: {
+                otpType: 'account_verification',
+                email: data.data.user.email,
+              },
+            });
           }
         },
         error: (err) => {

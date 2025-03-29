@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -14,8 +15,9 @@ export class ResetPasswordComponent {
   isLoading = false;
   showPassword = false;
   showConfirmPassword = false;
-
-  constructor(private fb: FormBuilder, private router: Router) {
+  email:string = "";
+  otpCode: string = '';
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private authService: AuthService,) {
     this.resetPasswordForm = this.fb.group(
       {
         newPassword: [
@@ -30,6 +32,9 @@ export class ResetPasswordComponent {
       },
       { validators: this.passwordsMatch }
     );
+
+    this.email = this.route.snapshot.queryParams['email'] || '';
+    this.otpCode = this.route.snapshot.queryParams['otpCode'] || '';
   }
 
   // ✅ Custom Validator for Password Match
@@ -48,16 +53,20 @@ export class ResetPasswordComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  // ✅ Form Submission
-  onSubmit() {
-    if (this.resetPasswordForm.invalid) return;
-
+  onSubmit(event: Event) {
+    event.preventDefault();
     this.isLoading = true;
-    setTimeout(() => {
-      alert('Password Reset Successfully!');
-      this.router.navigate(['/login']);
-      this.isLoading = false;
-    }, 2000);
+    this.authService.resetPassword(this.email, this.otpCode, this.resetPasswordForm.get('newPassword')?.value).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        if (data?.success === true) {
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (err) => {
+        console.error('Registration failed:', err);
+      }
+    });
   }
 
   // ✅ Getters for form controls

@@ -32,7 +32,7 @@ export class OtpComponent {
     });
     this.otpType = this.route.snapshot.queryParams['otpType'] || '';
     this.email = this.route.snapshot.queryParams['email'] || '';
-    console.log(this.otpType)
+    console.log(this.otpType);
 
     this.startCountdown();
   }
@@ -81,24 +81,32 @@ export class OtpComponent {
     this.errorMessage = '';
     const enteredOtp = this.otp.value.join('');
 
-    console.log("Entered OTP: ",enteredOtp)
-
-    // this.authService.register(userName, email, password).subscribe({
-    //   next: (data) => {
-    //     if (data?.success === true) {
-    //       localStorage.setItem('token', data.data.accessToken.access_token);
-    //       this.router.navigate(['/otp-verification'], {
-    //         queryParams: {
-    //           otpType: 'account_verification',
-    //           email: data.data.user.email
-    //         }
-    //       });
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.error('Registration failed:', err);
-    //   }
-    // });
+    this.authService.verifyOtp(enteredOtp, this.email,this.otpType == "account_verification" ? "account_verification" : "password_reset").subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        if (data?.success === true) {
+          // show toast here "Valid OTP"
+          if(this.otpType == "account_verification")
+          {
+            this.router.navigate(['/login']);
+          }
+          else{
+            this.router.navigate(['/reset-password'], {
+              queryParams: {
+                email: this.email,
+                otpCode: enteredOtp
+              }
+            });
+          }
+        }
+        else{
+          // show toast here "Invalid OTP";
+        }
+      },
+      error: (err) => {
+        console.error('Registration failed:', err);
+      }
+    });
   }
 
   resendOtp() {
