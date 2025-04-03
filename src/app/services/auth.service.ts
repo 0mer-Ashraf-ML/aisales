@@ -7,11 +7,11 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:4000/api';
+  private apiUrl = 'https://aisales-backend.vercel.app/api';
   private tokenKey = 'token';
   private userSubject = new BehaviorSubject<any>(null); // Store user data
   user$ = this.userSubject.asObservable(); // Observable to track user state
-
+                                                                                                                                                                                                                
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {

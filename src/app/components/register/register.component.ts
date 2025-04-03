@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   showPassword = false;
   showConfirmPassword = false;
+  
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -33,7 +35,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -88,8 +91,12 @@ export class RegisterComponent {
       this.authService.register(userName, email, password).subscribe({
         next: (data) => {
           if (data?.success === true) {
-            // localStorage.setItem('token', data.data.accessToken.access_token);
-            console.log(data)
+            this.toastr.success('Registration successful! Check your email for OTP.', 'Success', {
+              timeOut: 3000, // Auto close after 3 seconds
+              positionClass: 'toast-top-right',
+              progressBar: true,
+            });
+  
             this.router.navigate(['/otp-verification'], {
               queryParams: {
                 otpType: 'account_verification',
@@ -100,6 +107,11 @@ export class RegisterComponent {
         },
         error: (err) => {
           console.error('Registration failed:', err);
+          this.toastr.error(err.error?.message || 'Registration failed. Try again!', 'Error', {
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+            progressBar: true,
+          });
         }
       });
     } else {

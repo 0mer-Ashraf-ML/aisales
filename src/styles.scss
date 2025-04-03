@@ -50,3 +50,24 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0px 1000px #293041 inset !important; /* Adjust for dark mode */
     -webkit-text-fill-color: white !important;
 }
+
+/* Success Toast (Green Background) */
+.toast-success {
+  background-color: #9333EA !important; /* Change to any green shade */
+  color: white !important;
+}
+
+/* Error Toast (Red Background) */
+.toast-error {
+  background-color: #dc3545 !important; /* Change to any red shade */
+  color: white !important;
+}
+
+/* Customize the progress bar color */
+.toast-success .toast-progress {
+  background-color: #8706f0 !important;
+}
+
+.toast-error .toast-progress {
+  background-color: #c82333 !important;
+}

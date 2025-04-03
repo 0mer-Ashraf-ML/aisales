@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,9 +16,16 @@ export class ResetPasswordComponent {
   isLoading = false;
   showPassword = false;
   showConfirmPassword = false;
-  email:string = "";
+  email: string = "";
   otpCode: string = '';
-  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private authService: AuthService,) {
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private toastr: ToastrService // Inject ToastrService
+  ) {
     this.resetPasswordForm = this.fb.group(
       {
         newPassword: [
@@ -55,18 +63,40 @@ export class ResetPasswordComponent {
 
   onSubmit(event: Event) {
     event.preventDefault();
+    if (this.resetPasswordForm.invalid) {
+      this.toastr.error('❌ Please fill in the required fields correctly.', 'Error', {
+        timeOut: 3000,
+        positionClass: 'toast-bottom-right',
+        progressBar: true,
+      });
+      return;
+    }
+
     this.isLoading = true;
-    this.authService.resetPassword(this.email, this.otpCode, this.resetPasswordForm.get('newPassword')?.value).subscribe({
-      next: (data) => {
-        this.isLoading = false;
-        if (data?.success === true) {
-          this.router.navigate(['/login']);
+    this.authService.resetPassword(this.email, this.otpCode, this.resetPasswordForm.get('newPassword')?.value)
+      .subscribe({
+        next: (data) => {
+          this.isLoading = false;
+          if (data?.success === true) {
+            this.toastr.success('✅ Password reset successfully!', 'Success', {
+              timeOut: 3000,
+              positionClass: 'toast-top-right',
+              progressBar: true,
+            });
+
+            this.router.navigate(['/login']);
+          }
+        },
+        error: (err) => {
+          this.isLoading = false;
+          console.error('Password reset failed:', err);
+          this.toastr.error(err.error?.message || '❌ Password reset failed. Try again!', 'Error', {
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+            progressBar: true,
+          });
         }
-      },
-      error: (err) => {
-        console.error('Registration failed:', err);
-      }
-    });
+      });
   }
 
   // ✅ Getters for form controls
