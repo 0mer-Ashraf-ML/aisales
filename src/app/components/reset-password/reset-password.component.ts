@@ -66,7 +66,7 @@ export class ResetPasswordComponent {
     if (this.resetPasswordForm.invalid) {
       this.toastr.error('❌ Please fill in the required fields correctly.', 'Error', {
         timeOut: 3000,
-        positionClass: 'toast-bottom-right',
+        positionClass: 'toast-top-right',
         progressBar: true,
       });
       return;

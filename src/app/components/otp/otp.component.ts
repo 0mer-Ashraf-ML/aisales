@@ -91,7 +91,7 @@ export class OtpComponent {
           if (data?.success === true) {
             this.toastr.success('✅ OTP Verified Successfully!', 'Success', {
               timeOut: 3000,
-              positionClass: 'toast-bottom-right',
+              positionClass: 'toast-top-right',
               progressBar: true,
             });
 
@@ -108,7 +108,7 @@ export class OtpComponent {
           } else {
             this.toastr.error('❌ Invalid OTP. Please try again.', 'Error', {
               timeOut: 3000,
-              positionClass: 'toast-bottom-right',
+              positionClass: 'toast-top-right',
               progressBar: true,
             });
           }
