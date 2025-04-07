@@ -42,4 +42,4 @@ jobs:
 
       # 6. (Optional) Archive the build artifacts
       - name: Archive build artifacts
-        run: sudo rm -r /root/build/* && cp -r dist/* /root/build/
+        run: rm -r /root/build/* && cp -r dist/* /root/build/
