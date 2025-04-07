@@ -42,7 +42,4 @@ jobs:
 
       # 6. (Optional) Archive the build artifacts
       - name: Archive build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: sudo rm -r /root/build/* && cp -r dist/* /root/build/
+        run: sudo rm -r /root/build/* && cp -r dist/* /root/build/
