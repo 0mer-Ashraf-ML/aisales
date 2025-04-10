@@ -8,7 +8,7 @@ import { prospects } from "../models/prospects.interface";
 })
 
 export class ProspectsService {
-    private apiUrl = 'http://localhost:4000/api';
+    private apiUrl = 'https://api.baq.ai/api';
 
     constructor(private http: HttpClient) {}
 

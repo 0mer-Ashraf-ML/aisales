@@ -9,7 +9,7 @@ import { CommonService } from './common.service';
 export class ChatbotService {
   private commonSrv = inject(CommonService);
   private api = '';
-  private apiUrl = 'http://localhost:4000/api';
+  private apiUrl = 'https://api.baq.ai/api';
 
   constructor(private http: HttpClient) {
     this.api = this.commonSrv.config.Api + '/Chat';
