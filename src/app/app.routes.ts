@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { Page404Component } from './components/page404/page404.component';
 import { SolutionsComponent } from './pages/solutions/solutions.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -60,26 +61,16 @@ export const routes: Routes = [
         title: 'Prospects'
     },
     {
-        path: 'projects',
-        loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
-        title: 'Projects'
-    },
-    {
-        path: 'ai-agent',
-        loadComponent: () => import('./pages/ai-agent/ai-agent.component').then(m => m.AiAgentComponent),
-        title: 'AI Agent'
-    },
-    {
-        path: 'welcome',
-        loadComponent: () => import('./pages/welcome/welcome.component').then(m => m.WelcomeComponent),
-        title: 'Welcome'
-    },
-
-    {
-        path: 'accounts',
+        path: 'account',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent),
         title: 'Account',
+        canActivate: [AuthGuard],
         children: [
+            {
+                path: '',
+                loadComponent: () => import('./pages/welcome/welcome.component').then(m => m.WelcomeComponent),
+                title: 'Welcome'
+            },
             {
                 path: 'kpi',
                 loadComponent: () => import('./pages/kpi/kpi.component').then(m => m.KpiComponent),

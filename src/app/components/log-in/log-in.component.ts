@@ -70,8 +70,8 @@ export class LogInComponent {
     this.authService.login(email, password).subscribe((data) => {
       console.log(data);
       this.isLoading = false;
-      localStorage.setItem('token', data.data.accessToken.access_token);
-      this.router.navigate(['/welcome']);
+      localStorage.setItem('authToken', data.data.accessToken.access_token);
+      this.router.navigate(['/account']);
     });
   }
 

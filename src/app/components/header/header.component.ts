@@ -55,7 +55,6 @@ export class HeaderComponent {
       }, 100); // Small delay ensures the DOM updates before scrolling
     }
   }
-
   login() {
     if (this.isLoggedIn) {
       localStorage.removeItem('token');

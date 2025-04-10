@@ -30,8 +30,14 @@ export class CommonService {
     // }
 
     isLoggedIn(): boolean {
-        if (!this.getToken()) return false
-        return true
+        console.log("In login Guard")
+        if (this.getToken())
+        {
+            return true
+        }
+        else{
+            return false;
+        }
     }
 
     logout() {

@@ -8,9 +8,9 @@ import { tap } from 'rxjs/operators';
 })
 export class AuthService {
   private apiUrl = 'https://api.baq.ai/api';
-  private tokenKey = 'token';
-  private userSubject = new BehaviorSubject<any>(null); // Store user data
-  user$ = this.userSubject.asObservable(); // Observable to track user state
+  private tokenKey = 'authToken';
+  private userSubject = new BehaviorSubject<any>(null); 
+  user$ = this.userSubject.asObservable();
                                                                                                                                                                                                                 
   constructor(private http: HttpClient) {}
 

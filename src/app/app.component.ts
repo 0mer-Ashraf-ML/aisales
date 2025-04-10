@@ -1,11 +1,12 @@
 import { HeaderComponent } from './components/header/header.component';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import '@iconify/iconify'
 import { CommonService } from './services/common.service';
 import { v4 as uuidv4 } from 'uuid';
+import { filter } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -18,13 +19,17 @@ export class AppComponent {
 
   emptyLayout = true;
 
-  constructor(private router: Router,private route: ActivatedRoute, private commonSrv: CommonService) {}
+
+  constructor(private router: Router,private route: ActivatedRoute, private commonSrv: CommonService) {
+
+    
+  }
 
   async ngOnInit(): Promise<void> {
     
     this.router.events.subscribe(() => {
       const currentRoute = this.router.url;
-      this.emptyLayout = currentRoute.includes('login') || currentRoute.includes('register') || currentRoute.includes('chatbot') || currentRoute.includes('forgot-password') || currentRoute.includes('otp-verification') || currentRoute.includes('reset-password');
+      this.emptyLayout = currentRoute.includes('login') || currentRoute.includes('register') || currentRoute.includes('chatbot') || currentRoute.includes('forgot-password') || currentRoute.includes('otp-verification') || currentRoute.includes('reset-password') || currentRoute.includes('otp-verification') || currentRoute.includes('account');;
     });
   
     this.route.fragment.subscribe((fragment) => {

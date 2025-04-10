@@ -2,9 +2,13 @@
   <aside
     class="w-64 bg-white dark:bg-gray-900 min-h-screen p-4 border-r dark:border-gray-700"
   >
-    <div class="flex items-center space-x-2 mb-6">
+    <!-- <div class="flex items-center space-x-2 mb-6">
       <img src="logo.png" alt="AI Sales" class="h-10" />
-    </div>
+    </div> -->
+    <a routerLink="/" aria-label="logo" class="flex space-x-2 items-center mb-6">
+      <img src="logo-light.png" alt="logo-light" class="w-28 block dark:hidden">
+      <img src="logo-dark.png" alt="logo-dark" class="w-28 hidden dark:block">
+    </a>
     <nav class="space-y-4">
       <a
         routerLink="/account/ai-agent"
@@ -34,13 +38,7 @@
         <i class="fa-solid fa-phone"></i>
         <span>Leads</span>
       </a>
-      <a
-      routerLink="/account/user"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
-      >
-        <i class="fa-solid fa-handshake"></i>
-        <span>User</span>
-      </a>
+
       <a
       routerLink="/account/billing"
         class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
@@ -65,6 +63,9 @@
     </nav>
   </aside>
   <main class="flex-1 p-6">
+    <div class="flex justify-end gap-2 text-white ">
+      <app-cbutton1 (click)="logout()" btnText="Logout"></app-cbutton1>
+    </div>
     <router-outlet></router-outlet>
   </main>
 </div>
