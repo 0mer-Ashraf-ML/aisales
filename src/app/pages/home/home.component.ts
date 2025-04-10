@@ -5,11 +5,13 @@ import { SolutionComponent } from '../../components/solution/solution.component'
 import { TestimonialsComponent } from '../../components/testimonials/testimonials.component';
 import { CallToActionComponent } from "../../components/call-to-action/call-to-action.component";
 import { BlogsComponent } from '../../components/blogs/blogs.component';
+import { ApplicationComponent } from '../../components/application/application.component';
+import { ExperiencesComponent } from '../../components/experiences/experiences.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, FeaturesComponent, SolutionComponent, TestimonialsComponent, BlogsComponent,CallToActionComponent],
+  imports: [HeroComponent, FeaturesComponent, SolutionComponent, CallToActionComponent,TestimonialsComponent, BlogsComponent, ExperiencesComponent, ApplicationComponent, CallToActionComponent],
   templateUrl: './home.component.html'
 })
 

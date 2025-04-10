@@ -1,0 +1,29 @@
+<section class="relative px-[4%] py-10">
+    <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white text-center mb-10">
+        Hassle Free Experiences
+    </h2>
+  
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
+      <div *ngFor="let experience of experiences"
+        class="w-full max-w-sm p-5 rounded-xl border border-gray-200 dark:border-gray-700 shadow hover:shadow-md transition duration-300 bg-white dark:bg-gray-800 group">
+  
+        <!-- Image with Centered Overlay Text -->
+        <div class="relative overflow-hidden rounded-lg mb-3 h-36">
+          <img [src]="experience.imgUrl" alt="application image" loading="lazy"
+            class="h-full w-full object-cover object-top rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-105" />
+          
+          <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+            <span class="text-white font-semibold text-lg md:text-xl text-center px-2">
+              {{ experience.imgText }}
+            </span>
+          </div>
+        </div>
+  
+        <!-- Description -->
+        <p class="text-gray-600 dark:text-gray-400 text-center text-sm md:text-base leading-relaxed">
+          {{ experience.desc }}
+        </p>
+      </div>
+    </div>
+  </section>
+  

@@ -1,12 +1,23 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { Page404Component } from './components/page404/page404.component';
+import { SolutionsComponent } from './pages/solutions/solutions.component';
 
 export const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
         title: 'Home'
+    },
+    {
+        path: 'solutions',
+        component: SolutionsComponent,
+        title: 'Solutions'
+    },
+    {
+        path: 'pricing',
+        loadComponent: () => import('./pages/pricing/pricing.component').then(m => m.PricingComponent),
+        title: 'Pricing'
     },
     {
         path: 'login',
@@ -48,11 +59,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/prospects/prospects.component').then(m => m.ProspectsComponent),
         title: 'Prospects'
     },
-    {
-        path: 'pricing',
-        loadComponent: () => import('./pages/pricing/pricing.component').then(m => m.PricingComponent),
-        title: 'Pricing'
-    },
+    
     {
         path: 'account',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent),

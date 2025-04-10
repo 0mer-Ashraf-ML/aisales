@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Cbutton1Component } from '../cbutton1/cbutton1.component';
 import { Cbutton2Component } from '../cbutton2/cbutton2.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-call-to-action',
   standalone: true,
-  imports: [CommonModule ,Cbutton1Component, Cbutton2Component],
+  imports: [CommonModule ,Cbutton1Component, RouterLink],
   templateUrl: './call-to-action.component.html'
 })
 export class CallToActionComponent {

@@ -1,21 +1,35 @@
-<section class="relative py-16 max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
-    <div aria-hidden="true" class="absolute inset-0 h-max w-full m-auto grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
-        <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
-        <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
+<section id="solution" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Heading -->
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+      Revolutionize Your Global Business with <span class="text-primary">BAQ.ai</span>
+    </h2>
+  
+    <!-- Content Layout -->
+    <div class="flex flex-col-reverse md:flex-row-reverse items-center gap-8 text-gray-600 dark:text-gray-300">
+      <!-- Text Block -->
+      <div class="w-full md:w-7/12 lg:w-1/2">
+        <p class="text-base md:text-lg leading-relaxed">
+          Accelerate your global business growth with <strong class="text-primary">BAQ.ai</strong> —
+          an innovative AI-driven solution that transforms your sales processes.
+          Predict customer needs, close deals faster, and expand into new markets
+          with actionable insights and automation.
+        </p>
+        <p class="mt-4 text-base md:text-lg leading-relaxed mb-4">
+          Redefine efficiency and profitability today with <strong class="text-primary">BAQ.ai</strong>.
+          Start now and unlock your business’s full potential.
+        </p>
+        <app-cbutton1 btnText="Launch Your Project Now" routerLink="/projects"></app-cbutton1>
+      </div>
+  
+      <!-- Image Block -->
+      <div class="w-full md:w-5/12 lg:w-1/2">
+        <img
+          src="https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80"
+          alt="AI Sales Agent"
+          loading="lazy"
+          class="rounded-xl shadow-md w-4/5 object-cover"
+        />
+      </div>
     </div>
-    <div>
-        <div class="flex items-center justify-center -space-x-2">
-            <img *ngFor="let expert of experts" [src]="expert.src" [alt]="expert.alt" [ngClass]="expert.size"
-                loading="lazy" class="rounded-full object-cover" />
-        </div>
-        <div class="mt-6 m-auto space-y-6 md:w-8/12 lg:w-7/12">
-            <h1 class="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">Get Started now</h1>
-            <p class="text-center text-xl text-gray-600 dark:text-gray-300">Be part of millions people around the
-                world using tailus in modern User Interfaces.</p>
-            <div class="flex flex-wrap justify-center gap-6">
-                <app-cbutton1 btnText="Get started" routerLink="login"></app-cbutton1>
-                <app-cbutton2 btnText="Learn more" routerLink=""></app-cbutton2>
-            </div>
-        </div>
-    </div>
-</section>
+  </section>
+  

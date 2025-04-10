@@ -12,10 +12,9 @@ import { DOCUMENT } from '@angular/common';
 })
 export class HeaderComponent {
   menuItems = [
-    { label: 'Features', link: 'features' },
-    { label: 'Solution', link: 'solution' },
-    { label: 'Testimonials', link: 'testimonials' },
-    { label: 'Blog', link: 'blog' },
+    { label: 'Home', route: '/' },
+    { label: 'Solutions', route: '/solutions' },
+    { label: 'Pricing', route: '/pricing' },
   ];
 
   isDarkMode: boolean = false;
