@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { Cbutton1Component } from "../cbutton1/cbutton1.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-application',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Cbutton1Component, RouterLink],
   templateUrl: './application.component.html'
 })
 export class ApplicationComponent {

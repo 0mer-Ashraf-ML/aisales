@@ -4,7 +4,7 @@
     <div class="blur-[106px] bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
   </div>
   <nav class="z-10 w-full py-2">
-    <div class="flex flex-wrap items-center justify-center py-2 gap-6 md:py-4 md:gap-14 relative">
+    <div class="flex flex-wrap items-center justify-center py-2 gap-6 md:py-4 md:gap-4 relative">
       <input aria-hidden="true" type="checkbox" name="toggle_nav" id="toggle_nav" class="hidden peer"
         [checked]="isMenuOpen" (change)="toggleMenu()" />
 
@@ -29,7 +29,7 @@
 
         <!-- Left Section -->
         <div class="text-gray-600 dark:text-gray-300 lg:w-auto w-full lg:pt-0 flex-grow pl-4">
-          <ul class="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-6">
+          <ul class="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-2">
             <li *ngFor="let item of menuItems">
               <a [routerLink]="item.route" (click)="closeMenu()" class="block md:px-4 transition hover:text-primary">
                 <span>{{ item.label }}</span>
@@ -50,7 +50,7 @@
           </div>
 
           <div class="cursor-pointer w-full lg:w-auto">
-            <a
+            <a routerLink="/welcome"
               class="relative flex h-9 w-full items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-full lg:sm:w-max">
               <span class="relative text-sm font-semibold text-white">Join Free</span>
             </a>

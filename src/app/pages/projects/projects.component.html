@@ -2,20 +2,25 @@
     <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Projects</h1>
     <hr class="border border-gray-200 dark:border-gray-700 mb-14">
     <!-- Project Card -->
-    <div 
-        class="p-6 border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 shadow-md space-y-4 cursor-pointer transition-all duration-300 hover:shadow-lg"
+    <div *ngFor="let company of companies"
+        class="p-6 my-6 border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 shadow-md space-y-4 cursor-pointer transition-all duration-300 hover:shadow-lg"
         (click)="isExpanded = !isExpanded">
         
         <!-- Project Header -->
         <div class="flex items-center gap-24">
             <div class="flex items-center gap-4 text-gray-600 dark:text-gray-400">
                 <i class="fa-solid fa-toggle-on text-2xl cursor-pointer"></i>
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Project 1</h2>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{company.company_name}}</h2>
             </div>
             <p class="flex items-center gap-2 text-gray-600 dark:text-gray-400 mt-2 md:mt-0">
                 <i class="fa-solid fa-pause text-2xl cursor-pointer"></i>
                 <span>Working</span>
             </p>
+            <app-cbutton1 
+            btnText="Go to Prospects" 
+            [routerLink]="['/prospects']" 
+            [queryParams]="{ company_id: company.id }">
+        </app-cbutton1>
         </div>
 
         <!-- Project Duration -->

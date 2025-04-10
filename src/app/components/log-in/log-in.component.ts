@@ -71,7 +71,7 @@ export class LogInComponent {
       console.log(data);
       this.isLoading = false;
       localStorage.setItem('token', data.data.accessToken.access_token);
-      this.router.navigate(['/chatbot']);
+      this.router.navigate(['/welcome']);
     });
   }
 

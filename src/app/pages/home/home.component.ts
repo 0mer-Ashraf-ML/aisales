@@ -11,7 +11,7 @@ import { ExperiencesComponent } from '../../components/experiences/experiences.c
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, FeaturesComponent, SolutionComponent, CallToActionComponent,TestimonialsComponent, BlogsComponent, ExperiencesComponent, ApplicationComponent, CallToActionComponent],
+  imports: [HeroComponent, SolutionComponent, CallToActionComponent,TestimonialsComponent, BlogsComponent, ExperiencesComponent, ApplicationComponent, CallToActionComponent],
   templateUrl: './home.component.html'
 })
 

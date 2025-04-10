@@ -59,9 +59,24 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/prospects/prospects.component').then(m => m.ProspectsComponent),
         title: 'Prospects'
     },
-    
     {
-        path: 'account',
+        path: 'projects',
+        loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
+        title: 'Projects'
+    },
+    {
+        path: 'ai-agent',
+        loadComponent: () => import('./pages/ai-agent/ai-agent.component').then(m => m.AiAgentComponent),
+        title: 'AI Agent'
+    },
+    {
+        path: 'welcome',
+        loadComponent: () => import('./pages/welcome/welcome.component').then(m => m.WelcomeComponent),
+        title: 'Welcome'
+    },
+
+    {
+        path: 'accounts',
         loadComponent: () => import('./pages/account/account.component').then(m => m.AccountComponent),
         title: 'Account',
         children: [
