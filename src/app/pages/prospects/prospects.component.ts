@@ -4,11 +4,12 @@ import { ProspectsStore } from '../../store/prospects.store';
 import { Cbutton2Component } from '../../components/cbutton2/cbutton2.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProspectsService } from '../../services/prospects.service';
+import { Cbutton1Component } from "../../components/cbutton1/cbutton1.component";
 
 @Component({
   selector: 'app-prospects',
   standalone: true,
-  imports: [CommonModule, Cbutton2Component, RouterLink],
+  imports: [CommonModule, Cbutton2Component, RouterLink, Cbutton1Component],
   templateUrl: './prospects.component.html',
 })
 export class ProspectsComponent implements OnInit {

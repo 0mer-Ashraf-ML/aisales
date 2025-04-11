@@ -400,7 +400,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   .conservation({
     user_input: question,
     session_id: this.sessionId,
-    user_id: localStorage.getItem("authToken")
+    user_id: localStorage.getItem("userId")
   })
   .subscribe({
     next: (data) => {

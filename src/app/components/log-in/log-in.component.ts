@@ -75,6 +75,8 @@ export class LogInComponent {
       next: (data) => {
         this.isLoading = false;
         localStorage.setItem('authToken', data.data.accessToken.access_token);
+        console.log(data.data)
+        localStorage.setItem('userId', data.data.user.id);
         this.toastr.success('Login successful!', 'Welcome');
         this.router.navigate(['/account']);
       },

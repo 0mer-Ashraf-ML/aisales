@@ -10,6 +10,7 @@ export class AuthService {
   private apiUrl = 'https://api.baq.ai/api';
   // private apiUrl = 'http://localhost:4000/api';
   private tokenKey = 'authToken';
+  private userId = 'userId';
   private userSubject = new BehaviorSubject<any>(null); 
   user$ = this.userSubject.asObservable();
                                                                                                                                                                                                                 
@@ -19,6 +20,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { email: email, password }).pipe(
       tap((response) => {
         console.log("In login",response);
+        localStorage.setItem("userId", response.data.user.id);
         if (response.data.accessToken.access_token) {
           localStorage.setItem(this.tokenKey, response.data.accessToken.access_token);
           localStorage.setItem("stripeId", response.data.user.stripe_customer_id);
@@ -67,6 +69,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userId);
     this.userSubject.next(null);
   }
 }
