@@ -105,13 +105,13 @@ export class RegisterComponent {
             });
           }
         },
-        error: (err) => {
-          console.error('Registration failed:', err);
-          this.toastr.error(err.error?.message || 'Registration failed. Try again!', 'Error', {
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-            progressBar: true,
-          });
+        error: (error) => {
+          if(error.error){
+            this.toastr.error(error.error.message, 'Error');
+          }
+          else{
+            this.toastr.error(error.message, 'Error');
+          }
         }
       });
     } else {

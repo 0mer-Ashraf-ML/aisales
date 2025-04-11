@@ -10,9 +10,10 @@ export class ChatbotService {
   private commonSrv = inject(CommonService);
   private api = '';
   private apiUrl = 'https://api.baq.ai/api';
+  // private apiUrl = 'http://localhost:4000/api';
 
   constructor(private http: HttpClient) {
-    this.api = this.commonSrv.config.Api + '/Chat';
+    this.api = this.commonSrv.config.Api + '/chat';
   }
 
   conservation(params: any): Observable<any> {

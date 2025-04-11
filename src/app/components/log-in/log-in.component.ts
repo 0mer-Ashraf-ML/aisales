@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-log-in',
@@ -26,7 +27,8 @@ export class LogInComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       // email: ['', [Validators.required, Validators.email]],
@@ -57,23 +59,38 @@ export class LogInComponent {
 
   onSubmit(event: Event): void {
     event.preventDefault();
-    // if (this.loginForm.invalid) {
-    //   this.loginForm.markAllAsTouched();
-    //   return;
-    // }
-
+  
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      this.toastr.error('Please fix the errors in the form.', 'Invalid Input');
+      return;
+    }
+  
     this.isLoading = true;
     this.loginError = null;
-
+  
     const { email, password } = this.loginForm.value;
-
-    this.authService.login(email, password).subscribe((data) => {
-      console.log(data);
-      this.isLoading = false;
-      localStorage.setItem('authToken', data.data.accessToken.access_token);
-      this.router.navigate(['/account']);
+  
+    this.authService.login(email, password).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        localStorage.setItem('authToken', data.data.accessToken.access_token);
+        this.toastr.success('Login successful!', 'Welcome');
+        this.router.navigate(['/account']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.loginError = 'Login failed. Please check your credentials.';
+        if(error.error){
+          this.toastr.error(error.error.message, 'Error');
+        }
+        else{
+          this.toastr.error(error.message, 'Error');
+        }
+      }
     });
   }
+  
 
   get email() {
     return this.loginForm.get('email');

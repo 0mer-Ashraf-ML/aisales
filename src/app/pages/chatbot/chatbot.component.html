@@ -1,13 +1,12 @@
 <section class="flex min-h-screen dark:bg-[#212121]">
   <!-- Sidebar -->
-  <div *ngIf="isSidebarOpen" [ngClass]="isSidebarOpen ? 'w-1/6' : 'w-0'"
-    class="h-full px-4 fixed bg-[#f9f9f9] dark:bg-[#171717] text-gray-800 dark:text-gray-100">
+  <div  
+    class="hidden h-full px-4 fixed bg-[#f9f9f9] dark:bg-[#171717] text-gray-800 dark:text-gray-100">
     <!-- Sidebar header -->
     <div class="flex justify-between items-center h-14 fixed z-10 pl-3 py-3 left-0 right-[83%]">
       <div (click)="toggleSidebar()" *ngIf="isSidebarOpen" (mouseenter)="showToggleBadge = true"
         (mouseleave)="showToggleBadge = false"
         class="relative cursor-pointer p-2 rounded-lg text-gray-800 dark:text-gray-100 hover:bg-[#e3e3e3] dark:hover:bg-gray-600">
-        <!-- <i class="fa-solid fa-toggle-on"></i> -->
         <span class="iconify text-2xl" data-icon="hugeicons:sidebar-left-01"></span>
         <div *ngIf="showToggleBadge"
           class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-28 px-3 py-2 text-sm text-white dark:text-gray-100 bg-gray-800 dark:bg-gray-600 border dark:border-gray-800 rounded-lg">
@@ -17,7 +16,7 @@
           </div>
         </div>
       </div>
-      <a routerLink="" class="relative cursor-pointer p-2 mr-8 rounded-lg hover:bg-[#e3e3e3] dark:hover:bg-gray-600"
+      <a class="relative cursor-pointer p-2 mr-8 rounded-lg hover:bg-[#e3e3e3] dark:hover:bg-gray-600"
         (mouseenter)="showNewChatBadge = true" (mouseleave)="showNewChatBadge = false">
         <i class="fa-solid fa-lg fa-pen-to-square"></i>
         <div *ngIf="showNewChatBadge"
@@ -68,7 +67,7 @@
   </div>
 
   <!-- Chat Window -->
-  <div class="grid place-items-center w-full h-full dark:bg-[#212121]" [ngClass]="isSidebarOpen ? 'ml-[16%]' : ''">
+  <div class="grid place-items-center w-full h-full dark:bg-[#212121]" >
     <!--Chat Window Header -->
     <div class="fixed top-0 right-0 left-0 h-14 z-10 flex items-center justify-between p-3 bg-white dark:bg-[#212121]"
       [ngClass]="{ 'left-1/6 w-5/6': isSidebarOpen, 'left-0': !isSidebarOpen }">
@@ -86,7 +85,7 @@
             </div>
           </div>
         </div>
-        <a *ngIf="!isSidebarOpen" routerLink=""
+        <a *ngIf="!isSidebarOpen"
           class="relative cursor-pointer p-2 rounded-lg hover:bg-[#e3e3e3] dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100"
           (mouseenter)="showNewChatBadge = true" (mouseleave)="showNewChatBadge = false">
           <i class="fa-solid fa-lg fa-pen-to-square"></i>
@@ -104,20 +103,8 @@
         </a>
       </div>
       <div class="flex items-center justify-between gap-2">
-        <!-- <span (click)="toggleTheme()" class="mr-4 cursor-pointer dark:text-gray-300">{{ isDarkMode ? "Dark" : "Light"
-          }}</span> -->
         <a *ngIf="showProspects" class="px-3 py-2 text-sm bg-primary text-white font-medium rounded-3xl cursor-pointer"
           [routerLink]="['/prospects']" [queryParams]="{ company_id: companyId }" target="_blank">Prospects</a>
-        <!-- <a
-          class="px-3 py-2 text-sm bg-black dark:bg-gray-600 text-white font-medium rounded-3xl cursor-pointer"
-          routerLink="/login"
-          >Log in</a> -->
-        
-        <!-- <a
-          class="px-3 py-2 text-sm bg-transparent text-black dark:text-white dark:bg-gray-600 font-medium rounded-3xl border border-slate-400 cursor-pointer"
-          routerLink="/signup"
-          >Sign up</a
-        > -->
       </div>
     </div>
     <!-- Chat Window Body -->
@@ -141,7 +128,7 @@
     <!-- Chat Window Footer -->
     <div class="relative" [ngClass]="isSidebarOpen ? 'w-1/2' : 'w-2/5'">
       <div class="pb-4 -mb-2 rounded-tr-3xl rounded-tl-3xl bg-white dark:bg-[#212121]" [ngClass]="{
-          'fixed w-[42%] bottom-2 z-10': prompts.length > 0,
+          'fixed w-[50%] bottom-2 z-10': prompts.length > 0,
           'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full mt-80':
             prompts.length === 0
         }">
@@ -180,13 +167,6 @@
 
               <i *ngIf="loading" class="fas fa-circle-notch fa-spin text-2xl text-gray-800 dark:text-white"></i>
             </div>
-
-            <!-- Fetch Button -->
-            <!-- <a [class.opacity-50]="isTextareaEmpty"
-                        [class.pointer-events-none]="isTextareaEmpty" (click)="onSubmitAnswer($event, textarea)"
-                        class="relative flex w-full items-center justify-center px-3 py-[6px] rounded-lg bg-primary sm:w-max transition-opacity">
-                        <span class="relative text-xs font-medium text-white cursor-pointer">Fetch Prospects</span>
-                    </a> -->
           </div>
         </div>
       </div>

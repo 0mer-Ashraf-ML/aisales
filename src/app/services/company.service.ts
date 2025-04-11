@@ -9,6 +9,7 @@ import { company } from '../models/companies.interface';
 })
 export class CompanyService {
   private apiUrl = 'https://api.baq.ai/api';
+  // private apiUrl = 'http://localhost:4000/api';
 
   constructor(private http: HttpClient) {}
 
