@@ -2,8 +2,7 @@
   <!-- Sidebar -->
   <aside class="fixed top-0 left-0 w-64 h-screen bg-white dark:bg-gray-900 p-4 border-r dark:border-gray-700 z-10">
     <a routerLink="/account" aria-label="logo" class="flex space-x-2 items-center mb-16">
-      <img src="logo1-light.png" alt="logo-light" class="w-24 block dark:hidden">
-      <img src="logo1-dark.png" alt="logo-dark" class="w-24 hidden dark:block">
+      <img src="logo1.png" alt="logo" class="w-20">
     </a>
     <nav class="space-y-4">
       <ng-container *ngFor="let item of sidebarItems">
@@ -50,7 +49,6 @@
       </nav>
     </div>
 
-    <!-- Routed Content -->
     <!-- Routed Content -->
 <div *ngIf="!showProfileTabs">
   <router-outlet></router-outlet>

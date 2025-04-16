@@ -18,15 +18,21 @@
     </div>
     <hr class="border border-gray-100 dark:border-gray-800 w-full sm:w-3/4 my-6">
     <h4 class="text-lg md:text-xl font-medium text-gray-700 dark:text-gray-300 mb-5 w-3/4 text-left">Chatting History</h4>
-    <ul class="list-disc" *ngFor="let history of chatHistory">
-      <a 
-      [routerLink]="['/chatbot']" 
-      [queryParams]="{ sessionId: history.session_id }" 
-      class="cursor-pointer">
-      <li class="text-gray-700 dark:text-gray-300 mb-2">
-        {{ history.last_message }}
-      </li>
-    </a>
     
+    <!-- Show when there's no history -->
+    <p *ngIf="chatHistory.length === 0" class="text-gray-500 dark:text-gray-400 italic mb-4 w-3/4 text-left">
+      Currently, there is no chat history.
+    </p>
+    
+    <!-- Show history when available -->
+    <ul *ngFor="let history of chatHistory" class="list-disc w-3/4 text-left">
+      <a 
+        [routerLink]="['/chatbot']" 
+        [queryParams]="{ sessionId: history.session_id }" 
+        class="cursor-pointer">
+        <li class="text-gray-700 dark:text-gray-300 mb-2">
+          {{ history.last_message }}
+        </li>
+      </a>
     </ul>
 </section>
