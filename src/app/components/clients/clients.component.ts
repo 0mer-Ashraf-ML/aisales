@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './clients.component.html',
-  styleUrl: './client.component.scss',
+  styleUrl: './clients.component.scss',
 })
 export class ClientsComponent {
   row1 = [
