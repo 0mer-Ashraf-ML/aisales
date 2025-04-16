@@ -14,7 +14,7 @@ import { filter } from 'rxjs';
 })
 
 export class AppComponent {
-  title = 'ai-sales';
+  title = 'SellersGPT';
 
   emptyLayout = true;
 
