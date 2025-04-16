@@ -1,0 +1,13 @@
+<section id="features" class="max-w-7xl mx-auto px-6 md:px-12 xl:px-6 py-6">
+<!-- Clients -->
+<div class="mt-12 text-center">
+    <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl mb-10 font-bold">
+      Trusted by Fortune 500 leaders and small factories worldwide.
+    </h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 items-center">
+      <div *ngFor="let client of clients" class="p-4 ">
+        <img [src]="client" class="h-12 w-auto mx-auto" loading="lazy" alt="client logo" />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,22 +1,15 @@
 <section class="px-[4%] sm:px-[9%] py-8 lg:py-10 dark:bg-black">
-  <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">KPI</h1>
-  <hr class="border border-gray-200 dark:border-gray-700 mb-14" />
   <div class="flex flex-wrap sm:justify-end items-center gap-4">
     <label class="text-gray-700 dark:text-gray-300 font-medium">From</label>
-    <input
-      type="date"
-      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300"
-    />
+    <input type="date" min="1000-01-01" max="9999-12-31"
+      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300" />
 
     <label class="text-gray-700 dark:text-gray-300 font-medium">To</label>
-    <input
-      type="date"
-      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300"
-    />
+    <input type="date" min="1000-01-01" max="9999-12-31"
+      class="p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300" />
 
     <select
-      class="p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300"
-    >
+      class="p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-1 focus:ring-gray-400 focus:outline-none transition-all duration-300">
       <option value="">All Projects</option>
       <option value="">Project 1</option>
       <option value="">Project 2</option>
@@ -24,13 +17,9 @@
     </select>
   </div>
   <!-- KPI Cards -->
-  <div
-    class="px-[10%] md:px-12 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-  >
-    <div
-      *ngFor="let kpi of kpis"
-      class="p-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
-    >
+  <div class="px-[10%] md:px-12 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let kpi of kpis"
+      class="p-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300">
       <div class="flex flex-col space-x-3">
         <i class="fa-solid fa-hand-sparkles text-primary text-3xl"></i>
         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">
@@ -49,21 +38,36 @@
     </div>
   </div>
   <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center mb-6">Visitor Trends</h2>
-  <app-chart [chartData]="{
-    evaporation: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-    precipitation: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-    temperature: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+  <app-chart [labels]="{ parameter1: 'All Visitors', parameter2: 'Unique Visotors', parameter3: 'Conversation Ratio' }"
+    [units]="{ 
+    parameter1: '', 
+    parameter2: '', 
+    parameter3: '' 
+  }" [chartData]="{
+    parameter1: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+    parameter2: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+    parameter3: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
   }"></app-chart>
   <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center mb-6">Leads Trends</h2>
-  <app-chart [chartData]="{
-    evaporation: [10, 20, 30, 40, 50, 60, 70],
-    precipitation: [5, 15, 25, 35, 45, 55, 65],
-    temperature: [1, 2, 3, 4, 5, 6, 7]
+  <app-chart [labels]="{ parameter1: 'All Leads', parameter2: 'Qualified Leads', parameter3: 'Conversation Ratio' }"
+    [units]="{ 
+    parameter1: '', 
+    parameter2: '', 
+    parameter3: '' 
+  }" [chartData]="{
+    parameter1: [10, 20, 30, 40, 50, 60, 70],
+    parameter2: [5, 15, 25, 35, 45, 55, 65],
+    parameter3: [40, 30, 55, 75, 85, 80, 90]
   }"></app-chart>
   <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 text-center mb-6">CPL Trends</h2>
-  <app-chart [chartData]="{
-    evaporation: [10, 20, 30, 40, 110, 160, 200],
-    precipitation: [5, 15, 25, 35, 145, 155, 210],
-    temperature: [1, 2, 3, 4, 5, 6, 7]
+  <app-chart [labels]="{ parameter1: 'All Leads', parameter2: 'Avg. Leads Score', parameter3: 'Fluctuation Ratio' }"
+    [units]="{ 
+    parameter1: '', 
+    parameter2: '%', 
+    parameter3: '%' 
+  }" [chartData]="{
+    parameter1: [10, 20, 30, 40, 110, 160, 200],
+    parameter2: [5, 15, 25, 35, 145, 155, 210],
+    parameter3: [1, 2, 3, 4, 5, 6, 7]
   }"></app-chart>
 </section>

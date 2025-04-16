@@ -30,7 +30,7 @@ export class CommonService {
     // }
 
     isLoggedIn(): boolean {
-        console.log("In login Guard")
+
         if (this.getToken())
         {
             return true
@@ -42,7 +42,9 @@ export class CommonService {
 
     logout() {
         localStorage.removeItem('authToken')
-        localStorage.removeItem('authUser')
+        localStorage.removeItem('userId')
+        localStorage.removeItem('stripeId')
+        localStorage.removeItem('sessionId')
     }
 
     public getConfig() {

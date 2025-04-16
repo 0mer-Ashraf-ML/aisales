@@ -1,8 +1,14 @@
-<button 
-    [type]="type"
-    [disabled]="disabled"
-    [class.opacity-50]="disabled"
-    [class.cursor-not-allowed]="disabled"
-    class="relative flex h-11 w-full items-center justify-center px-4 lg:px-6 rounded-full bg-primary text-white font-medium lg:font-semibold text-xs lg:text-sm transition duration-300 hover:scale-105 active:scale-95 sm:w-max">
-    {{ btnText }}
+<button
+  [type]="type"
+  [disabled]="disabled"
+  [class.opacity-50]="disabled"
+  [class.cursor-not-allowed]="disabled"
+  [ngClass]="{
+    'h-9 text-xs px-3 lg:px-4': size === 'sm',
+    'h-11 text-sm px-4 lg:px-6': size === 'md',
+    'h-16 text-lg px-6 lg:px-8': size === 'lg'
+  }"
+  class="relative flex w-full sm:w-max items-center justify-center rounded-full bg-primary text-white font-medium lg:font-semibold transition duration-300 hover:scale-105 active:scale-95"
+>
+  {{ btnText }}
 </button>

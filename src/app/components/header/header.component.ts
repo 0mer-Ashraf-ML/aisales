@@ -1,8 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
 import { DOCUMENT } from '@angular/common';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { DOCUMENT } from '@angular/common';
   imports: [RouterLink, CommonModule],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   menuItems = [
     { label: 'Home', route: '/' },
     { label: 'Solutions', route: '/solutions' },
@@ -21,19 +22,22 @@ export class HeaderComponent {
   isMenuOpen: boolean = false;
   isLoggedIn: boolean = false;
 
-  ngOnInit() {
-    this.isLoggedIn = localStorage.getItem('token') ? true : false;
-  }
-
   constructor(
     private themeService: ThemeService,
     private router: Router,
+    private commonSrv: CommonService,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.themeService.currentTheme.subscribe((theme) => {
       this.isDarkMode = theme;
     });
   }
+
+  ngOnInit() {
+    this.isLoggedIn = this.commonSrv.isLoggedIn();
+  }
+
+  
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
@@ -52,12 +56,13 @@ export class HeaderComponent {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      }, 100); // Small delay ensures the DOM updates before scrolling
+      }, 100);
     }
   }
-  login() {
+
+  login(): void {
     if (this.isLoggedIn) {
-      localStorage.removeItem('token');
+      this.commonSrv.logout();
       this.router.navigate(['/login']);
     } else {
       this.router.navigate(['/login']);

@@ -7,11 +7,12 @@ import { CallToActionComponent } from "../../components/call-to-action/call-to-a
 import { BlogsComponent } from '../../components/blogs/blogs.component';
 import { ApplicationComponent } from '../../components/application/application.component';
 import { ExperiencesComponent } from '../../components/experiences/experiences.component';
+import { ClientsComponent } from '../../components/clients/clients.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, SolutionComponent, CallToActionComponent,TestimonialsComponent, BlogsComponent, ExperiencesComponent, ApplicationComponent, CallToActionComponent],
+  imports: [HeroComponent, ClientsComponent,SolutionComponent, FeaturesComponent, CallToActionComponent,TestimonialsComponent, BlogsComponent, ExperiencesComponent, ApplicationComponent, CallToActionComponent],
   templateUrl: './home.component.html'
 })
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/core';
 import * as echarts from 'echarts';
 
 @Component({
@@ -9,6 +9,17 @@ import * as echarts from 'echarts';
 export class ChartComponent implements AfterViewInit {
   @Input() chartData: any; // Input for chart data
   @Input() chartOptions: any; // Input for chart options
+  @Input() labels: { parameter1: string; parameter2: string; parameter3: string } = {
+    parameter1: 'parameter1',
+    parameter2: 'parameter2',
+    parameter3: 'parameter3'
+  };
+  @Input() units: { parameter1: string; parameter2: string; parameter3: string } = {
+    parameter1: '',
+    parameter2: '',
+    parameter3: ''
+  };
+
   chartId: string = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -49,7 +60,11 @@ export class ChartComponent implements AfterViewInit {
         }
       },
       legend: {
-        data: ['Evaporation', 'Precipitation', 'Temperature']
+        data: [
+          this.labels.parameter1,
+          this.labels.parameter2,
+          this.labels.parameter3
+        ]
       },
       xAxis: [
         {
@@ -63,59 +78,54 @@ export class ChartComponent implements AfterViewInit {
       yAxis: [
         {
           type: 'value',
-          name: 'Precipitation',
+          name: this.labels.parameter2,
           min: 0,
-          max: 250,
-          interval: 50,
+          max: 100,
+          interval: 20,
           axisLabel: {
-            formatter: '{value} ml'
+            formatter: `{value} ${this.units.parameter2}`
           }
         },
         {
           type: 'value',
-          name: 'Temperature',
+          name: this.labels.parameter3,
           min: 0,
-          max: 25,
-          interval: 5,
+          max: 180,
+          interval: 30,
           axisLabel: {
-            formatter: '{value} °C'
+            formatter: `{value} ${this.units.parameter3}`
           }
         }
       ],
       series: [
         {
-          name: 'Evaporation',
+          name: this.labels.parameter1,
           type: 'bar',
           tooltip: {
-            valueFormatter: function (value: number) {
-              return value + ' ml';
-            }
+            valueFormatter: (value: number) => `${value} ${this.units.parameter1}`
           },
-          data: this.chartData?.evaporation
+          data: this.chartData?.parameter1
         },
         {
-          name: 'Precipitation',
+          name: this.labels.parameter2,
           type: 'bar',
           tooltip: {
-            valueFormatter: function (value: number) {
-              return value + ' ml';
-            }
+            valueFormatter: (value: number) => `${value} ${this.units.parameter2}`
           },
-          data: this.chartData?.precipitation
+          data: this.chartData?.parameter2
         },
         {
-          name: 'Temperature',
+          name: this.labels.parameter3,
           type: 'line',
           yAxisIndex: 1,
           tooltip: {
-            valueFormatter: function (value: number) {
-              return value + ' °C';
-            }
+            valueFormatter: (value: number) => `${value} ${this.units.parameter3}`
           },
-          data: this.chartData?.temperature
+          data: this.chartData?.parameter3
         }
       ]
     };
+
     myChart.setOption(option);
   }
 }

@@ -73,3 +73,37 @@ section {
     scroll-margin-top: 60px;
   }
 }
+
+
+//for scrollbar
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.8);
+}
+
+/* Dark mode support */
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+/* Firefox support */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 100, 100, 0.5) transparent;
+}
+
+.dark .custom-scrollbar {
+  scrollbar-color: #555 transparent;
+}

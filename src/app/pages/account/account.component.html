@@ -1,71 +1,56 @@
-<div class="flex dark:bg-black">
-  <aside
-    class="w-64 bg-white dark:bg-gray-900 min-h-screen p-4 border-r dark:border-gray-700"
-  >
-    <!-- <div class="flex items-center space-x-2 mb-6">
-      <img src="logo.png" alt="AI Sales" class="h-10" />
-    </div> -->
-    <a routerLink="/account" aria-label="logo" class="flex space-x-2 items-center mb-6">
-      <img src="logo-light.png" alt="logo-light" class="w-28 block dark:hidden">
-      <img src="logo-dark.png" alt="logo-dark" class="w-28 hidden dark:block">
+<div class="flex min-h-screen overflow-hidden dark:bg-black">
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 w-64 h-screen bg-white dark:bg-gray-900 p-4 border-r dark:border-gray-700 z-10">
+    <a routerLink="/account" aria-label="logo" class="flex space-x-2 items-center mb-16">
+      <img src="logo1-light.png" alt="logo-light" class="w-24 block dark:hidden">
+      <img src="logo1-dark.png" alt="logo-dark" class="w-24 hidden dark:block">
     </a>
     <nav class="space-y-4">
-      <a
-        routerLink="/account/ai-agent"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500 cursor-pointer"
-      >
-        <i class="fa-solid fa-robot"></i>
-        <span>AI Agent</span>
-      </a>
-      <a
-      routerLink="/account/kpi"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
-      >
-        <i class="fa-solid fa-chart-line"></i>
-        <span>KPI</span>
-      </a>
-      <a
-      routerLink="/account/projects"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
-      >
-        <i class="fa-solid fa-folder"></i>
-        <span>Projects</span>
-      </a>
-      <a
-      routerLink="/account/leads"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
-      >
-        <i class="fa-solid fa-phone"></i>
-        <span>Leads</span>
-      </a>
-
-      <!-- <a
-      routerLink="/account/billing"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
-      >
-        <i class="fa-solid fa-handshake"></i>
-        <span>Billing</span>
-      </a>
-      <a
-      routerLink="/account/wallet"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
-      >
-        <i class="fa-solid fa-handshake"></i>
-        <span>Wallet</span>
-      </a>
-      <a
-      routerLink="/account/invoice"
-        class="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-blue-500"
-      >
-        <i class="fa-solid fa-handshake"></i>
-        <span>Invoice</span>
-      </a> -->
+      <ng-container *ngFor="let item of sidebarItems">
+        <a
+          (click)="navigateAndSetTitle(item.route)"
+          routerLink="/account/{{ item.route }}"
+          routerLinkActive="text-primary dark:text-primary font-semibold"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center space-x-3 text-xl text-gray-700 dark:text-gray-300 hover:text-primary cursor-pointer"
+        >
+          <i class="fa-solid" [ngClass]="item.icon"></i>
+          <span>{{ item.label }}</span>
+        </a>
+      </ng-container>
     </nav>
   </aside>
-  <main class="flex-1 p-6">
-    <div class="flex justify-end gap-2 text-white ">
-      <app-cbutton1 (click)="logout()" btnText="Logout"></app-cbutton1>
+
+  <!-- Main content -->
+  <main class="flex-1 pl-64 overflow-y-auto p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center gap-2 text-white px-10">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-400">{{ heading }}</h1>
+      <div class="flex items-center gap-4 text-4xl">
+        <i class="fa-solid fa-bell text-gray-900 dark:text-gray-400 cursor-pointer" (click)="navigateAndSetTitle('notifications')"></i>
+        <img class="w-14 object-cover mb-4 cursor-pointer" src="profile.png" alt="img" (click)="toggleProfileTabs()" />
+      </div>
     </div>
+
+    <hr class="border border-gray-200 dark:border-gray-700 mb-14" />
+
+    <!-- Profile Tabs -->
+    <div *ngIf="showProfileTabs" class="mt-4">
+      <nav class="border-b border-gray-300 dark:border-gray-700 flex space-x-8 px-10">
+        <ng-container *ngFor="let tab of profileTabs">
+          <a
+            routerLink="/account/{{ tab.route }}"
+            routerLinkActive="text-primary dark:text-primary border-b-2 border-primary font-bold"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="pb-2 text-gray-700 dark:text-gray-300 border-b-2 border-transparent hover:text-primary"
+          >
+            {{ tab.label }}
+          </a>
+        </ng-container>
+      </nav>
+    </div>
+
+    <!-- Routed Content -->
     <router-outlet></router-outlet>
   </main>
 </div>

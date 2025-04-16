@@ -9,9 +9,9 @@
         [checked]="isMenuOpen" (change)="toggleMenu()" />
 
       <div class="relative z-20 w-full flex items-center justify-between lg:w-max md:px-0">
-        <a routerLink="/" aria-label="logo" class="flex space-x-2 items-center ml-5">
-          <img src="logo-light.png" alt="logo-light" class="w-28 block dark:hidden">
-          <img src="logo-dark.png" alt="logo-dark" class="w-28 hidden dark:block">
+        <a routerLink="/" aria-label="logo" class="flex space-x-2 items-center mr-10">
+          <img src="logo-light.png" alt="logo-light" class="w-72 block dark:hidden">
+          <img src="logo-dark.png" alt="logo-dark" class="w-72 hidden dark:block">
         </a>
         <div class="relative lg:hidden max-h-10">
           <label role="button" for="toggle_nav" aria-hidden="true" class="relative mr-5">
@@ -50,7 +50,7 @@
           </div>
 
           <div class="cursor-pointer w-full lg:w-auto">
-            <a routerLink="/chatbot"
+            <a routerLink="/register"
               class="relative flex h-9 w-full items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-full lg:sm:w-max">
               <span class="relative text-sm font-semibold text-white">Join Free</span>
             </a>

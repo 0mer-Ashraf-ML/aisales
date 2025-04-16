@@ -1,33 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Cbutton1Component } from '../cbutton1/cbutton1.component';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, Cbutton1Component],
   templateUrl: './footer.component.html'
 })
 export class FooterComponent {
 menuItems:any[] = [
   {label: 'Home', link: ''},
-  {label: 'About', link: ''},
-  {label: 'Guide', link: ''},
-  {label: 'Blocks', link: ''},
-  {label: 'Contact', link: ''},
-];
-
-socialItems:any[] = [
-  {label: 'Github', icon: 'fa-github', link: ''},
-  {label: 'Twitter', icon: 'fa-github', link: ''},
-  {label: 'YouTube', icon: 'fa-youtube', link: ''},
-  {label: 'Facebook', icon: 'fa-facebook', link: ''},
-  {label: 'Pintrest', icon: 'fa-pinterest', link: ''},
-  {label: 'Instagram', icon: 'fa-instagram', link: ''}
+  {label: 'Solutions', link: '/solutions'},
+  {label: 'Pricing', link: '/pricing'},
 ];
 
 termsAndPrivacy:any[] = [
-  {label: 'Terms of Use', link: ''},
-  {label: 'Privacy Policy', link: ''},
+  {label: 'Privacy Policy', link: '/404'},
+  {label: 'Terms and Conditions', link: '/404'},
 ];
 }

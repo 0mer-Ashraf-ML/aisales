@@ -1,54 +1,15 @@
-<section class="relative px-[4%] overflow-hidden">
-    <!-- Background Blur Effects -->
-    <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
-      <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
-      <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
+<section class="relative px-[4%] overflow-hidden grid place-items-center h-screen">
+  <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
+    <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
+    <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
+  </div>
+  <div class="max-w-4xl text-center z-10 -mt-40">
+    <h1 class="text-gray-900 dark:text-gray-400 font-bold text-3xl xl:text-5xl">
+      <span class="text-primary text-4xl xl:text-6xl block mb-6">The First B2B AI Sales Agent</span>
+      You Only Pay for Quality Work
+    </h1>
+    <div class="mt-20 flex justify-center">
+      <app-cbutton1 btnText="Join Free Now" routerLink="/register" size="lg"></app-cbutton1>
     </div>
-  
-    <div class="relative pt-10 ml-auto z-10">
-      <!-- Main Content -->
-      <div class="max-w-4xl text-center mx-auto">
-        <h1 class="text-gray-900 dark:text-white font-bold text-3xl xl:text-4xl">
-          <span class="text-primary text-4xl xl:text-5xl block mb-2">The First B2B AI Sales Agent</span>
-          You Only Pay for Quality Work
-        </h1>
-  
-        <div class="my-8 flex flex-wrap justify-center gap-y-4 gap-x-6">
-          <app-cbutton1 btnText="Join Free Now" routerLink="/chatbot"></app-cbutton1>
-        </div>
-  
-        <p class="text-gray-700 dark:text-gray-300 text-lg md:text-xl xl:text-2xl">The AI Sales Agent Makes "Less is More" a Reality</p>
-      </div>
-  
-      <!-- Feature Cards -->
-<div class="py-8 mt-16 border-y border-gray-100 dark:border-gray-800">
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
-        <div *ngFor="let feature of features"
-        class="w-full max-w-sm p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition duration-300 bg-white dark:bg-gray-800 group">
-      
-        <div class="relative overflow-hidden rounded-lg mb-4">
-          <img [src]="feature.imgUrl" alt="feature image" loading="lazy"
-            class="h-40 w-full object-cover object-top rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-105" />
-        </div>
-      
-        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-1 text-center">{{ feature.title }}</h4>
-        <p class="text-gray-600 dark:text-gray-400  text-center">{{ feature.desc }}</p>
-      </div>
-    </div>
-</div>
-  
-  
-      <!-- Clients -->
-      <div class="mt-12 text-center">
-        <h2 class="text-primary font-medium text-2xl lg:text-3xl mb-6">
-          Trusted by Fortune 500 leaders and small factories worldwide.
-        </h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 items-center">
-          <div *ngFor="let client of clients" class="p-4 grayscale hover:grayscale-0 transition duration-300 ease-in-out">
-            <img [src]="client" class="h-12 w-auto mx-auto" loading="lazy" alt="client logo" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
+  </div>
+</section>

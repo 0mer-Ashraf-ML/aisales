@@ -15,7 +15,6 @@ export class KpiComponent {
     {
       title: 'All Visitors',
       quantity: '1000',
-      percentage: '100%'
     },
     {
       title: 'Unique Visitors',
@@ -34,13 +33,11 @@ export class KpiComponent {
     },
     {
       title: 'Avg. Leads Score',
-      quantity: '75%',
-      percentage: '60%'
+      quantity: '75',
     },
     {
       title: 'CPL',
-      quantity: '$4.00',
-      percentage: '60%'
+      quantity: '$4.00'
     },
   ];
 }
