@@ -51,6 +51,14 @@
     </div>
 
     <!-- Routed Content -->
-    <router-outlet></router-outlet>
+    <!-- Routed Content -->
+<div *ngIf="!showProfileTabs">
+  <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="showProfileTabs">
+  <router-outlet></router-outlet>
+</div>
+
   </main>
 </div>

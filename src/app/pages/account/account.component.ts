@@ -29,7 +29,13 @@ export class AccountComponent {
   constructor(private commonSrv: CommonService, private router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => this.setHeading(event.urlAfterRedirects));
+      .subscribe((event: NavigationEnd) => {
+        const url = event.urlAfterRedirects;
+  
+        // Auto toggle based on current route
+        this.showProfileTabs = this.profileRoutes.some(route => url.startsWith(route));
+        this.setHeading(url);
+      });
   }
 
   private setHeading(url: string): void {
@@ -42,21 +48,24 @@ export class AccountComponent {
   }
 
   navigateAndSetTitle(section: string): void {
-    this.closeProfileTabs();
+    this.closeProfileTabs(); // hides profile tabs
     this.router.navigate([`/account/${section}`]);
   }
+  
 
   toggleProfileTabs(): void {
     this.showProfileTabs = !this.showProfileTabs;
-
+  
     if (this.showProfileTabs) {
       this.heading = 'User Profile';
-
-      if (this.router.url === '/account/notifications') {
+  
+      // Redirect to default profile tab if not already in profile routes
+      if (!this.profileRoutes.includes(this.router.url)) {
         this.router.navigate(['/account/user']);
       }
     }
   }
+  
 
   closeProfileTabs(): void {
     this.showProfileTabs = false;
