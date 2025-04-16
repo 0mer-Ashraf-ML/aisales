@@ -1,0 +1,36 @@
+.logo-wrapper {
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+@keyframes scrollLeft {
+  to {
+    left: -200px;
+  }
+}
+
+@keyframes scrollRight {
+  to {
+    right: -200px;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .logo-item {
+    @apply w-[200px] h-[100px] rounded-md absolute bg-contain bg-no-repeat bg-center;
+    animation-duration: 30s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .animate-scrollLeft {
+    animation-name: scrollLeft;
+  }
+
+  .animate-scrollRight {
+    animation-name: scrollRight;
+  }
+}
