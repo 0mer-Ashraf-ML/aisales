@@ -35,6 +35,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.commonSrv.isLoggedIn();
+    if(this.isLoggedIn){
+      this.menuItems.push({ label: 'Dashboard', route: '/account' })
+    }
   }
 
   
