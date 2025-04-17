@@ -219,8 +219,10 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
         },
       });
 
-    textarea.value = '';
-    this.onTextareaInput(textarea);
+      textarea.value = '';
+      this.onTextareaInput(textarea);
+      textarea.style.height = '48px'; // Reset to min height after submitting
+      textarea.style.overflowY = 'hidden'; // Also hide scroll if it was showing
   }
   onTextareaInput(textarea: HTMLTextAreaElement) {
     this.isTextareaEmpty = textarea.value.trim().length === 0;

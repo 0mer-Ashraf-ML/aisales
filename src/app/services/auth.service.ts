@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://api.baq.ai/api';
+  private apiUrl = 'https://api.sellersgpt.com/api';
   // private apiUrl = 'http://localhost:4000/api';
   private tokenKey = 'authToken';
   private userId = 'userId';

@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { prospects } from '../models/prospects.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatHistoryService {
-  private apiUrl = `https://ai.baq.ai`;
+  private apiUrl = `https://ai.sellersgpt.com`;
   // private apiUrl = 'http://localhost:4000/api';
 
   constructor(private http: HttpClient) {}

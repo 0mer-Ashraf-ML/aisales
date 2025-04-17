@@ -1,38 +1,38 @@
 <section class="px-[4%] sm:px-[6.3%] py-8 lg:py-10 dark:bg-black flex flex-col items-center text-center">
-    <img class="w-20 h-20 object-cover mb-4" src="profile.png" alt="img">
-    <h3 class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-2">Hi user, Welcome!</h3>
-    <h4 class="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-3">I'm your AI Sales Assistant</h4>
-    <p class="text-gray-600 dark:text-gray-400 max-w-lg mb-6">What can I help you sell today?</p>
-    <div class="flex flex-wrap justify-center items-center gap-3 w-full max-w-lg">
-      <input
-      type="text"
-      placeholder="Type your message here..."
-      [(ngModel)]="message"
-      (keydown.enter)="goToChatbot()"
-      class="flex-1 px-4 py-2 w-full md:w-auto text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400">
-    
+  <img class="w-20 h-20 object-cover mb-4" src="profile.png" alt="img">
+  <h3 class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-2">Hi user, Welcome!</h3>
+  <h4 class="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-3">I'm your AI Sales Assistant</h4>
+  <p class="text-gray-600 dark:text-gray-400 max-w-lg mb-6">What can I help you sell today?</p>
+  <div class="flex flex-wrap justify-center items-center gap-3 w-full max-w-lg">
+    <input
+    type="text"
+    placeholder="Type your message here..."
+    [(ngModel)]="message"
+    (keydown.enter)="goToChatbot()"
+    class="flex-1 px-4 py-2 w-full md:w-auto text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400">
+  
 
-  <button (click)="goToChatbot()" class="text-primary dark:text-primary hover:scale-105 text-4xl duration-300">
-    <i class="fa-solid fa-circle-arrow-right"></i>
-  </button>
-    </div>
-    <hr class="border border-gray-100 dark:border-gray-800 w-full sm:w-3/4 my-6">
-    <h4 class="text-lg md:text-xl font-medium text-gray-700 dark:text-gray-300 mb-5 w-3/4 text-left">Chatting History</h4>
-    
-    <!-- Show when there's no history -->
-    <p *ngIf="chatHistory.length === 0" class="text-gray-500 dark:text-gray-400 italic mb-4 w-3/4 text-left">
-      Currently, there is no chat history.
-    </p>
-    
-    <!-- Show history when available -->
-    <ul *ngFor="let history of chatHistory" class="list-disc w-3/4 text-left">
-      <a 
-        [routerLink]="['/chatbot']" 
-        [queryParams]="{ sessionId: history.session_id }" 
-        class="cursor-pointer">
-        <li class="text-gray-700 dark:text-gray-300 mb-2">
-          {{ history.last_message }}
-        </li>
-      </a>
-    </ul>
+<button (click)="goToChatbot()" class="text-primary dark:text-primary hover:scale-105 text-4xl duration-300">
+  <i class="fa-solid fa-circle-arrow-right"></i>
+</button>
+  </div>
+  <hr class="border border-gray-100 dark:border-gray-800 w-full sm:w-3/4 my-6">
+<h4 class="text-lg md:text-xl font-medium text-gray-700 dark:text-gray-300 mb-5 w-3/4 text-left">Chatting History</h4>
+
+<!-- Show when there's no history -->
+<p *ngIf="chatHistory.length === 0" class="text-gray-500 dark:text-gray-400 italic mb-4 w-3/4 text-left">
+  Currently, there is no chat history.
+</p>
+
+<!-- Show history when available -->
+<ul *ngFor="let history of chatHistory" class="list-disc w-3/4 text-left">
+  <a 
+    [routerLink]="['/chatbot']" 
+    [queryParams]="{ sessionId: history.session_id }" 
+    class="cursor-pointer">
+    <li class="text-gray-700 dark:text-gray-300 mb-2">
+      {{ history.last_message }}
+    </li>
+  </a>
+</ul>
 </section>
