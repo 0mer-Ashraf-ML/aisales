@@ -33,6 +33,6 @@ export class ClientsComponent {
   }
 
   getOffset(index: number, total: number): string {
-    return `max(calc(200px * ${total}), 100%)`;
+    return `max(calc(120px * ${total}), 100%)`; // Changed from 200px to 120px
   }
 }

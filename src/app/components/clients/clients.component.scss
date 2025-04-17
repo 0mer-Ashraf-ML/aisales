@@ -1,5 +1,5 @@
 .logo-item {
-  @apply w-[200px] h-[100px] rounded-md absolute bg-contain bg-no-repeat bg-center;
+  @apply w-[120px] h-[60px] rounded-md absolute bg-contain bg-no-repeat bg-center; /* Reduced by 40% from 200x100 to 120x60 */
   animation-duration: 30s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -13,6 +13,7 @@
     black 85%,
     transparent
   );
+  height: 60px; /* Reduced from 100px to match new logo height */
 }
 
 .animate-scrollLeft {
@@ -25,12 +26,12 @@
 
 @keyframes scrollLeft {
   to {
-    left: -200px;
+    left: -120px; /* Reduced from -200px to match new width */
   }
 }
 
 @keyframes scrollRight {
   to {
-    right: -200px;
+    right: -120px; /* Reduced from -200px to match new width */
   }
 }
