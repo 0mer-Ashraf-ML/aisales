@@ -17,10 +17,11 @@ import {
 } from '@stripe/stripe-js';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TypewriterDirective } from '../../directives/typewriter.directive';
 @Component({
   selector: 'app-pricing',
   standalone: true,
-  imports: [CommonModule, Cbutton1Component, MatIconModule, ToastrModule],
+  imports: [CommonModule, Cbutton1Component, MatIconModule, ToastrModule, TypewriterDirective],
   templateUrl: './pricing.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

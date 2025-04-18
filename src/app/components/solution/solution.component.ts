@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Cbutton1Component } from "../cbutton1/cbutton1.component";
 import { RouterLink } from '@angular/router';
+import { TypewriterDirective } from '../../directives/typewriter.directive';
 
 @Component({
   selector: 'app-solution',
   standalone: true,
-  imports: [CommonModule, Cbutton1Component, RouterLink],
+  imports: [CommonModule, Cbutton1Component, RouterLink, TypewriterDirective],
   templateUrl: './solution.component.html'
 })
 export class SolutionComponent {

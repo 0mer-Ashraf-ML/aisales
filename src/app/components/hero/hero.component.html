@@ -4,9 +4,13 @@
     <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
   </div>
   <div class="max-w-4xl text-center z-10 -mt-40">
-    <h1 class="text-gray-900 dark:text-gray-400 font-bold text-3xl xl:text-5xl">
-      <span class="text-primary text-4xl xl:text-6xl block mb-6">The First B2B AI Sales Agent</span>
-      You Only Pay for Quality Work
+    <h1>
+      <span
+      [appTypewriter]="'The First B2B AI Sales Agent'"
+      [text2]="'You Only Pay for Quality Work'"
+      [line1Class]="'text-primary text-4xl xl:text-6xl mb-6 block font-bold'"
+      [line2Class]="'text-gray-900 dark:text-gray-400 text-3xl xl:text-5xl mt-4 block font-bold'"
+    ></span>
     </h1>
     <div class="mt-20 flex justify-center">
       <app-cbutton1 btnText="Join Free Now" routerLink="/register" size="lg"></app-cbutton1>

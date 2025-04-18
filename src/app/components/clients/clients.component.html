@@ -1,8 +1,10 @@
 <section class="px-[4%] mx-auto py-6">
   <div class="mt-12 text-center">
-    <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl mb-20 font-bold">
-      Trusted by Fortune 500 leaders and small factories worldwide.
-    </h2>
+    <h2
+    [appTypewriter]="'Trusted by Fortune 500 leaders and small factories worldwide.'"
+    [line1Class]="'text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl mb-20 font-bold block text-center'"
+  >
+  </h2>
 
     <!-- First row of logos -->
     <div class="logo-wrapper bg-white dark:bg-gray-700 mt-8 relative w-full h-[100px] overflow-hidden mask-image[linear-gradient(to_right, transparent, black_15%, black_85%, transparent)]">

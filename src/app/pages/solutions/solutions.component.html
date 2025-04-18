@@ -1,50 +1,51 @@
 <section class="relative px-4 sm:px-6 md:px-12 xl:px-24 py-16 space-y-24 dark:bg-black bg-white">
 
-    <!-- Hero Section -->
-    <div class="overflow-hidden grid place-items-center h-screen">
-      <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
-        <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
-        <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
-      </div>
-      <div class="max-w-4xl text-center z-10 -mt-60">
-        <h1 class="text-gray-900 dark:text-gray-400 font-bold text-3xl xl:text-5xl">
-          Pay for Quality Work, NOT Software
-        </h1>
-        <div class="mt-10 flex justify-center">
-          <app-cbutton1 btnText="Join Free Now" routerLink="/register" size="lg"></app-cbutton1>
-        </div>
+  <!-- Hero Section -->
+  <div class="overflow-hidden grid place-items-center h-screen">
+    <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
+      <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
+      <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
+    </div>
+    <div class="max-w-4xl text-center z-10 -mt-60">
+      <h1 [appTypewriter]="'Pay for Quality Work, NOT Software'"
+        [line1Class]="'text-gray-900 dark:text-gray-400 font-bold text-3xl xl:text-5xl'">
+
+      </h1>
+      <div class="mt-10 flex justify-center">
+        <app-cbutton1 btnText="Join Free Now" routerLink="/register" size="lg"></app-cbutton1>
       </div>
     </div>
-  
-    <!-- Applications Grid -->
-    <div class="space-y-12">
-      <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10">
-        Your Goals, Our Drive
-      </h2>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div *ngFor="let application of applications"
-          class="w-full p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg transition-transform duration-300 bg-white dark:bg-gray-800 hover:scale-[1.02]">
-          <div class="relative overflow-hidden rounded-xl mb-4 h-40">
-            <img src="ai-sales.avif" alt="application image" loading="lazy"
-              class="h-full w-full object-cover object-top transition-transform duration-500 ease-in-out group-hover:scale-105" />
-          </div>
-          <p class="text-center text-gray-700 dark:text-gray-300 text-lg font-medium">{{ application.desc }}</p>
-        </div>
-      </div>
-    </div>
-  
- <!-- Steps Section -->
-<div class="space-y-10">
-    <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10">
-      How it works?
+  </div>
+
+  <!-- Applications Grid -->
+  <div class="space-y-12">
+    <h2 [appTypewriter]="'Your Goals, Our Drive'"
+      [line1Class]="'text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10'">
     </h2>
-  
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div *ngFor="let application of applications"
+        class="w-full p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg transition-transform duration-300 bg-white dark:bg-gray-800 hover:scale-[1.02]">
+        <div class="relative overflow-hidden rounded-xl mb-4 h-40">
+          <img src="ai-sales.avif" alt="application image" loading="lazy"
+            class="h-full w-full object-cover object-top transition-transform duration-500 ease-in-out group-hover:scale-105" />
+        </div>
+        <p class="text-center text-gray-700 dark:text-gray-300 text-lg font-medium">{{ application.desc }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Steps Section -->
+  <div class="space-y-10">
+    <h2 [appTypewriter]="' How it works?'"
+      [line1Class]="'text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10'">
+    </h2>
+
     <ng-container *ngFor="let step of steps">
       <!-- Step Title Centered -->
       <h3 class="text-left text-xl sm:text-2xl font-semibold text-gray-700 dark:text-gray-400">
         {{ step.heading }}
       </h3>
-  
+
       <!-- Image + Text Block -->
       <div class="flex flex-col md:flex-row items-start gap-10">
         <!-- Image Block -->
@@ -52,11 +53,11 @@
           <img src="ai-sales.avif" alt="AI Sales Agent" loading="lazy"
             class="rounded-xl shadow-md object-cover w-full" />
         </div>
-  
+
         <!-- Text Block -->
         <div class="w-full md:w-4/5 space-y-5 text-gray-700 dark:text-gray-300">
           <p class="text-base md:text-lg leading-relaxed" *ngIf="step.text">{{ step.text }}</p>
-  
+
           <!-- Points with special case for 'Two-Tier Validation' -->
           <ol *ngIf="step.points?.length" class="list-decimal pl-5 space-y-2">
             <li *ngFor="let point of step.points">
@@ -65,14 +66,14 @@
               </ng-container>
             </li>
           </ol>
-  
+
           <ng-template #twoTierBlock>
             Two-Tier Validation:
             <ul class="list-disc pl-5 mt-2 space-y-1">
               <li *ngFor="let sub of step.subPoints">{{ sub }}</li>
             </ul>
           </ng-template>
-  
+
           <!-- Billing Logic -->
           <div *ngIf="step.billingLogic?.length">
             <h4 class="font-semibold text-gray-700 dark:text-gray-400 mt-4">Billing Logic:</h4>
@@ -80,7 +81,7 @@
               <li *ngFor="let item of step.billingLogic">{{ item }}</li>
             </ul>
           </div>
-  
+
           <!-- Optional Note -->
           <div *ngIf="step.note" class=" pl-4 text-sm italic text-gray-700 dark:text-gray-300 mt-2">
             {{ step.note }}
@@ -89,36 +90,37 @@
       </div>
     </ng-container>
   </div>
-  
-    <!-- Revolutionize Section -->
-    <div class="text-center space-y-8">
-      <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10">
-        Revolutionize Your Global Business with <span class="text-primary">SellersGPT</span>
-      </h2>
-      <div class="flex flex-col-reverse md:flex-row-reverse items-center gap-10 text-gray-600 dark:text-gray-300">
-        <!-- Text Block -->
-        <div class="w-full md:w-7/12 space-y-5 text-left">
-          <p class="text-base md:text-lg leading-relaxed">
-            Accelerate your global business growth with <strong class="text-primary">SellersGPT</strong> — an innovative
-            AI-driven solution that transforms your sales processes. Predict customer needs, close deals faster, and expand into
-            new markets with actionable insights and automation.
-          </p>
-          <p class="text-base md:text-lg leading-relaxed">
-            Redefine efficiency and profitability today with <strong class="text-primary">SellersGPT</strong>. Start now and unlock
-            your business’s full potential.
-          </p>
-          <div class="mt-5">
-            <app-cbutton1 btnText="Launch Your Project Now" routerLink="/register"></app-cbutton1>
-          </div>
-        </div>
-  
-        <!-- Image Block -->
-        <div class="w-full md:w-5/12">
-          <img src="ai-sales.avif" alt="AI Sales Agent" loading="lazy"
-            class="rounded-xl shadow-md object-cover w-full" />
+
+  <!-- Revolutionize Section -->
+  <div class="text-center space-y-8">
+    <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl text-center font-bold mb-10">
+      <span [appTypewriter]="'Revolutionize Your Global Business with'" [text2]="'SellersGPT'" [line1Class]="'inline'"
+        [line2Class]="'inline ml-2 text-primary'"></span>
+    </h2>
+    <div class="flex flex-col-reverse md:flex-row-reverse items-center gap-10 text-gray-600 dark:text-gray-300">
+      <!-- Text Block -->
+      <div class="w-full md:w-7/12 space-y-5 text-left">
+        <p class="text-base md:text-lg leading-relaxed">
+          Accelerate your global business growth with <strong class="text-primary">SellersGPT</strong> — an innovative
+          AI-driven solution that transforms your sales processes. Predict customer needs, close deals faster, and
+          expand into
+          new markets with actionable insights and automation.
+        </p>
+        <p class="text-base md:text-lg leading-relaxed">
+          Redefine efficiency and profitability today with <strong class="text-primary">SellersGPT</strong>. Start now
+          and unlock
+          your business’s full potential.
+        </p>
+        <div class="mt-5">
+          <app-cbutton1 btnText="Launch Your Project Now" routerLink="/register"></app-cbutton1>
         </div>
       </div>
+
+      <!-- Image Block -->
+      <div class="w-full md:w-5/12">
+        <img src="ai-sales.avif" alt="AI Sales Agent" loading="lazy" class="rounded-xl shadow-md object-cover w-full" />
+      </div>
     </div>
-  
-  </section>
-  
+  </div>
+
+</section>
