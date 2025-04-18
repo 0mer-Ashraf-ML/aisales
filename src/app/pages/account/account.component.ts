@@ -39,7 +39,9 @@ export class AccountComponent {
   }
 
   private setHeading(url: string): void {
-    if (this.profileRoutes.some(route => url.startsWith(route))) {
+    if (url === '/account') {
+      this.heading = ''; // Special case: show logo instead of text
+    } else if (this.profileRoutes.some(route => url.startsWith(route))) {
       this.heading = 'User Profile';
     } else {
       const matched = Object.keys(this.routesMap).find(path => url.startsWith(path));

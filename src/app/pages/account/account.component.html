@@ -6,13 +6,9 @@
     </a>
     <nav class="space-y-4">
       <ng-container *ngFor="let item of sidebarItems">
-        <a
-          (click)="navigateAndSetTitle(item.route)"
-          routerLink="/account/{{ item.route }}"
-          routerLinkActive="text-primary dark:text-primary font-semibold"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="flex items-center space-x-3 text-xl text-gray-700 dark:text-gray-300 hover:text-primary cursor-pointer"
-        >
+        <a (click)="navigateAndSetTitle(item.route)" routerLink="/account/{{ item.route }}"
+          routerLinkActive="text-primary dark:text-primary font-semibold" [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center space-x-3 text-xl text-gray-700 dark:text-gray-300 hover:text-primary cursor-pointer">
           <i class="fa-solid" [ngClass]="item.icon"></i>
           <span>{{ item.label }}</span>
         </a>
@@ -24,9 +20,17 @@
   <main class="flex-1 pl-64 overflow-y-auto p-6">
     <!-- Header -->
     <div class="flex justify-between items-center gap-2 text-white px-10">
-      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-400">{{ heading }}</h1>
+      <div class="text-2xl font-bold text-gray-900 dark:text-gray-400">
+        <a *ngIf="heading === ''" routerLink="/" aria-label="Back to Home">
+          <img src="logo-light.png" alt="logo-light" class="w-10 sm:w-40 block dark:hidden">
+          <img src="logo-dark.png" alt="logo-dark" class="w-30 sm:w-40 hidden dark:block">
+        </a>
+        <span *ngIf="heading !== ''">{{ heading }}</span>
+      </div>
+
       <div class="flex items-center gap-4 text-4xl">
-        <i class="fa-solid fa-bell text-gray-900 dark:text-gray-400 cursor-pointer" (click)="navigateAndSetTitle('notifications')"></i>
+        <i class="fa-solid fa-bell text-gray-900 dark:text-gray-400 cursor-pointer"
+          (click)="navigateAndSetTitle('notifications')"></i>
         <img class="w-14 object-cover mb-4 cursor-pointer" src="profile.png" alt="img" (click)="toggleProfileTabs()" />
       </div>
     </div>
@@ -37,12 +41,10 @@
     <div *ngIf="showProfileTabs" class="mt-4">
       <nav class="border-b border-gray-300 dark:border-gray-700 flex space-x-8 px-10">
         <ng-container *ngFor="let tab of profileTabs">
-          <a
-            routerLink="/account/{{ tab.route }}"
+          <a routerLink="/account/{{ tab.route }}"
             routerLinkActive="text-primary dark:text-primary border-b-2 border-primary font-bold"
             [routerLinkActiveOptions]="{ exact: true }"
-            class="pb-2 text-gray-700 dark:text-gray-300 border-b-2 border-transparent hover:text-primary"
-          >
+            class="pb-2 text-gray-700 dark:text-gray-300 border-b-2 border-transparent hover:text-primary">
             {{ tab.label }}
           </a>
         </ng-container>
@@ -50,13 +52,13 @@
     </div>
 
     <!-- Routed Content -->
-<div *ngIf="!showProfileTabs">
-  <router-outlet></router-outlet>
-</div>
+    <div *ngIf="!showProfileTabs">
+      <router-outlet></router-outlet>
+    </div>
 
-<div *ngIf="showProfileTabs">
-  <router-outlet></router-outlet>
-</div>
+    <div *ngIf="showProfileTabs">
+      <router-outlet></router-outlet>
+    </div>
 
   </main>
 </div>

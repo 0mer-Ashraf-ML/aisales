@@ -1,27 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // ✅ For ngModel
+import { FormsModule } from '@angular/forms';
 import { LatestChatService } from '../../services/latestChat.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ai-agent',
   standalone: true,
-  imports: [CommonModule, FormsModule], // ✅ Add FormsModule
+  imports: [CommonModule, FormsModule],
   templateUrl: './ai-agent.component.html',
 })
 export class AiAgentComponent implements OnInit {
   latestChat: any[] = [];
   sessionId: string = '';
-  userInput: string = ''; // ✅ Store input
+  userInput: string = '';
 
-  constructor(private router: Router, private srv: LatestChatService) {}
+  constructor(
+    private router: Router,
+    private srv: LatestChatService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
-    this.srv.getLatestChat().subscribe((data) => {
-      console.log(data);
-      this.latestChat = data.conversation;
-      this.sessionId = data.session_id; // ✅ Store session ID
+    this.srv.getLatestChat().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.latestChat = data.conversation;
+        this.sessionId = data.session_id;
+        this.toastr.success('Conversation loaded successfully!', 'Success');
+      },
+      error: (error) => {
+        console.error('Error fetching latest chat:', error);
+        this.toastr.error('Failed to load chat conversation', 'Error');
+      },
     });
   }
 
