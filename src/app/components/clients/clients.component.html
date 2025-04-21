@@ -10,7 +10,7 @@
     <div class="logo-wrapper bg-white dark:bg-gray-700 mt-8 relative w-full h-[100px] overflow-hidden mask-image[linear-gradient(to_right, transparent, black_15%, black_85%, transparent)]">
       <ng-container *ngFor="let img of row1; let i = index">
         <div
-          class="logo-item animate-scrollLeft"
+          class="logo-item animate-scrollLeft absolute bg-contain bg-no-repeat bg-center"
           [style.left]="getOffset(i, row1.length)"
           [style.animationDelay]="getDelay(i, row1.length)"
           [style.backgroundImage]="'url(' + img + ')'">

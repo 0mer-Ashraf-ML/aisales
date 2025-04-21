@@ -1,5 +1,10 @@
 .logo-item {
-  @apply w-[120px] h-[60px] rounded-md absolute bg-contain bg-no-repeat bg-center; /* Reduced by 40% from 200x100 to 120x60 */
+  @apply w-[120px] h-[60px];
+  border-radius: 0.375rem; /* equivalent to rounded-md */
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   animation-duration: 30s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
