@@ -119,4 +119,5 @@ export class RegisterComponent {
     }
   }
   
+  benefits: any[] = ['More qualified leads from every conversation', 'Less time spent on manual prospecting', 'Larger deals with AI-powered insights'];
 }

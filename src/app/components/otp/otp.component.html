@@ -1,4 +1,4 @@
-<section class="px-[2%] lg:px-[9%] py-4 sm:grid sm:place-items-center min-h-full dark:bg-black relative">
+<section class="px-[2%] lg:px-[9%] py-4 grid place-items-center min-h-full dark:bg-black relative">
     <div class="flex flex-col items-center p-6 rounded-2xl sm:shadow-2xl bg-white dark:bg-gray-800">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Check Your Email</h1>
         <p class="mt-2 text-gray-700 dark:text-gray-300 text-center">
@@ -22,12 +22,12 @@
             </button>
         </form>
 
-        <!-- <p class="text-center mt-6 text-gray-700 dark:text-gray-300">
+        <p class="text-center mt-6 text-gray-700 dark:text-gray-300">
             Haven't received the email yet?
             <button class="text-primary hover:underline transition-all duration-300" (click)="resendOtp()"
                 [disabled]="!canResend">
                 Resend email ({{ countdown }}s)
             </button>
-        </p> -->
+        </p>
     </div>
 </section>

@@ -21,7 +21,7 @@
   <!-- Show history when available -->
   <ul *ngFor="let history of chatHistory" class="list-disc w-3/4 text-left">
     <a [routerLink]="['/chatbot']" [queryParams]="{ sessionId: history.session_id }" class="cursor-pointer">
-      <li class="text-gray-700 dark:text-gray-300 mb-2">
+      <li appSlideUp class="text-gray-700 dark:text-gray-300 mb-2">
         {{ history.last_message }}
       </li>
     </a>

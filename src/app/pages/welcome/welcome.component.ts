@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ChatHistoryService } from '../../services/chatHistory.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { SlideUpDirective } from '../../directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink, SlideUpDirective],
   templateUrl: './welcome.component.html',
 })
 export class WelcomeComponent implements OnInit {

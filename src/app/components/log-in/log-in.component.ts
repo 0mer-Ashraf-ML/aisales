@@ -59,23 +59,23 @@ export class LogInComponent {
 
   onSubmit(event: Event): void {
     event.preventDefault();
-  
+
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       this.toastr.error('Please fix the errors in the form.', 'Invalid Input');
       return;
     }
-  
+
     this.isLoading = true;
     this.loginError = null;
-  
+
     const { email, password } = this.loginForm.value;
-  
+
     this.authService.login(email, password).subscribe({
       next: (data) => {
         this.isLoading = false;
         localStorage.setItem('authToken', data.data.accessToken.access_token);
-        console.log(data.data)
+        console.log(data.data);
         localStorage.setItem('userId', data.data.user.id);
         this.toastr.success('Login successful!', 'Welcome');
         this.router.navigate(['/account']);
@@ -83,16 +83,14 @@ export class LogInComponent {
       error: (error) => {
         this.isLoading = false;
         this.loginError = 'Login failed. Please check your credentials.';
-        if(error.error){
+        if (error.error) {
           this.toastr.error(error.error.message, 'Error');
-        }
-        else{
+        } else {
           this.toastr.error(error.message, 'Error');
         }
-      }
+      },
     });
   }
-  
 
   get email() {
     return this.loginForm.get('email');
@@ -101,4 +99,6 @@ export class LogInComponent {
   get password() {
     return this.loginForm.get('password');
   }
+
+  benefits: any[] = ['Identifies high-intent prospects in real-time', 'Generates qualified leads from conversations', 'Helps close deals faster'];
 }
