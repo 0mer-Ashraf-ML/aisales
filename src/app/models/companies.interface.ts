@@ -10,5 +10,6 @@ export interface company {
     preferred_contact_department?: string[];
     preferred_industry_keywords?: string[];
     tech_stack?: string[];
+    session_id?: string;
   }
   

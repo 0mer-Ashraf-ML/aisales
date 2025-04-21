@@ -68,7 +68,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
           this.chathistorySrv.getSpecificChatHistory(this.sessionId).subscribe(
             (data) => {
               this.conversation = data.conversation;
-              if (data.prospect_output) {
+              if (data.company_id) {
+                this.companyId = data.company_id
                 this.showProspects = true;
               }
             },
@@ -152,13 +153,14 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
       })
       .subscribe({
         next: (data) => {
-          console.log(data);
           this.conversation = data.conversation;
           this.prospects = data.prospect_output;
-
+          
           if (this.prospects != null) {
             try {
-              this.companysrv.postCompany(data.standardized_json).subscribe({
+              const std = data.standardized_json
+              const comp = {...std, session_id: this.sessionId};
+              this.companysrv.postCompany(comp).subscribe({
                 next: (company) => {
                   console.log('Company: ', company);
                   this.companyId = company.data.id;

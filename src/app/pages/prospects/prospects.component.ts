@@ -15,7 +15,7 @@ import { Cbutton1Component } from "../../components/cbutton1/cbutton1.component"
 export class ProspectsComponent implements OnInit {
   prospects: any[] = [];
 
-  constructor(private prospectStore: ProspectsStore, private prospectsService: ProspectsService, private route: ActivatedRoute){};
+  constructor(private prospectsService: ProspectsService, private route: ActivatedRoute){};
 
   ngOnInit(): void {
     // Retrieve the company_id from the query parameters
@@ -28,9 +28,10 @@ export class ProspectsComponent implements OnInit {
   }
 
   fetchProspects(companyId: string): void {
+    console.log("Company Id: ",companyId)
     this.prospectsService.getProspects(companyId).subscribe(
       (data) => {
-        this.prospects = data.data;  // Assign the fetched data to the prospects array
+        this.prospects = data.data;
       },
       (error) => {
         console.error('Error fetching prospects:', error);
