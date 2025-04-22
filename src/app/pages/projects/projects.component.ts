@@ -13,6 +13,9 @@ import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component'
 })
 export class ProjectsComponent implements OnInit {
   companies: any = [];
+  today = new Date();
+    /** holds the company.id of the expanded card, or null if none */
+    expandedCompanyId: number | null = null;
   
     constructor(private companyStore: CompanyStore, private companyService: CompanyService){};
   
@@ -24,8 +27,21 @@ export class ProjectsComponent implements OnInit {
         console.log("fdgdfgd ",this.companies)
       })
     }
+
+    getDaysRunning(createdAt: string | Date): number {
+      const start = new Date(createdAt);
+      // difference in milliseconds
+      const diffMs = this.today.getTime() - start.getTime();
+      // convert to days
+      return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    }
+
   isExpanded: boolean = false;
-  
+  toggleExpand(companyId: number) {
+    // if clicking the same card, close it; otherwise open the new one
+    this.expandedCompanyId = this.expandedCompanyId === companyId ? null : companyId;
+  }
+
 details:any[] = [
   {
     title: 'New Visitors',
