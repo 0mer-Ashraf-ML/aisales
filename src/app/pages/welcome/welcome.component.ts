@@ -35,7 +35,7 @@ export class WelcomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching chat history:', error);
-        this.toastr.error('Failed to load chat history', 'Error');
+        // this.toastr.error('Failed to load chat history', 'Error');
       }
     });
   }
