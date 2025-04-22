@@ -1,53 +1,91 @@
-import { Injectable } from '@angular/core';
+import { Injectable,inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://api.sellersgpt.com/api';
-  // private apiUrl = 'http://localhost:4000/api';
+  private commonSrv = inject(CommonService);
+  private api = '';
+
   private tokenKey = 'authToken';
   private userId = 'userId';
-  private userSubject = new BehaviorSubject<any>(null); 
+  private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
-                                                                                                                                                                                                                
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+    this.api = this.commonSrv.config.Api;
+  }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, { email: email, password }).pipe(
-      tap((response) => {
-        console.log("In login",response);
-        localStorage.setItem("userId", response.data.user.id);
-        if (response.data.accessToken.access_token) {
-          localStorage.setItem(this.tokenKey, response.data.accessToken.access_token);
-          localStorage.setItem("stripeId", response.data.user.stripe_customer_id);
-          this.getUserDetails().subscribe();
-        }
-      })
-    );
+    return this.http
+      .post<any>(`${this.api}/auth/login`, { email: email, password })
+      .pipe(
+        tap((response) => {
+          console.log('In login', response);
+          localStorage.setItem('userId', response.data.user.id);
+          if (response.data.accessToken.access_token) {
+            localStorage.setItem(
+              this.tokenKey,
+              response.data.accessToken.access_token
+            );
+            localStorage.setItem(
+              'stripeId',
+              response.data.user.stripe_customer_id
+            );
+            this.getUserDetails().subscribe();
+          }
+        })
+      );
   }
 
   register(fullname: string, email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/register`, { fullname,email, password });
+    return this.http.post<any>(`${this.api}/auth/register`, {
+      fullname,
+      email,
+      password,
+    });
   }
 
-  verifyOtp(otpCode: string, email: string,type:string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/verify-otp`, { email, otpCode, type });
+  verifyOtp(otpCode: string, email: string, type: string): Observable<any> {
+    return this.http.post<any>(`${this.api}/auth/verify-otp`, {
+      email,
+      otpCode,
+      type,
+    });
   }
 
   forgotPassword(email: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/forgot-password`, { email });
+    return this.http.post<any>(`${this.api}/auth/forgot-password`, {
+      email,
+    });
   }
 
-  resetPassword(email: string, otpCode: string, newPassword: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/reset-password`, { email, otpCode, newPassword });
+  resetPassword(
+    email: string,
+    otpCode: string,
+    newPassword: string
+  ): Observable<any> {
+    return this.http.post<any>(`${this.api}/auth/reset-password`, {
+      email,
+      otpCode,
+      newPassword,
+    });
   }
 
-  stripePaymentIntent(amount: number, currency: string, customerId?: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/payment/create-payment-intent`, { amount,currency, customerId });
+  stripePaymentIntent(
+    amount: number,
+    currency: string,
+    customerId?: string
+  ): Observable<any> {
+    return this.http.post<any>(`${this.api}/payment/create-payment-intent`, {
+      amount,
+      currency,
+      customerId,
+    });
   }
 
   getUserDetails(): Observable<any> {
@@ -58,9 +96,9 @@ export class AuthService {
     //   Authorization: `Bearer ${token}`,
     // });
 
-    console.log('api')
+    console.log('api');
 
-    return this.http.get<any>(`${this.apiUrl}/me`).pipe(
+    return this.http.get<any>(`${this.api}/me`).pipe(
       tap((user) => {
         this.userSubject.next(user);
       })

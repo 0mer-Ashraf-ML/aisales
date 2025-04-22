@@ -1,31 +1,33 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { prospects } from '../models/prospects.interface';
 import { company } from '../models/companies.interface';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyService {
-  private apiUrl = 'https://api.sellersgpt.com/api';
-  // private apiUrl = 'http://localhost:4000/api';
-
-  constructor(private http: HttpClient) {}
+  private commonSrv = inject(CommonService);
+    private api = '';
+  
+    constructor(private http: HttpClient) {
+      this.api = this.commonSrv.config.Api;
+    }
 
   postCompany(data: company): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/companies`, data);
+    return this.http.post<any>(`${this.api}/companies`, data);
   }
 
   getCompanies(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/companies`);
+    return this.http.get<any>(`${this.api}/companies`);
   }
 
   updateCompany(id: any, data: company): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/companies/${id}`, data);
+    return this.http.put<any>(`${this.api}/companies/${id}`, data);
   }
 
   deleteCompany(id: any): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/companies/${id}`);
+    return this.http.delete<any>(`${this.api}/companies/${id}`);
   }
 }

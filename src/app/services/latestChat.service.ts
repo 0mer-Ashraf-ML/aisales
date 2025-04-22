@@ -1,19 +1,22 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LatestChatService {
-  private apiUrl = `https://ai.sellersgpt.com`;
-  // private apiUrl = 'http://localhost:4000/api';
+  private commonSrv = inject(CommonService);
+  private ai = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.ai = this.commonSrv.config.Ai;
+  }
 
   getLatestChat(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/user/${localStorage.getItem('userId')}/latest-conversation`
+      `${this.ai}/user/${localStorage.getItem('userId')}/latest-conversation`
     );
   }
 }

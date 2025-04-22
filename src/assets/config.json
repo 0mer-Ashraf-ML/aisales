@@ -1,3 +1,4 @@
 {
-  "Api": "https://ai.sellersgpt.com"
+  "Ai": "https://ai.sellersgpt.com",
+  "Api": "https://api.sellersgpt.com/api"
 }
