@@ -15,6 +15,12 @@ body {
   height: 100%;
 }
 
+//for prospect scrolling
+html, body {
+  overflow: auto !important;
+  height: auto !important;
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;

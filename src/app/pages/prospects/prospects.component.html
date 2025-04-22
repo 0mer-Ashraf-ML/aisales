@@ -1,29 +1,28 @@
-<section class="px-[4%] py-12 bg-gray-100 dark:bg-black antialiased min-h-screen">
+<section id="prospect-wrapper" class="px-[4%] py-12 bg-gray-100 dark:bg-black antialiased">
   <div class="mb-5">
 
-    <app-cbutton1  routerLink="/account/projects" btnText="Go Back"></app-cbutton1>
+    <app-cbutton1 routerLink="/account/projects" btnText="Go Back"></app-cbutton1>
   </div>
   <div *ngIf="!prospects" class="flex flex-col  gap-6 items-center py-6 dark:text-gray-300">
     No prospects!! Go to chat and ganarate prospects.
     <app-cbutton2 btnText="Go to chat" routerLink="/chatbot"></app-cbutton2>
   </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <a routerLink="/pricing" 
-        *ngFor="let prospect of prospects" 
-        class="group p-6 border border-gray-200 dark:border-gray-700 shadow-md bg-white dark:bg-gray-800 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105">
-  
-        <!-- Name & Title -->
-        <div class="text-center mb-4">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ prospect.name }}</h2>
-          <h2 class="font-semibold text-gray-900 dark:text-white my-2">{{ prospect.title }}</h2>
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ prospect.company_name }}</h2>
-          <!-- <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400 ">{{ prospect.current_title }}</h3> -->
-        </div>
-  
-        <!-- <hr class="border-gray-100 dark:border-gray-800"/> -->
-        <!-- Company -->
-        <!-- <p class="text-base font-medium text-gray-900 dark:text-white text-center my-1">{{ prospect.current_employer }}</p> -->
-        <!-- <div class="flex justify-center items-center gap-2 mb-3">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <a routerLink="/pricing" *ngFor="let prospect of prospects"
+      class="group p-6 border border-gray-200 dark:border-gray-700 shadow-md bg-white dark:bg-gray-800 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105">
+
+      <!-- Name & Title -->
+      <div class="text-center mb-4">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ prospect.name }}</h2>
+        <h2 class="font-semibold text-gray-900 dark:text-white my-2">{{ prospect.title }}</h2>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ prospect.company_name }}</h2>
+        <!-- <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400 ">{{ prospect.current_title }}</h3> -->
+      </div>
+
+      <!-- <hr class="border-gray-100 dark:border-gray-800"/> -->
+      <!-- Company -->
+      <!-- <p class="text-base font-medium text-gray-900 dark:text-white text-center my-1">{{ prospect.current_employer }}</p> -->
+      <!-- <div class="flex justify-center items-center gap-2 mb-3">
           <a *ngIf="prospect.current_employer_website" 
              [href]="prospect.current_employer_website" target="_blank" 
              class="text-blue-600 dark:text-blue-400 text-lg">
@@ -35,35 +34,45 @@
             <i class="fa-brands fa-linkedin"></i>
           </a>
         </div> -->
-  
-        <!-- Location -->
-        <!-- <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ prospect.location }}</p> -->
-  
-        <!-- <hr class="border-gray-100 dark:border-gray-800"/> -->
-        <!-- Email Section -->
-        <!-- <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">Email</h4> -->
-        <!-- <div class="flex flex-wrap gap-3 mt-1">
+
+      <!-- Location -->
+      <!-- <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ prospect.location }}</p> -->
+
+      <!-- <hr class="border-gray-100 dark:border-gray-800"/> -->
+      <!-- Email Section -->
+      <!-- <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">Email</h4> -->
+      <!-- <div class="flex flex-wrap gap-3 mt-1">
           <a *ngFor="let email of prospect.emails" 
              [href]="'mailto:' + email" 
              class="relative inline-flex w-full items-center justify-center px-2 py-1 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max">
              <span class="relative text-sm text-primary dark:text-white">{{ email }}</span>
           </a>
         </div> -->
-  
-        <!-- Phone Section -->
-        <!-- <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mt-3">Phone</h4> -->
-        <!-- <div class="flex flex-wrap gap-2 mt-1">
+
+      <!-- Phone Section -->
+      <!-- <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mt-3">Phone</h4> -->
+      <!-- <div class="flex flex-wrap gap-2 mt-1">
           <a *ngFor="let phone of prospect.phones" 
              [href]="'tel:' + phone" 
              class="relative flex w-full items-center justify-center px-2 py-1 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max">
              <span class="relative text-sm font-semibold text-white">{{ phone }}</span>
           </a>
         </div> -->
-        <p class="flex items-center justify-between text-primary cursor-pointer">
-          <span>Read more</span>
-          <i class="fa-solid fa-arrow-right -translate-x-4 text-2xl opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 ease-in-out"></i>
+      <p class="flex items-center justify-between text-primary cursor-pointer">
+        <span>Read more</span>
+        <i
+          class="fa-solid fa-arrow-right -translate-x-4 text-2xl opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 ease-in-out"></i>
       </p>
-      </a>
-    </div>
-  </section>
-  
+    </a>
+  </div>
+  <div class="fixed bottom-5 right-5 z-50 transition-all duration-300 ease-in-out"
+     [class.opacity-0]="!showScrollButton"
+     [class.invisible]="!showScrollButton"
+     [class.transform]="!showScrollButton"
+     [class.translate-y-4]="!showScrollButton">
+  <button (click)="scrollToTop()"
+    class="h-11 text-sm px-4 lg:px-6 flex items-center justify-center rounded-full bg-primary text-white font-medium lg:font-semibold transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+    Scroll To Top
+  </button>
+</div>
+</section>
