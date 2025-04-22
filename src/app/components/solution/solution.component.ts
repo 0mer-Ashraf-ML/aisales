@@ -11,6 +11,7 @@ import { TypewriterDirective } from '../../directives/typewriter.directive';
   templateUrl: './solution.component.html'
 })
 export class SolutionComponent {
+  
 features:any[] = [
   {icon: 'fa-check', desc: 'No Budget of Commitments'},
   {icon: 'fa-check',  desc: 'No Monthly / Annual Software Charge'},

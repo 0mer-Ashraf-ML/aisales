@@ -5,6 +5,8 @@ import { ChatHistoryService } from '../../services/chatHistory.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { SlideUpDirective } from '../../directives/scroll-animate.directive';
+import { CommonService } from '../../services/common.service';
+import { IUser } from '../../models/user.interface';
 
 @Component({
   selector: 'app-welcome',
@@ -15,14 +17,17 @@ import { SlideUpDirective } from '../../directives/scroll-animate.directive';
 export class WelcomeComponent implements OnInit {
   message: string = '';
   chatHistory: any[] = [];
+  user!: IUser;
 
   constructor(
     private router: Router,
     private srv: ChatHistoryService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private commonSrv: CommonService
   ) {}
 
   ngOnInit(): void {
+    this.user = this.commonSrv.getUser()!;
     this.srv.getChatHistory().subscribe({
       next: (data: { sessions: any[] }) => {
         this.chatHistory = data.sessions;

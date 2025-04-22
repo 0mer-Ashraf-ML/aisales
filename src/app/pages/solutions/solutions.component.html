@@ -11,9 +11,12 @@
         [line1Class]="'text-gray-900 dark:text-gray-400 font-bold text-3xl xl:text-5xl'">
 
       </h1>
-      <div class="mt-10 flex justify-center">
-        <app-cbutton1 btnText="Join Free Now" routerLink="/register" size="lg"></app-cbutton1>
-      </div>
+      <button
+        (click)="navigateToDashboardOrRegister()"
+        class="relative h-16 text-lg px-6 lg:px-8 flex mx-auto mt-10 w-full sm:w-max items-center justify-center rounded-full bg-primary text-white font-medium lg:font-semibold transition duration-300 hover:scale-105 active:scale-95"
+      >
+      {{ isLoggedIn ? 'Dashboard' : 'Join Free Now' }}
+      </button>
     </div>
   </div>
 
@@ -111,9 +114,12 @@
           and unlock
           your business’s full potential.
         </p>
-        <div class="mt-5">
-          <app-cbutton1 btnText="Launch Your Project Now" routerLink="/register"></app-cbutton1>
-        </div>
+        <button
+        (click)="navigateToDashboardOrRegister()"
+        class="relative h-11 text-sm px-4 lg:px-6 flex mt-5 w-full sm:w-max items-center justify-center rounded-full bg-primary text-white font-medium lg:font-semibold transition duration-300 hover:scale-105 active:scale-95"
+      >
+      Launch Your Project Now
+      </button>
       </div>
 
       <!-- Image Block -->

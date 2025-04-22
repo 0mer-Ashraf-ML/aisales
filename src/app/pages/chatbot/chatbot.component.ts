@@ -137,6 +137,10 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
   async onSubmitAnswer(event: Event, textarea: HTMLTextAreaElement) {
     this.showProspects = false;
     const keyboardEvent = event as KeyboardEvent;

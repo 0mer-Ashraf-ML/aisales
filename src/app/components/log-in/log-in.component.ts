@@ -11,6 +11,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-log-in',
@@ -28,7 +29,8 @@ export class LogInComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private commonSrv: CommonService
   ) {
     this.loginForm = this.fb.group({
       // email: ['', [Validators.required, Validators.email]],
@@ -76,6 +78,7 @@ export class LogInComponent {
         this.isLoading = false;
         localStorage.setItem('authToken', data.data.accessToken.access_token);
         console.log(data.data);
+        this.commonSrv.setUser(data.data.user);
         localStorage.setItem('userId', data.data.user.id);
         this.toastr.success('Login successful!', 'Welcome');
         this.router.navigate(['/account']);

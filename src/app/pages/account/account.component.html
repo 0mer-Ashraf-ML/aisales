@@ -28,7 +28,15 @@
         <span *ngIf="heading !== ''">{{ heading }}</span>
       </div>
 
-      <div class="flex items-center gap-4 text-4xl">
+      <div class="flex items-center gap-6 text-4xl">
+        <div (click)="toggleTheme()" class="cursor-pointer w-full lg:w-auto">
+          <a
+            class="block w-full md:px-4 transition text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary cursor-pointer">
+            <span>
+              <i [ngClass]="isDarkMode ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"></i>
+            </span>
+          </a>
+        </div>
         <i class="fa-solid fa-bell text-gray-900 dark:text-gray-400 cursor-pointer"
           (click)="navigateAndSetTitle('notifications')"></i>
         <img class="w-14 object-cover mb-4 cursor-pointer" src="profile.png" alt="img" (click)="toggleProfileTabs()" />

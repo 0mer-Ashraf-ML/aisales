@@ -2,6 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { catchError, of } from "rxjs";
 import { IAppConfig } from "../models/app-config.interface";
+import { IUser } from "../models/user.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -19,15 +20,15 @@ export class CommonService {
         localStorage.setItem('authToken', token)
     }
 
-    // getUser(): IUser | null {
-    //     const user = localStorage.getItem('authUser');
-    //     if (!user) return null;
-    //     return JSON.parse(user);
-    // }
+    getUser(): IUser | null {
+        const user = localStorage.getItem('authUser');
+        if (!user) return null;
+        return JSON.parse(user);
+    }
 
-    // setUser(user: IUser) {
-    //     localStorage.setItem('authUser', JSON.stringify(user))
-    // }
+    setUser(user: IUser) {
+        localStorage.setItem('authUser', JSON.stringify(user))
+    }
 
     isLoggedIn(): boolean {
 
@@ -45,6 +46,7 @@ export class CommonService {
         localStorage.removeItem('userId')
         localStorage.removeItem('stripeId')
         localStorage.removeItem('sessionId')
+        localStorage.removeItem('authUser')
     }
 
     public getConfig() {

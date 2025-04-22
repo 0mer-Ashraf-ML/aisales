@@ -2,19 +2,20 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CommonService } from '../../services/common.service';
-import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [RouterLink, RouterModule, CommonModule, Cbutton1Component],
+  imports: [RouterLink, RouterModule, CommonModule,],
   templateUrl: './account.component.html',
 })
 export class AccountComponent {
   heading = 'AI Agent';
   showProfileTabs = false;
+  isDarkMode: boolean = false;
 
   readonly profileRoutes = ['/account/user', '/account/billing', '/account/wallet', '/account/invoice'];
 
@@ -26,7 +27,11 @@ export class AccountComponent {
     '/account/notifications': 'Notification',
   };
 
-  constructor(private commonSrv: CommonService, private router: Router) {
+  constructor(private commonSrv: CommonService, private router: Router, private themeService: ThemeService,) {
+    this.themeService.currentTheme.subscribe((theme) => {
+      this.isDarkMode = theme;
+    });
+    
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -68,7 +73,9 @@ export class AccountComponent {
     }
   }
   
-
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
   closeProfileTabs(): void {
     this.showProfileTabs = false;
   }

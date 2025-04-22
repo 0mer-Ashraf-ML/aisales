@@ -23,7 +23,12 @@
           Redefine efficiency and profitability today with <strong class="text-primary">SellersGPT</strong>.
           Start now and unlock your business’s full potential.
         </p>
-        <app-cbutton1 btnText="Launch Your Project Now" routerLink="/register"></app-cbutton1>
+        <button
+        (click)="navigateToDashboardOrRegister()"
+        class="relative h-11 text-sm px-4 lg:px-6 flex mt-10 w-full sm:w-max items-center justify-center rounded-full bg-primary text-white font-medium lg:font-semibold transition duration-300 hover:scale-105 active:scale-95"
+      >
+      Launch Your Project Now
+      </button>
       </div>
   
       <!-- Image Block -->

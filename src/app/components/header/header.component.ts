@@ -35,11 +35,18 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.commonSrv.isLoggedIn();
-    if(this.isLoggedIn){
-      this.menuItems.push({ label: 'Dashboard', route: '/account' })
-    }
+    // if(this.isLoggedIn){
+    //   this.menuItems.push({ label: 'Dashboard', route: '/account' })
+    // }
   }
 
+  navigateToDashboardOrRegister() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/account']);
+    } else {
+      this.router.navigate(['/register']);
+    }
+  }
   
 
   toggleTheme(): void {
