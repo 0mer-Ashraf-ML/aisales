@@ -12,8 +12,8 @@ export interface IUser {
     profileData: {
       emailVerified?: boolean;
       emailVerifiedAt?: string;
-      stripe_customer_id?: string;
-      updatedAt?: string;
     };
+    stripe_customer_id?: string;
+    updatedAt?: string;
   }
   

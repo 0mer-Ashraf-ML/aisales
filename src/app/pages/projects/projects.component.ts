@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CompanyStore } from '../../store/company.store';
 import { CompanyService } from '../../services/company.service';
 import { RouterLink } from '@angular/router';
 import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component';
@@ -17,11 +16,9 @@ export class ProjectsComponent implements OnInit {
     /** holds the company.id of the expanded card, or null if none */
     expandedCompanyId: number | null = null;
   
-    constructor(private companyStore: CompanyStore, private companyService: CompanyService){};
+    constructor(private companyService: CompanyService){};
   
     ngOnInit(): void {
-      // this.company = this.companyStore.company();
-      // console.log("Company: ",this.company);
       this.companyService.getCompanies().subscribe((data) => {
         this.companies = data.data;
         console.log("fdgdfgd ",this.companies)

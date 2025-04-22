@@ -11,8 +11,6 @@ export class AuthService {
   private commonSrv = inject(CommonService);
   private api = '';
 
-  private tokenKey = 'authToken';
-  private userId = 'userId';
   private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
 
@@ -23,23 +21,6 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http
       .post<any>(`${this.api}/auth/login`, { email: email, password })
-      .pipe(
-        tap((response) => {
-          console.log('In login', response);
-          localStorage.setItem('userId', response.data.user.id);
-          if (response.data.accessToken.access_token) {
-            localStorage.setItem(
-              this.tokenKey,
-              response.data.accessToken.access_token
-            );
-            localStorage.setItem(
-              'stripeId',
-              response.data.user.stripe_customer_id
-            );
-            this.getUserDetails().subscribe();
-          }
-        })
-      );
   }
 
   register(fullname: string, email: string, password: string): Observable<any> {
@@ -86,28 +67,5 @@ export class AuthService {
       currency,
       customerId,
     });
-  }
-
-  getUserDetails(): Observable<any> {
-    // const token = localStorage.getItem(this.tokenKey);
-    // if (!token) return new Observable(); // No token, return empty observable
-
-    // const headers = new HttpHeaders({
-    //   Authorization: `Bearer ${token}`,
-    // });
-
-    console.log('api');
-
-    return this.http.get<any>(`${this.api}/me`).pipe(
-      tap((user) => {
-        this.userSubject.next(user);
-      })
-    );
-  }
-
-  logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userId);
-    this.userSubject.next(null);
   }
 }

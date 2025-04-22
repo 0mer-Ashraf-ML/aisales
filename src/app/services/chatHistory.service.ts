@@ -16,13 +16,13 @@ export class ChatHistoryService {
 
   getChatHistory(): Observable<any> {
     return this.http.get<any>(
-      `${this.ai}/user/${localStorage.getItem('userId')}/sessions`
+      `${this.ai}/user/${this.commonSrv.getUser()?.id}/sessions`
     );
   }
 
   getSpecificChatHistory(sessionId: string): Observable<any> {
     return this.http.get<any>(
-      `${this.ai}/conversation/${localStorage.getItem('userId')}/${sessionId}`
+      `${this.ai}/conversation/${this.commonSrv.getUser()?.id}/${sessionId}`
     );
   }
 }

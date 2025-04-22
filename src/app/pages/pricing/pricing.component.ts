@@ -18,6 +18,7 @@ import {
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TypewriterDirective } from '../../directives/typewriter.directive';
+import { CommonService } from '../../services/common.service';
 @Component({
   selector: 'app-pricing',
   standalone: true,
@@ -35,23 +36,14 @@ export class PricingComponent {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private commonSrv: CommonService
   ) {
     this.stripePromise = loadStripe(
       'pk_test_51R1PxbCrZdCbaztHviwuR41rMsyn2hQENRUYLFOxZ7u9CAxSyY6BbIWePz5llghs05knPzqdgmEVexPKb4jbmn7800Go3twC6N'
     ); // Replace with your actual public key
   }
   ngOnInit() {
-    console.log('Pricing component loaded');
-
-    this.authService.getUserDetails().subscribe({
-      next: (user) => {
-        console.log('User details:', user);
-      },
-      error: (err) => {
-        console.error('Error fetching user details:', err);
-      },
-    });
     this.route.queryParams.subscribe((params) => {
       if (params['redirect_status'] === 'succeeded') {
         alert('Payment successful! 🎉');
@@ -111,10 +103,13 @@ export class PricingComponent {
       console.error('Stripe failed to load.');
       return;
     }
+    console.log(this.commonSrv.getUser())
 
-    const stripeId = localStorage.getItem('stripeId');
+    const stripeId = this.commonSrv.getUser()?.stripe_customer_id;
     if (!stripeId) {
-      console.error('Stripe ID not found in localStorage.');
+      this.toastr.error('Stripe ID not found', '', {
+        timeOut: 3000
+      });
       return;
     }
 

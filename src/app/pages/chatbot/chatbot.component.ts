@@ -14,6 +14,7 @@ import { ProspectsService } from '../../services/prospects.service';
 import { CompanyService } from '../../services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { ChatHistoryService } from '../../services/chatHistory.service';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-chatbot',
@@ -43,7 +44,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     private companysrv: CompanyService,
     private toaster: ToastrService,
     private route: ActivatedRoute,
-    private chathistorySrv: ChatHistoryService
+    private chathistorySrv: ChatHistoryService,
+    private commonSrv: CommonService
   ) {
     this.themeService.currentTheme.subscribe((theme) => {
       this.isDarkMode = theme;
@@ -153,7 +155,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
       .conservation({
         user_input: question,
         session_id: this.sessionId,
-        user_id: localStorage.getItem('userId'),
+        user_id: this.commonSrv.getUser()?.id,
       })
       .subscribe({
         next: (data) => {

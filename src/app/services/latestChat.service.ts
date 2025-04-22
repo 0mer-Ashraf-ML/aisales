@@ -16,7 +16,7 @@ export class LatestChatService {
 
   getLatestChat(): Observable<any> {
     return this.http.get<any>(
-      `${this.ai}/user/${localStorage.getItem('userId')}/latest-conversation`
+      `${this.ai}/user/${this.commonSrv.getUser()?.id}/latest-conversation`
     );
   }
 }
