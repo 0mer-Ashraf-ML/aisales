@@ -5,10 +5,11 @@
         <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
     </div>
 
-    <div class="flex flex-col sm:flex-row items-center gap-6 lg:gap-10 p-6 rounded-2xl sm:shadow-2xl bg-white dark:bg-gray-800 w-full lg:w-11/12 mx-auto">
+    <div
+        class="flex flex-col sm:flex-row items-center gap-6 lg:gap-10 p-6 rounded-2xl sm:shadow-2xl bg-white dark:bg-gray-800 w-full lg:w-11/12 mx-auto">
         <!-- Content Section (matches login styling) -->
         <div class="w-full sm:w-1/2 flex flex-col px-4 lg:px-12 text-sm text-gray-700 dark:text-gray-300 z-10">
-                <!-- Header Section -->
+            <!-- Header Section -->
             <div class="mb-6">
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-3">
                     Welcome to <span class="text-primary">AI-Powered</span> Sales Prospecting
@@ -106,16 +107,18 @@
                     <input type="checkbox" id="terms" required
                         class="h-3 w-3 accent-primary text-primary focus:ring-primary border-gray-300 dark:border-gray-600 rounded cursor-pointer bg-white dark:bg-gray-800">
                     <label for="terms" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                        I accept the <a  class="text-primary hover:underline cursor-pointer" target="_blank">Terms and Conditions</a> and
-                        <a  class="text-primary hover:underline cursor-pointer" target="_blank">Privacy Policy</a>
+                        I accept the <a class="text-primary hover:underline cursor-pointer" target="_blank">Terms and
+                            Conditions</a> and
+                        <a class="text-primary hover:underline cursor-pointer" target="_blank">Privacy Policy</a>
                     </label>
                 </div>
 
                 <!-- Submit Button -->
+                <!-- Submit Button -->
                 <button type="submit"
                     class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-lg cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-                    [disabled]="registerForm.invalid">
-                    Register
+                    [disabled]="registerForm.invalid || isLoading">
+                    {{ isLoading ? 'Registering...' : 'Register' }}
                 </button>
             </form>
 
@@ -130,7 +133,7 @@
         <!-- Image Section -->
         <div class="hidden sm:flex sm:w-1/2 relative">
             <img loading="eager" class="object-cover w-full h-[50vh] lg:h-[85vh] rounded-2xl"
-            src="https://public.readdy.ai/ai/img_res/9227c1ffd36096abba63eabdaaa17339.jpg"
+                src="https://public.readdy.ai/ai/img_res/9227c1ffd36096abba63eabdaaa17339.jpg"
                 alt="AI Sales Growth Image">
             <div class="absolute inset-0 bg-gradient-to-l from-primary/80 to-transparent rounded-2xl"></div>
             <div class="absolute bottom-8 left-8 max-w-md">

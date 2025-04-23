@@ -93,7 +93,7 @@ export class AccountComponent {
   ];
   
   profileTabs = [
-    { route: 'user', label: 'User Settings' },
+    { route: 'user', label: 'User Profile' },
     { route: 'billing', label: 'Billing' },
     { route: 'wallet', label: 'Wallet' },
     { route: 'invoice', label: 'Invoice' },

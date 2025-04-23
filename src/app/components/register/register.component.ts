@@ -22,7 +22,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   showPassword = false;
   showConfirmPassword = false;
-  
+  isLoading = false;
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -85,11 +85,13 @@ export class RegisterComponent {
   async onSubmit(event: Event) {
     event.preventDefault();
     if (this.registerForm.valid) {
+      this.isLoading = true;
       console.log('Form Submitted', this.registerForm.value);
       const { userName, email, password } = this.registerForm.value;
   
       this.authService.register(userName, email, password).subscribe({
         next: (data) => {
+          this.isLoading = false;
           if (data?.success === true) {
             this.toastr.success('Registration successful! Check your email for OTP.', 'Success', {
               timeOut: 3000, // Auto close after 3 seconds
@@ -106,6 +108,7 @@ export class RegisterComponent {
           }
         },
         error: (error) => {
+          this.isLoading = false;
           if(error.error){
             this.toastr.error(error.error.message, 'Error');
           }

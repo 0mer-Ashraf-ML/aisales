@@ -20,7 +20,7 @@
   <!-- Scrollable Content Area -->
   <main class="flex-1 mt-16 mb-28 overflow-y-auto relative">
     <div class="absolute inset-0">
-      <div class="h-full overflow-y-auto custom-scrollbar">
+      <div class="h-full overflow-y-auto custom-scrollbar" #chatWindow>
         <div class="grid place-items-center w-full min-h-full">
           <div id="chatWindow" class="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 text-sm leading-6 px-4 py-2">
             <ng-container *ngFor="let prompt of conversation">
