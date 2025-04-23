@@ -1,48 +1,82 @@
 <section class="px-[4%] sm:px-[6.3%] py-8 lg:py-10 dark:bg-black">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit($event)">
-        <div class="p-6 space-y-2 bg-white dark:bg-gray-800 shadow-md rounded-lg max-w-lg mx-auto">
-            
+        <div class="p-6 space-y-3 bg-white dark:bg-gray-800 shadow-md rounded-lg max-w-lg mx-auto">
+
             <!-- First Name -->
-            <label class="block text-gray-700 dark:text-gray-300 font-medium">First Name:</label>
-            <input type="text" formControlName="firstName" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
-            <div *ngIf="userForm.get('firstName')?.touched && userForm.get('firstName')?.invalid" class="text-red-500 text-sm">First name is required.</div>
-            
-            <!-- Last Name -->
-            <label class="block text-gray-700 dark:text-gray-300 font-medium">Last Name:</label>
-            <input type="text" formControlName="lastName" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
-            <div *ngIf="userForm.get('lastName')?.touched && userForm.get('lastName')?.invalid" class="text-red-500 text-sm">Last name is required.</div>
-            
+            <label class="block text-gray-700 dark:text-gray-300 font-medium">Name:</label>
+            <input type="text" formControlName="name"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
+            <div *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid" class="text-red-500 text-sm">
+                First name is required.</div>
+
             <!-- Email -->
             <label class="block text-gray-700 dark:text-gray-300 font-medium">Email:</label>
-            <input type="email" formControlName="email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
-            <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid" class="text-red-500 text-sm">Enter a valid email.</div>
-            
+            <input type="email" formControlName="email"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
+            <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid" class="text-red-500 text-sm">
+                Enter a valid email.</div>
+
+            <!-- Password -->
+            <label class="block text-gray-700 dark:text-gray-300 font-medium">Password:</label>
+            <div class="relative">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  formControlName="password"
+                  class="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition"
+                />
+                <button
+                  type="button"
+                  (click)="togglePasswordVisibility()"
+                  class="absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300 focus:outline-none"
+                  tabindex="-1"
+                >
+                  <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+              
+                <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="text-red-500 text-sm">
+                    <div *ngIf="userForm.get('password')?.errors?.['required']">Password is required.</div>
+                    <div *ngIf="userForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters.</div>
+                    <div *ngIf="userForm.get('password')?.errors?.['pattern']">
+                      Password must include uppercase, lowercase, number, and special character.
+                    </div>
+                  </div>
+
             <!-- Mobile Phone -->
             <label class="block text-gray-700 dark:text-gray-300 font-medium">Mobile Phone:</label>
             <div class="flex space-x-2">
-                <select formControlName="countryCode" class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition">
-                    <option value="+1">🇺🇸 +1</option>
-                    <option value="+44">🇬🇧 +44</option>
-                    <option value="+91">🇮🇳 +91</option>
-                    <option value="+61">🇦🇺 +61</option>
-                    <option value="+81">🇯🇵 +81</option>
-                    <option value="+49">🇩🇪 +49</option>
-                </select>
-                <input type="tel" formControlName="phone" placeholder="123 456 7890" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
+                <div class="relative w-48">
+                    <input type="text" [(ngModel)]="countrySearchTerm" [ngModelOptions]="{standalone: true}"
+                        (input)="filterCountries()" (focus)="onSearchFocus()" (blur)="onCountryBlur()"
+                        [value]="selectedCountry ? selectedCountry.flag + ' ' + selectedCountry.name + ' (' + selectedCountry.code + ')' : ''"
+                        placeholder="Search country..."
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
+
+                    <div *ngIf="showCountryDropdown"
+                        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 shadow-lg rounded-md max-h-60 overflow-auto">
+                        <div *ngFor="let country of filteredCountries" (mousedown)="selectCountry(country)"
+                            class="px-3 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center">
+                            <span class="mr-2">{{country.flag}}</span>
+                            <span class="flex-1">{{country.name}}</span>
+                            <span class="">{{country.code}}</span>
+                        </div>
+                        <div *ngIf="filteredCountries.length === 0" class="px-3 py-2 text-gray-500 dark:text-gray-400">
+                            No countries found
+                        </div>
+                    </div>
+                </div>
+
+                <input type="tel" formControlName="phone" placeholder="123 456 7890"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
             </div>
-            <div *ngIf="userForm.get('phone')?.touched && userForm.get('phone')?.invalid" class="text-red-500 text-sm">Enter a valid phone number.</div>
-            
-            <!-- Password -->
-            <label class="block text-gray-700 dark:text-gray-300 font-medium">Password:</label>
-            <input type="password" formControlName="password" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-gray-400 focus:outline-none transition" />
-            <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="text-red-500 text-sm">Password must be at least 6 characters.</div>
-            
+            <div *ngIf="userForm.get('phone')?.touched && userForm.get('phone')?.invalid" class="text-red-500 text-sm">
+                Enter a valid phone number.</div>
+
             <!-- Buttons -->
-            <div class="flex justify-center gap-4 mt-4">
+            <div class="flex justify-center gap-4">
                 <app-cbutton1 btnText="Edit"></app-cbutton1>
                 <app-cbutton1 btnText="Reset Password"></app-cbutton1>
             </div>
         </div>
     </form>
 </section>
-

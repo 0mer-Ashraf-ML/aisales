@@ -68,7 +68,7 @@ export class AccountComponent {
   
       // Redirect to default profile tab if not already in profile routes
       if (!this.profileRoutes.includes(this.router.url)) {
-        this.router.navigate(['/account/user']);
+        this.router.navigate(['/account/user-profile']);
       }
     }
   }
@@ -93,7 +93,7 @@ export class AccountComponent {
   ];
   
   profileTabs = [
-    { route: 'user', label: 'User Profile' },
+    { route: 'user-profile', label: 'User Profile' },
     { route: 'billing', label: 'Billing' },
     { route: 'wallet', label: 'Wallet' },
     { route: 'invoice', label: 'Invoice' },

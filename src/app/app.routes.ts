@@ -168,12 +168,12 @@ export const routes: Routes = [
         title: 'Invoice',
       },
       {
-        path: 'user',
+        path: 'user-profile',
         loadComponent: () =>
           import('./pages/user-profile/user-profile.component').then(
             (m) => m.UserProfileComponent
           ),
-        title: 'User',
+        title: 'User Profile',
       },
     ],
   },

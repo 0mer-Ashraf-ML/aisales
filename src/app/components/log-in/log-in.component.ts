@@ -33,8 +33,7 @@ export class LogInComponent {
     private commonSrv: CommonService
   ) {
     this.loginForm = this.fb.group({
-      // email: ['', [Validators.required, Validators.email]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: [
         '',
         [

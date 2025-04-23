@@ -155,30 +155,27 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     this.showProspects = false;
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
-
+  
     const question = textarea.value.trim();
     if (!question) return;
-
-    // 1. Reset the textarea height immediately after pressing enter
-    textarea.style.height = '48px';  // Reset to min height
-    textarea.style.overflowY = 'hidden';  // Ensure scroll is hidden
-
-    // 2. Push the user message to conversation
+  
     this.conversation.push({ role: 'user', content: question });
-
-    // 3. Let the DOM settle and scroll to the bottom
+  
+    textarea.value = '';
+    this.isTextareaEmpty = true;
+    textarea.style.height = '48px';
+    textarea.style.overflowY = 'hidden';
+  
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.scrollToBottom();
       });
     });
-
-    // 4. Manually trigger change detection
+  
     this.cdRef.detectChanges();
-
-    // 5. Perform API call
+  
     this.loading = true;
-
+  
     this.chatbotService
       .conservation({
         user_input: question,
@@ -189,13 +186,55 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
         next: (data) => {
           this.conversation = data.conversation;
           this.prospects = data.prospect_output;
-
-          // Process company and prospects logic here...
-
-          // After API response, stop loading
+  
+          if (this.prospects != null) {
+            try {
+              const std = data.standardized_json;
+              const comp = { ...std, session_id: this.sessionId };
+              this.companysrv.postCompany(comp).subscribe({
+                next: (company) => {
+                  console.log('Company: ', company);
+                  this.companyId = company.data.id;
+  
+                  try {
+                    const prospectsWithCompany = data.prospect_output.results.map((pros: any) => ({
+                      ...pros,
+                      company_id: company.data.id,
+                    }));
+  
+                    this.prospectsService.uploadProspects(prospectsWithCompany).subscribe({
+                      next: (propspects) => {
+                        // Force Angular to detect changes
+                        this.ngZone.run(() => {
+                          this.showProspects = true;
+                        });
+                        console.log('Prospects: ', propspects);
+                      },
+                      error: (uploadErr) => {
+                        console.error('Error uploading prospects:', uploadErr);
+                        this.toaster.error(uploadErr, 'Error');
+                      },
+                    });
+                  } catch (mapErr) {
+                    console.error('Error mapping prospects with company ID:', mapErr);
+                  }
+                },
+                error: (companyErr) => {
+                  console.error('Error posting company:', companyErr);
+                  this.toaster.error(companyErr, 'Error');
+                },
+              });
+            } catch (error) {
+              console.error('Unexpected error during company service call:', error);
+              this.toaster.error('Failed to fetch conversation', 'Error');
+            }
+  
+            setTimeout(() => {
+              this.open();
+            }, 0);
+          }
+  
           this.loading = false;
-
-          // Scroll to bottom after response
           this.scrollToBottom();
         },
         error: (error) => {
@@ -204,10 +243,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
           this.loading = false;
         },
       });
-}
-
-
-
+  }
+  
   onTextareaInput(textarea: HTMLTextAreaElement) {
     this.isTextareaEmpty = textarea.value.trim().length === 0;
   }
