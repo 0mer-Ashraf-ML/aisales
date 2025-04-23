@@ -147,10 +147,21 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     this.showProspects = false;
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
+  
     const question = textarea.value.trim();
-    this.conversation.push({ role: 'user', content: question });
     if (!question) return;
+  
+    // Push user message
+    this.conversation.push({ role: 'user', content: question });
+  
+    // ✅ Immediately reset textarea height before API call
+    textarea.value = '';
+    this.isTextareaEmpty = true;
+    textarea.style.height = '48px';
+    textarea.style.overflowY = 'hidden';
+  
     this.loading = true;
+  
     this.chatbotService
       .conservation({
         user_input: question,
@@ -161,43 +172,34 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
         next: (data) => {
           this.conversation = data.conversation;
           this.prospects = data.prospect_output;
-          
+  
           if (this.prospects != null) {
             try {
-              const std = data.standardized_json
-              const comp = {...std, session_id: this.sessionId};
+              const std = data.standardized_json;
+              const comp = { ...std, session_id: this.sessionId };
               this.companysrv.postCompany(comp).subscribe({
                 next: (company) => {
                   console.log('Company: ', company);
                   this.companyId = company.data.id;
-
+  
                   try {
-                    const prospectsWithCompany =
-                      data.prospect_output.results.map((pros: any) => ({
-                        ...pros,
-                        company_id: company.data.id,
-                      }));
-
-                    this.prospectsService
-                      .uploadProspects(prospectsWithCompany)
-                      .subscribe({
-                        next: (propspects) => {
-                          this.showProspects = true;
-                          console.log('Prospects: ', propspects);
-                        },
-                        error: (uploadErr) => {
-                          console.error(
-                            'Error uploading prospects:',
-                            uploadErr
-                          );
-                          this.toaster.error(uploadErr, 'Error');
-                        },
-                      });
+                    const prospectsWithCompany = data.prospect_output.results.map((pros: any) => ({
+                      ...pros,
+                      company_id: company.data.id,
+                    }));
+  
+                    this.prospectsService.uploadProspects(prospectsWithCompany).subscribe({
+                      next: (propspects) => {
+                        this.showProspects = true;
+                        console.log('Prospects: ', propspects);
+                      },
+                      error: (uploadErr) => {
+                        console.error('Error uploading prospects:', uploadErr);
+                        this.toaster.error(uploadErr, 'Error');
+                      },
+                    });
                   } catch (mapErr) {
-                    console.error(
-                      'Error mapping prospects with company ID:',
-                      mapErr
-                    );
+                    console.error('Error mapping prospects with company ID:', mapErr);
                   }
                 },
                 error: (companyErr) => {
@@ -206,18 +208,15 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
                 },
               });
             } catch (error) {
-              console.error(
-                'Unexpected error during company service call:',
-                error
-              );
-              this.toaster.error('Failled to fetech conversation', 'Error');
+              console.error('Unexpected error during company service call:', error);
+              this.toaster.error('Failed to fetch conversation', 'Error');
             }
-
+  
             setTimeout(() => {
               this.open();
             }, 0);
           }
-
+  
           this.loading = false;
         },
         error: (error) => {
@@ -226,12 +225,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
           this.loading = false;
         },
       });
-
-      textarea.value = '';
-      this.onTextareaInput(textarea);
-      textarea.style.height = '48px'; // Reset to min height after submitting
-      textarea.style.overflowY = 'hidden'; // Also hide scroll if it was showing
   }
+  
   onTextareaInput(textarea: HTMLTextAreaElement) {
     this.isTextareaEmpty = textarea.value.trim().length === 0;
   }

@@ -1,19 +1,14 @@
-<section class="flex min-h-screen dark:bg-[#212121]">
-  <!-- Chat Window -->
-  <div class="grid place-items-center w-full h-full">
-    <!-- Header -->
-    <div class="fixed top-0 inset-x-0 z-10 flex items-center justify-between px-16 h-14 bg-white dark:bg-[#212121]">
-      <a routerLink="/">
-        <img src="logo-light.png" alt="logo-light" class="w-40 block dark:hidden">
-        <img src="logo-dark.png" alt="logo-dark" class="w-40 hidden dark:block">
-      </a>
-      <div class="flex items-center gap-4">
-      <div (click)="toggleTheme()" class="cursor-pointer w-full lg:w-auto">
-        <a
-          class="block w-full md:px-4 transition text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary cursor-pointer">
-          <span>
-            <i [ngClass]="isDarkMode ? 'fa-solid fa-xl fa-moon' : 'fa-solid fa-xl fa-sun'"></i>
-          </span>
+<section class="flex flex-col min-h-screen dark:bg-[#212121]">
+  <!-- Fixed Header -->
+  <header class="fixed top-0 inset-x-0 z-30 flex items-center justify-between px-4 sm:px-16 h-16 dark:bg-[#212121]">
+    <a routerLink="/">
+      <img src="logo-light.png" alt="logo-light" class="w-32 sm:w-40 block dark:hidden">
+      <img src="logo-dark.png" alt="logo-dark" class="w-32 sm:w-40 hidden dark:block">
+    </a>
+    <div class="flex items-center gap-4">
+      <div (click)="toggleTheme()" class="cursor-pointer">
+        <a class="block px-4 transition text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary">
+          <i [ngClass]="isDarkMode ? 'fa-solid fa-lg fa-moon' : 'fa-solid fa-lg fa-sun'"></i>
         </a>
       </div>
       <a *ngIf="showProspects" class="px-3 py-2 text-sm bg-primary text-white font-medium rounded-3xl"
@@ -21,44 +16,48 @@
         Prospects
       </a>
     </div>
-    </div>
-
-    <!-- Chat Body -->
-    <div #chatWindow id="chatWindow"
-      class="w-4/5 sm:w-1/2 pt-14 pb-36 max-h-screen text-sm leading-6 overflow-y-auto scrollbar-hide">
-      <ng-container *ngFor="let prompt of conversation">
-        <!-- User -->
-        <p *ngIf="prompt.role === 'user'"
-          class="w-fit min-w-min max-w-lg ml-auto my-4 bg-[#f3f3f3] dark:bg-[#303030] text-gray-800 dark:text-gray-100 p-4 rounded-3xl">
-          {{ prompt.content }}
-        </p>
-        <!-- Assistant -->
-        <p *ngIf="prompt.role === 'assistant'"
-          class="my-4 max-w-lg bg-gray-100 dark:bg-[#606060] text-gray-800 dark:text-gray-100 p-4 rounded-3xl">
-          {{ prompt.content }}
-        </p>
-      </ng-container>
-    </div>
-
-    <!-- Chat Footer -->
-      <div class="fixed inset-x-0 pb-4 -mb-4 bottom-6 w-4/5 sm:w-1/2 mx-auto z-10 bg-white dark:bg-[#212121] rounded-t-3xl">
-        <div class="bg-white dark:bg-[#303030] rounded-3xl border border-slate-300 dark:border-none shadow-sm p-4">
-          <!-- Input Box -->
-          <textarea #textarea
-            class="custom-scrollbar w-full bg-transparent resize-none border-none focus:outline-none text-gray-800 dark:text-white"
-            rows="2" placeholder="Write something here..."
-            (input)="onTextareaInput(textarea); adjustTextareaHeight(textarea)"
-            (keydown.enter)="onSubmitAnswer($event, textarea)"></textarea>
-
-          <div class="flex justify-end mt-5 pb-1">
-            <i *ngIf="!loading" [ngClass]="{ 'text-gray-800/40 dark:text-gray-100/40': isTextareaEmpty }"
-              [class.pointer-events-none]="isTextareaEmpty"
-              class="fa-solid fa-xl fa-circle-arrow-up text-gray-800 dark:text-gray-100 cursor-pointer"
-              (click)="onSubmitAnswer($event, textarea)">
-            </i>
-            <i *ngIf="loading" class="fa-solid fa-circle-notch fa-spin text-2xl text-gray-800 dark:text-white"></i>
+  </header>
+  <!-- Scrollable Content Area -->
+  <main class="flex-1 mt-16 mb-28 overflow-y-auto relative">
+    <div class="absolute inset-0">
+      <div class="h-full overflow-y-auto custom-scrollbar">
+        <div class="grid place-items-center w-full min-h-full">
+          <div id="chatWindow" class="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 text-sm leading-6 px-4 py-2">
+            <ng-container *ngFor="let prompt of conversation">
+              <p *ngIf="prompt.role === 'user'"
+                class="w-fit min-w-min max-w-full sm:max-w-lg ml-auto my-4 bg-[#f3f3f3] dark:bg-[#303030] text-gray-800 dark:text-gray-100 p-4 rounded-3xl">
+                {{ prompt.content }}
+              </p>
+              <p *ngIf="prompt.role === 'assistant' && prompt.content"
+                class="my-4 max-w-full sm:max-w-lg bg-gray-100 dark:bg-[#606060] text-gray-800 dark:text-gray-100 p-4 rounded-3xl">
+                {{ prompt.content }}
+              </p>
+            </ng-container>
           </div>
         </div>
       </div>
     </div>
+  </main>
+
+  <!-- Fixed Footer -->
+  <footer class="fixed bottom-0 inset-x-0 z-30 dark:bg-[#212121]">
+    <div class="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 mx-auto px-4 pb-4 -mt-3 ">
+      <div class="bg-white dark:bg-[#303030] rounded-3xl border border-slate-300 dark:border-none shadow-sm p-5">
+        <textarea #textarea
+          class="w-full bg-transparent resize-none border-none focus:outline-none text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+          rows="2" placeholder="Write something here..."
+          (input)="onTextareaInput(textarea); adjustTextareaHeight(textarea)"
+          (keydown.enter)="onSubmitAnswer($event, textarea)"></textarea>
+
+        <div class="flex justify-end mt-3">
+          <i *ngIf="!loading" [ngClass]="{ 'text-gray-800/40 dark:text-gray-100/40': isTextareaEmpty }"
+            [class.pointer-events-none]="isTextareaEmpty"
+            class="fa-solid fa-xl fa-circle-arrow-up text-gray-800 dark:text-gray-100 cursor-pointer transition-opacity hover:opacity-80"
+            (click)="onSubmitAnswer($event, textarea)">
+          </i>
+          <i *ngIf="loading" class="fa-solid fa-circle-notch fa-spin text-xl text-gray-800 dark:text-white"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
 </section>
