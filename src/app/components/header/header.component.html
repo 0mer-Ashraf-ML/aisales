@@ -1,4 +1,9 @@
-<header class="dark:bg-black sticky top-0 bg-white z-50">
+<header
+  class="dark:bg-black fixed top-0 left-0 right-0 bg-white z-50 transition-transform duration-300 ease-in-out"
+  [class.-translate-y-full]="!isHeaderVisible"
+  [class.shadow-md]="isHeaderVisible"
+>
+
   <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
     <div class="blur-[106px] bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
     <div class="blur-[106px] bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
@@ -30,9 +35,10 @@
         <!-- Left Section -->
         <div class="text-gray-600 dark:text-gray-300 lg:w-auto w-full lg:pt-0 flex-grow pl-4">
           <ul class="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-2">
-            <li *ngFor="let item of menuItems">
-              <a [routerLink]="item.route" (click)="closeMenu()" class="block md:px-4 transition hover:text-primary">
-                <span>{{ item.label }}</span>
+            <li >
+              <a *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="text-primary"
+                [routerLinkActiveOptions]="{ exact: true }" class="px-3 py-2">
+                {{ item.label }}
               </a>
             </li>
           </ul>
@@ -53,7 +59,8 @@
           <div class="cursor-pointer w-full lg:w-auto">
             <a (click)="navigateToDashboardOrRegister()"
               class="relative flex h-9 w-full items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-full lg:sm:w-max">
-              <span class="relative text-sm font-semibold text-white">{{ isLoggedIn ? 'Dashboard' : 'Join Free' }}</span>
+              <span class="relative text-sm font-semibold text-white">{{ isLoggedIn ? 'Dashboard' : 'Join Free'
+                }}</span>
             </a>
           </div>
 

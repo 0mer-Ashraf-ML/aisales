@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
 import { DOCUMENT } from '@angular/common';
 import { CommonService } from '../../services/common.service';
@@ -8,10 +8,13 @@ import { CommonService } from '../../services/common.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, RouterLinkActive],
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
+  lastScrollTop = 0;
+  isHeaderVisible = true;
+
   menuItems = [
     { label: 'Home', route: '/' },
     { label: 'Solutions', route: '/solutions' },
@@ -35,10 +38,22 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.commonSrv.isLoggedIn();
-    // if(this.isLoggedIn){
-    //   this.menuItems.push({ label: 'Dashboard', route: '/account' })
-    // }
+    window.addEventListener('scroll', this.onScroll, true);
   }
+  
+  ngOnDestroy() {
+    window.removeEventListener('scroll', this.onScroll, true);
+  }
+  
+  onScroll = (): void => {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    if (currentScroll > this.lastScrollTop && currentScroll > 100) {
+      this.isHeaderVisible = false;
+    } else {
+      this.isHeaderVisible = true;
+    }
+    this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+  };
 
   navigateToDashboardOrRegister() {
     if (this.isLoggedIn) {
@@ -47,7 +62,6 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['/register']);
     }
   }
-  
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
