@@ -92,6 +92,14 @@ export const routes: Routes = [
     title: 'Join Free',
   },
   {
+    path: 'payment',
+    loadComponent: () =>
+      import('./pages/payment/payment.component').then(
+        (m) => m.PaymentComponent
+      ),
+    title: 'Payment',
+  },
+  {
     path: 'account',
     loadComponent: () =>
       import('./pages/account/account.component').then(
