@@ -1,7 +1,6 @@
 import { Injectable,inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { CommonService } from './common.service';
 
 @Injectable({
@@ -39,6 +38,13 @@ export class AuthService {
     });
   }
 
+  resendOtp(email: string, type: string): Observable<any> {
+    return this.http.post<any>(`${this.api}/auth/resend-otp`, {
+      email,
+      type,
+    });
+  }
+
   forgotPassword(email: string): Observable<any> {
     return this.http.post<any>(`${this.api}/auth/forgot-password`, {
       email,
@@ -68,4 +74,6 @@ export class AuthService {
       customerId,
     });
   }
+
+
 }
