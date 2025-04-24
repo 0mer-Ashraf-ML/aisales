@@ -126,13 +126,26 @@ export class OtpComponent {
   }
 
   resendOtp() {
-    if (this.canResend) {
-      this.toastr.info('📩 New OTP sent to your email!', 'Info', {
-        timeOut: 3000,
-        positionClass: 'toast-top-right',
-        progressBar: true,
-      });
-      this.startCountdown();
-    }
+    if (!this.canResend || !this.email || !this.otpType) return;
+  
+    this.authService.resendOtp(this.email, this.otpType as 'account_verification' | 'password_reset').subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.toastr.success('📩 A new OTP has been sent to your email!', '', {
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+            progressBar: true,
+          });
+          this.startCountdown();
+        } else {
+          this.toastr.error(res.message || 'Failed to resend OTP.', 'Error');
+        }
+      },
+      error: (err) => {
+        console.error('Resend OTP failed:', err);
+        this.toastr.error(err.error?.message || 'Could not resend OTP. Please try again.', 'Error');
+      }
+    });
   }
+  
 }
