@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LatestChatService } from '../../services/latestChat.service';
 import { ToastrService } from 'ngx-toastr';
+import { SpinnerService } from '../../services/spinner.service';
+import { finalize } from 'rxjs/operators';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ai-agent',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgxSpinnerModule],
   templateUrl: './ai-agent.component.html',
 })
 export class AiAgentComponent implements OnInit {
@@ -16,35 +19,62 @@ export class AiAgentComponent implements OnInit {
   sessionId: string = '';
   userInput: string = '';
 
-  constructor(
-    private router: Router,
-    private srv: LatestChatService,
-    private toastr: ToastrService
-  ) {}
+  private readonly router = inject(Router);
+  private readonly latestChatService = inject(LatestChatService);
+  private readonly toastr = inject(ToastrService);
+  private readonly spinner = inject(SpinnerService);
 
-  ngOnInit() {
-    this.srv.getLatestChat().subscribe({
-      next: (data) => {
-        console.log(data);
-        this.latestChat = data.conversation;
-        this.sessionId = data.session_id;
-        this.toastr.success('Conversation loaded successfully!', 'Success');
-      },
-      error: (error) => {
-        console.error('Error fetching latest chat:', error);
-        this.toastr.error('Failed to load chat conversation', 'Error');
-      },
-    });
+  ngOnInit(): void {
+    this.fetchLatestChat();
   }
 
-  goToChatbot() {
-    if (!this.userInput.trim()) return;
+  private fetchLatestChat(): void {
+    this.spinner.show();
+    
+    this.latestChatService.getLatestChat()
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe({
+        next: (data: { conversation: any[], session_id: string }) => {
+          this.latestChat = data.conversation ?? [];
+          this.sessionId = data.session_id;
+          
+          if (this.latestChat.length > 0) {
+            this.toastr.success('Conversation loaded successfully');
+          } else {
+            this.toastr.info('No conversation history available');
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching latest chat:', error);
+          if (error.status === 404) {
+            this.latestChat = [];
+            this.toastr.info('No conversation history available');
+          } else {
+            this.toastr.error('Failed to load conversation');
+          }
+        }
+      });
+  }
 
-    this.router.navigate(['/chatbot'], {
-      queryParams: {
-        message: this.userInput,
-        session: this.sessionId,
-      },
-    });
+  goToChatbot(): void {
+    try {
+      const trimmedInput = this.userInput.trim();
+      
+      if (!trimmedInput) {
+        this.toastr.warning('Please enter a message');
+        return;
+      }
+
+      this.router.navigate(['/chatbot'], {
+        queryParams: {
+          message: trimmedInput,
+          session: this.sessionId,
+        },
+      });
+      
+    } catch (error) {
+      console.error('Chatbot navigation error:', error);
+      this.toastr.error('Failed to start chat session');
+    }
   }
 }

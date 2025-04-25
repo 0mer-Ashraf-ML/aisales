@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -24,20 +24,18 @@ export class RegisterComponent {
   showConfirmPassword = false;
   isLoading = false;
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly toastr = inject(ToastrService);
 
-  toggleConfirmPasswordVisibility() {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
+  benefits: string[] = [
+    'More qualified leads from every conversation',
+    'Less time spent on manual prospecting',
+    'Larger deals with AI-powered insights'
+  ];
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private toastr: ToastrService
-  ) {
+  constructor() {
     this.registerForm = this.fb.group(
       {
         userName: ['', Validators.required],
@@ -56,6 +54,54 @@ export class RegisterComponent {
     );
   }
 
+  onSubmit(event: Event): void {
+    event.preventDefault();
+
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      this.toastr.error('Please fix the errors in the form');
+      return;
+    }
+
+    this.isLoading = true;
+    const { userName, email, password } = this.registerForm.value;
+
+    this.authService.register(userName, email, password).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        if (data?.success) {
+          this.toastr.success('Registration successful! Check your email for OTP.');
+          this.router.navigate(['/otp-verification'], {
+            queryParams: {
+              otpType: 'account_verification',
+              email: data.data.user.email,
+            },
+          });
+        } else {
+          this.toastr.error('Registration failed. Please try again.');
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        if (error.status === 400) {
+          this.toastr.error(error.error?.message || 'Invalid registration data');
+        } else if (error.status === 409) {
+          this.toastr.error('Email already exists');
+        } else {
+          this.toastr.error('Registration failed. Please try again later');
+        }
+      }
+    });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
   passwordPatternValidator: ValidatorFn = (control: AbstractControl) => {
     const password = control.value;
     if (!password) return null;
@@ -65,62 +111,30 @@ export class RegisterComponent {
   };
 
   passwordMatchValidator: ValidatorFn = (form: AbstractControl) => {
-    const passwordControl = form.get('password');
-    const confirmPasswordControl = form.get('confirmPassword');
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
 
-    if (!passwordControl || !confirmPasswordControl) return null;
-
-    const password = passwordControl.value;
-    const confirmPassword = confirmPasswordControl.value;
-
-    if (confirmPassword && password !== confirmPassword) {
-      confirmPasswordControl.setErrors({ mismatch: true });
+    if (password && confirmPassword && password !== confirmPassword) {
+      form.get('confirmPassword')?.setErrors({ mismatch: true });
       return { mismatch: true };
-    } else {
-      confirmPasswordControl.setErrors(null);
-      return null;
     }
+    form.get('confirmPassword')?.setErrors(null);
+    return null;
   };
 
-  async onSubmit(event: Event) {
-    event.preventDefault();
-    if (this.registerForm.valid) {
-      this.isLoading = true;
-      console.log('Form Submitted', this.registerForm.value);
-      const { userName, email, password } = this.registerForm.value;
-  
-      this.authService.register(userName, email, password).subscribe({
-        next: (data) => {
-          this.isLoading = false;
-          if (data?.success === true) {
-            this.toastr.success('Registration successful! Check your email for OTP.', 'Success', {
-              timeOut: 3000, // Auto close after 3 seconds
-              positionClass: 'toast-top-right',
-              progressBar: true,
-            });
-  
-            this.router.navigate(['/otp-verification'], {
-              queryParams: {
-                otpType: 'account_verification',
-                email: data.data.user.email,
-              },
-            });
-          }
-        },
-        error: (error) => {
-          this.isLoading = false;
-          if(error.error){
-            this.toastr.error(error.error.message, 'Error');
-          }
-          else{
-            this.toastr.error(error.message, 'Error');
-          }
-        }
-      });
-    } else {
-      this.registerForm.markAllAsTouched();
-    }
+  get userName() {
+    return this.registerForm.get('userName');
   }
-  
-  benefits: any[] = ['More qualified leads from every conversation', 'Less time spent on manual prospecting', 'Larger deals with AI-powered insights'];
+
+  get email() {
+    return this.registerForm.get('email');
+  }
+
+  get password() {
+    return this.registerForm.get('password');
+  }
+
+  get confirmPassword() {
+    return this.registerForm.get('confirmPassword');
+  }
 }

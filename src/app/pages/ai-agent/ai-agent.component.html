@@ -1,4 +1,7 @@
 <section class="px-[4%] sm:px-[9%] py-8 lg:py-10 dark:bg-black mx-auto">
+  <ngx-spinner>
+    <p class="text-primary text-xl -mt-32">Loading latest chat ...</p>
+  </ngx-spinner>
     <div class="p-6 bg-white dark:bg-gray-800 space-y-4 rounded-3xl shadow-md max-w-5xl">
         <ng-container *ngFor="let prompt of latestChat">
             <!-- User message -->

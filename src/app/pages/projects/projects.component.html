@@ -4,7 +4,9 @@
         No data found
       </h1>
     </div>
-  
+    <ngx-spinner>
+      <p class="text-primary text-xl -mt-32">Loading companies...</p>
+    </ngx-spinner>
     <!-- Project Card -->
     <div *ngFor="let company of companies"
          class="p-6 my-6 border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 shadow-md space-y-4 cursor-pointer transition-all duration-300 hover:shadow-lg"

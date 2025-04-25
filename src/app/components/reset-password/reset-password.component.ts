@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -16,16 +16,16 @@ export class ResetPasswordComponent {
   isLoading = false;
   showPassword = false;
   showConfirmPassword = false;
-  email: string = "";
+  email: string = '';
   otpCode: string = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private toastr: ToastrService // Inject ToastrService
-  ) {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
+  private readonly toastr = inject(ToastrService);
+
+  constructor() {
     this.resetPasswordForm = this.fb.group(
       {
         newPassword: [
@@ -33,7 +33,7 @@ export class ResetPasswordComponent {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
+            this.passwordPatternValidator,
           ],
         ],
         confirmPassword: ['', Validators.required],
@@ -45,61 +45,65 @@ export class ResetPasswordComponent {
     this.otpCode = this.route.snapshot.queryParams['otpCode'] || '';
   }
 
-  // ✅ Custom Validator for Password Match
-  passwordsMatch(form: FormGroup) {
-    const newPassword = form.get('newPassword')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
-    return newPassword === confirmPassword ? null : { passwordMismatch: true };
-  }
-
-  // ✅ Toggle password visibility
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleConfirmPasswordVisibility() {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
-
-  onSubmit(event: Event) {
+  onSubmit(event: Event): void {
     event.preventDefault();
+
     if (this.resetPasswordForm.invalid) {
-      this.toastr.error('❌ Please fill in the required fields correctly.', 'Error', {
-        timeOut: 3000,
-        positionClass: 'toast-top-right',
-        progressBar: true,
-      });
+      this.resetPasswordForm.markAllAsTouched();
+      this.toastr.error('Please fix the errors in the form');
       return;
     }
 
     this.isLoading = true;
-    this.authService.resetPassword(this.email, this.otpCode, this.resetPasswordForm.get('newPassword')?.value)
-      .subscribe({
-        next: (data) => {
-          this.isLoading = false;
-          if (data?.success === true) {
-            this.toastr.success('✅ Password reset successfully!', 'Success', {
-              timeOut: 3000,
-              positionClass: 'toast-top-right',
-              progressBar: true,
-            });
+    const newPassword = this.resetPasswordForm.get('newPassword')?.value;
 
-            this.router.navigate(['/login']);
-          }
-        },
-        error: (err) => {
-          this.isLoading = false;
-          console.error('Password reset failed:', err);
-          this.toastr.error(err.error?.message || '❌ Password reset failed. Try again!', 'Error', {
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-            progressBar: true,
-          });
+    this.authService.resetPassword(this.email, this.otpCode, newPassword).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        if (data?.success) {
+          this.toastr.success('Password reset successfully');
+          this.router.navigate(['/login']);
+        } else {
+          this.toastr.error('Password reset failed');
         }
-      });
+      },
+      error: (error) => {
+        this.isLoading = false;
+
+        if (error.status === 400) {
+          this.toastr.error('Invalid reset request');
+        } else if (error.status === 410) {
+          this.toastr.error('Reset token has expired');
+        } else if (error.error?.message) {
+          this.toastr.error(error.error.message);
+        } else {
+          this.toastr.error('Password reset failed. Please try again');
+        }
+      }
+    });
   }
 
-  // ✅ Getters for form controls
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  passwordPatternValidator: ValidatorFn = (control: AbstractControl) => {
+    const password = control.value;
+    if (!password) return null;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+    return passwordRegex.test(password) ? null : { invalidPassword: true };
+  };
+
+  passwordsMatch: ValidatorFn = (form: AbstractControl) => {
+    const newPassword = form.get('newPassword')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return newPassword === confirmPassword ? null : { passwordMismatch: true };
+  };
+
   get newPassword() {
     return this.resetPasswordForm.get('newPassword');
   }

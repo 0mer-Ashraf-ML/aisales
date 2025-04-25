@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatHistoryService } from '../../services/chatHistory.service';
@@ -7,11 +7,14 @@ import { ToastrService } from 'ngx-toastr';
 import { SlideUpDirective } from '../../directives/scroll-animate.directive';
 import { CommonService } from '../../services/common.service';
 import { IUser } from '../../models/user.interface';
+import { SpinnerService } from '../../services/spinner.service';
+import { finalize } from 'rxjs/operators';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink, SlideUpDirective],
+  imports: [FormsModule, CommonModule, RouterLink, SlideUpDirective, NgxSpinnerModule],
   templateUrl: './welcome.component.html',
 })
 export class WelcomeComponent implements OnInit {
@@ -19,33 +22,62 @@ export class WelcomeComponent implements OnInit {
   chatHistory: any[] = [];
   user!: IUser;
 
-  constructor(
-    private router: Router,
-    private srv: ChatHistoryService,
-    private toastr: ToastrService,
-    private commonSrv: CommonService
-  ) {}
+  private readonly router = inject(Router);
+  private readonly chatHistoryService = inject(ChatHistoryService);
+  private readonly toastr = inject(ToastrService);
+  private readonly commonService = inject(CommonService);
+  private readonly spinner = inject(SpinnerService);
 
   ngOnInit(): void {
-    this.user = this.commonSrv.getUser()!;
-    this.srv.getChatHistory().subscribe({
-      next: (data: { sessions: any[] }) => {
-        this.chatHistory = data.sessions;
-        this.toastr.success('Chat history loaded successfully!', 'Success');
-      },
-      error: (error) => {
-        console.error('Error fetching chat history:', error);
-        // this.toastr.error('Failed to load chat history', 'Error');
-      }
-    });
+    try {
+      this.user = this.commonService.getUser()!;
+      this.fetchChatHistory();
+    } catch (error) {
+      this.toastr.error('Failed to initialize component');
+    }
   }
 
-  goToChatbot() {
-    const trimmedMessage = this.message.trim();
-    if (trimmedMessage) {
+  private fetchChatHistory(): void {
+    this.spinner.show();
+    
+    this.chatHistoryService.getChatHistory()
+      .pipe(finalize(() => this.spinner.hide()))
+      .subscribe({
+        next: (data: { sessions: any[] }) => {
+          this.chatHistory = data.sessions ?? [];
+          
+          if (this.chatHistory.length === 0) {
+            this.toastr.info('No chat history available');
+          } else {
+            this.toastr.success(`${this.chatHistory.length} chat ${this.chatHistory.length === 1 ? 'session' : 'sessions'} loaded`);
+          }
+        },
+        error: (error) => {
+          if (error.status === 404) {
+            this.chatHistory = [];
+            this.toastr.info('No chat history available');
+          } else {
+            this.toastr.error('Failed to load chat history');
+          }
+        }
+      });
+  }
+
+  goToChatbot(): void {
+    try {
+      const trimmedMessage = this.message.trim();
+      
+      if (!trimmedMessage) {
+        this.toastr.warning('Please enter a message');
+        return;
+      }
+
       this.router.navigate(['/chatbot'], {
         queryParams: { message: trimmedMessage },
       });
+      
+    } catch (error) {
+      this.toastr.error('Failed to start chat session');
     }
   }
 }

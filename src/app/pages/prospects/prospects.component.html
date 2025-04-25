@@ -1,6 +1,9 @@
-<section id="prospect-wrapper" class="px-[4%] py-12 bg-gray-100 dark:bg-black antialiased">
-  <div class="mb-5">
+<section id="prospect-wrapper" class="px-[4%] py-12 bg-gray-100 dark:bg-black antialiased min-h-screen">
+  <ngx-spinner>
+    <p class="text-primary text-xl -mt-32">Loading prospects...</p>
+  </ngx-spinner>
 
+  <div class="mb-5">
     <app-cbutton1 routerLink="/account/projects" btnText="Go Back"></app-cbutton1>
   </div>
   <div *ngIf="!prospects" class="flex flex-col  gap-6 items-center py-6 dark:text-gray-300">

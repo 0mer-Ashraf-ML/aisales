@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -22,16 +22,21 @@ import { CommonService } from '../../services/common.service';
 export class LogInComponent {
   loginForm: FormGroup;
   showPassword = false;
-  loginError: string | null = null;
   isLoading = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private toastr: ToastrService,
-    private commonSrv: CommonService
-  ) {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly toastr = inject(ToastrService);
+  private readonly commonService = inject(CommonService);
+
+  benefits: string[] = [
+    'Identifies high-intent prospects in real-time',
+    'Generates qualified leads from conversations',
+    'Helps close deals faster'
+  ];
+
+  constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -46,7 +51,41 @@ export class LogInComponent {
     });
   }
 
-  togglePasswordVisibility() {
+  onSubmit(event: Event): void {
+    event.preventDefault();
+
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      this.toastr.error('Please fix the errors in the form');
+      return;
+    }
+
+    this.isLoading = true;
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        this.commonService.setToken(data.data.accessToken.access_token);
+        this.commonService.setUser(data.data.user);
+        this.toastr.success('Login successful');
+        this.router.navigate(['/account']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        
+        if (error.status === 401) {
+          this.toastr.error('Invalid email or password');
+        } else if (error.error?.message) {
+          this.toastr.error(error.error.message);
+        } else {
+          this.toastr.error('Login failed. Please try again later');
+        }
+      }
+    });
+  }
+
+  togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
@@ -58,41 +97,6 @@ export class LogInComponent {
     return passwordRegex.test(password) ? null : { invalidPassword: true };
   };
 
-  onSubmit(event: Event): void {
-    event.preventDefault();
-
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      this.toastr.error('Please fix the errors in the form.', 'Invalid Input');
-      return;
-    }
-
-    this.isLoading = true;
-    this.loginError = null;
-
-    const { email, password } = this.loginForm.value;
-
-    this.authService.login(email, password).subscribe({
-      next: (data) => {
-        this.isLoading = false;
-        this.commonSrv.setToken(data.data.accessToken.access_token)
-        console.log(data.data);
-        this.commonSrv.setUser(data.data.user);
-        this.toastr.success('Login successful!', 'Welcome');
-        this.router.navigate(['/account']);
-      },
-      error: (error) => {
-        this.isLoading = false;
-        this.loginError = 'Login failed. Please check your credentials.';
-        if (error.error) {
-          this.toastr.error(error.error.message, 'Error');
-        } else {
-          this.toastr.error(error.message, 'Error');
-        }
-      },
-    });
-  }
-
   get email() {
     return this.loginForm.get('email');
   }
@@ -100,6 +104,4 @@ export class LogInComponent {
   get password() {
     return this.loginForm.get('password');
   }
-
-  benefits: any[] = ['Identifies high-intent prospects in real-time', 'Generates qualified leads from conversations', 'Helps close deals faster'];
 }

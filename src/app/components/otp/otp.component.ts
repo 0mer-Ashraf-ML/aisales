@@ -1,46 +1,44 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-otp',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './otp.component.html'
 })
 export class OtpComponent {
   otpForm: FormGroup;
   isLoading = false;
-  errorMessage = '';
   countdown = 30;
   canResend = false;
-  otpType: string = '';  // Store OTP type
-  email: string = '';    // Store email
+  otpType: string = '';
+  email: string = '';
 
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef>;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private toastr: ToastrService // Inject ToastrService
-  ) {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
+  private readonly toastr = inject(ToastrService);
+
+  constructor() {
     this.otpForm = this.fb.group({
       otp: this.fb.array<FormControl>(
         Array.from({ length: 5 }, () => this.fb.control('', [
           Validators.required,
           Validators.pattern(/^\d$/)
         ]))
-      ),
+      )
     });
+
     this.otpType = this.route.snapshot.queryParams['otpType'] || '';
     this.email = this.route.snapshot.queryParams['email'] || '';
-    console.log(this.otpType);
-
     this.startCountdown();
   }
 
@@ -48,7 +46,7 @@ export class OtpComponent {
     return this.otpForm.get('otp') as FormArray<FormControl>;
   }
 
-  startCountdown() {
+  startCountdown(): void {
     this.canResend = false;
     this.countdown = 30;
     const interval = setInterval(() => {
@@ -61,7 +59,7 @@ export class OtpComponent {
     }, 1000);
   }
 
-  focusNext(index: number, event: any) {
+  focusNext(index: number, event: any): void {
     const value = event.target.value;
     this.otp.controls[index].setValue(value);
     this.otp.markAsDirty();
@@ -71,81 +69,82 @@ export class OtpComponent {
     }
   }
 
-  focusPrev(index: number, event: KeyboardEvent) {
+  focusPrev(index: number, event: KeyboardEvent): void {
     if (event.key === 'Backspace' && index > 0 && !this.otp.controls[index].value) {
       this.otpInputs.get(index - 1)?.nativeElement.focus();
     }
   }
 
-  onSubmit() {
-    if (this.otpForm.invalid) return;
+  onSubmit(): void {
+    if (this.otpForm.invalid) {
+      this.toastr.error('Please enter a complete 5-digit OTP code');
+      return;
+    }
 
     this.isLoading = true;
-    this.errorMessage = '';
     const enteredOtp = this.otp.value.join('');
+    const otpPurpose = this.otpType === "account_verification" 
+      ? "account_verification" 
+      : "password_reset";
 
-    this.authService.verifyOtp(enteredOtp, this.email, this.otpType === "account_verification" ? "account_verification" : "password_reset")
-      .subscribe({
-        next: (data) => {
-          this.isLoading = false;
-          if (data?.success === true) {
-            this.toastr.success('✅ OTP Verified Successfully!', 'Success', {
-              timeOut: 3000,
-              positionClass: 'toast-top-right',
-              progressBar: true,
-            });
-
-            if (this.otpType === "account_verification") {
-              this.router.navigate(['/login']);
-            } else {
-              this.router.navigate(['/reset-password'], {
-                queryParams: {
-                  email: this.email,
-                  otpCode: enteredOtp
-                }
-              });
-            }
-          } else {
-            this.toastr.error('❌ Invalid OTP. Please try again.', 'Error', {
-              timeOut: 3000,
-              positionClass: 'toast-top-right',
-              progressBar: true,
-            });
-          }
-        },
-        error: (err) => {
-          this.isLoading = false;
-          console.error('OTP verification failed:', err);
-          this.toastr.error(err.error?.message || 'OTP verification failed. Try again!', 'Error', {
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-            progressBar: true,
-          });
-        }
-      });
-  }
-
-  resendOtp() {
-    if (!this.canResend || !this.email || !this.otpType) return;
-  
-    this.authService.resendOtp(this.email, this.otpType as 'account_verification' | 'password_reset').subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.toastr.success('📩 A new OTP has been sent to your email!', '', {
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-            progressBar: true,
-          });
-          this.startCountdown();
+    this.authService.verifyOtp(enteredOtp, this.email, otpPurpose).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        if (data?.success) {
+          this.toastr.success('OTP verified successfully');
+          this.handleSuccessfulVerification(enteredOtp);
         } else {
-          this.toastr.error(res.message || 'Failed to resend OTP.', 'Error');
+          this.toastr.error('Invalid OTP code');
         }
       },
-      error: (err) => {
-        console.error('Resend OTP failed:', err);
-        this.toastr.error(err.error?.message || 'Could not resend OTP. Please try again.', 'Error');
+      error: (error) => {
+        this.isLoading = false;
+        
+        if (error.status === 400) {
+          this.toastr.error('Invalid OTP code');
+        } else if (error.status === 410) {
+          this.toastr.error('OTP has expired');
+        } else {
+          this.toastr.error('OTP verification failed. Please try again');
+        }
       }
     });
   }
-  
+
+  private handleSuccessfulVerification(otpCode: string): void {
+    if (this.otpType === "account_verification") {
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/reset-password'], {
+        queryParams: {
+          email: this.email,
+          otpCode: otpCode
+        }
+      });
+    }
+  }
+
+  resendOtp(): void {
+    if (!this.canResend || !this.email || !this.otpType) return;
+
+    const otpPurpose = this.otpType as 'account_verification' | 'password_reset';
+    
+    this.authService.resendOtp(this.email, otpPurpose).subscribe({
+      next: (res) => {
+        if (res?.success) {
+          this.toastr.success('New OTP sent to your email');
+          this.startCountdown();
+        } else {
+          this.toastr.error('Failed to resend OTP');
+        }
+      },
+      error: (error) => {
+        if (error.status === 429) {
+          this.toastr.error('Please wait before requesting another OTP');
+        } else {
+          this.toastr.error('Failed to resend OTP. Please try again');
+        }
+      }
+    });
+  }
 }
