@@ -50,23 +50,26 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: white !important;
 }
 
-//toastrs
+/* Toastr styles */
+.toast-container .toast {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .toast-success {
-  background-color: #9333EA !important;
-  color: white !important;
+  background-color: #9333EA;
 }
 
 .toast-error {
-  background-color: #dc3545 !important;
-  color: white !important;
+  background-color: #f44336;
 }
 
-.toast-success .toast-progress {
-  background-color: #8706f0 !important;
+.toast-info {
+  background-color: #2196f3;
 }
 
-.toast-error .toast-progress {
-  background-color: #c82333 !important;
+.toast-warning {
+  background-color: #ff9800;
 }
 
 //Section scolling on homepage
@@ -79,8 +82,6 @@ section {
     scroll-margin-top: 60px;
   }
 }
-
-
 
 /* Custom Scrollbar Styles */
 .custom-scrollbar {
