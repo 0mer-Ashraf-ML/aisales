@@ -7,12 +7,18 @@ import { AuthGuard } from './guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadComponent: () =>
+      import('./pages/home/home.component').then(
+        (m) => m.HomeComponent
+      ),
     title: 'Home',
   },
   {
     path: 'solutions',
-    component: SolutionsComponent,
+    loadComponent: () =>
+      import('./pages/solutions/solutions.component').then(
+        (m) => m.SolutionsComponent
+      ),
     title: 'Solutions',
   },
   {

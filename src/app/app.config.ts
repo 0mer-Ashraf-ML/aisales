@@ -10,6 +10,7 @@ import { authInterceptor } from './interceptor/auth.interceptor';
 import { provideToastrConfig } from './toastr.config';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideToastr(),
