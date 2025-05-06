@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { Page404Component } from './pages/page404/page404.component';
+import { Page404Component } from './pages/error/page404/page404.component';
 import { SolutionsComponent } from './pages/solutions/solutions.component';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -8,9 +8,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./pages/home/home.component').then(
-        (m) => m.HomeComponent
-      ),
+      import('./pages/home/home.component').then((m) => m.HomeComponent),
     title: 'Home',
   },
   {
@@ -70,7 +68,7 @@ export const routes: Routes = [
   {
     path: 'chatbot',
     loadComponent: () =>
-      import('./pages/chatbot/chatbot.component').then(
+      import('./pages/dashboard/chatbot/chatbot.component').then(
         (m) => m.ChatbotComponent
       ),
     title: 'Chatbot',
@@ -84,18 +82,10 @@ export const routes: Routes = [
   {
     path: 'prospects',
     loadComponent: () =>
-      import('./pages/prospects/prospects.component').then(
+      import('./pages/dashboard/prospects/prospects.component').then(
         (m) => m.ProspectsComponent
       ),
     title: 'Prospects',
-  },
-  {
-    path: 'join-free',
-    loadComponent: () =>
-      import('./pages/join-free/join-free.component').then(
-        (m) => m.JoinFreeComponent
-      ),
-    title: 'Join Free',
   },
   {
     path: 'payment',
@@ -108,7 +98,7 @@ export const routes: Routes = [
   {
     path: 'account',
     loadComponent: () =>
-      import('./pages/account/account.component').then(
+      import('./pages/dashboard/account/account.component').then(
         (m) => m.AccountComponent
       ),
     title: 'Account',
@@ -117,7 +107,7 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./pages/welcome/welcome.component').then(
+          import('./pages/dashboard/welcome/welcome.component').then(
             (m) => m.WelcomeComponent
           ),
         title: 'Welcome',
@@ -125,20 +115,22 @@ export const routes: Routes = [
       {
         path: 'kpi',
         loadComponent: () =>
-          import('./pages/kpi/kpi.component').then((m) => m.KpiComponent),
+          import('./pages/dashboard/kpi/kpi.component').then(
+            (m) => m.KpiComponent
+          ),
         title: 'KPI',
       },
       {
         path: 'notifications',
         loadComponent: () =>
-          import('./pages/notifications/notifications.component').then(
-            (m) => m.NotificationsComponent
-          ),
+          import(
+            './pages/dashboard/notifications/notifications.component'
+          ).then((m) => m.NotificationsComponent),
       },
       {
         path: 'ai-agent',
         loadComponent: () =>
-          import('./pages/ai-agent/ai-agent.component').then(
+          import('./pages/dashboard/ai-agent/ai-agent.component').then(
             (m) => m.AiAgentComponent
           ),
         title: 'AI Agent',
@@ -146,7 +138,7 @@ export const routes: Routes = [
       {
         path: 'projects',
         loadComponent: () =>
-          import('./pages/projects/projects.component').then(
+          import('./pages/dashboard/projects/projects.component').then(
             (m) => m.ProjectsComponent
           ),
         title: 'Projects',
@@ -154,13 +146,15 @@ export const routes: Routes = [
       {
         path: 'leads',
         loadComponent: () =>
-          import('./pages/leads/leads.component').then((m) => m.LeadsComponent),
+          import('./pages/dashboard/leads/leads.component').then(
+            (m) => m.LeadsComponent
+          ),
         title: 'Leads',
       },
       {
         path: 'wallet',
         loadComponent: () =>
-          import('./pages/wallet/wallet.component').then(
+          import('./pages/dashboard/user/wallet/wallet.component').then(
             (m) => m.WalletComponent
           ),
         title: 'Wallet',
@@ -168,7 +162,7 @@ export const routes: Routes = [
       {
         path: 'billing',
         loadComponent: () =>
-          import('./pages/billing/billing.component').then(
+          import('./pages/dashboard/user/billing/billing.component').then(
             (m) => m.BillingComponent
           ),
         title: 'Billing',
@@ -176,7 +170,7 @@ export const routes: Routes = [
       {
         path: 'invoice',
         loadComponent: () =>
-          import('./pages/invoice/invoice.component').then(
+          import('./pages/dashboard/user/invoice/invoice.component').then(
             (m) => m.InvoiceComponent
           ),
         title: 'Invoice',
@@ -184,9 +178,9 @@ export const routes: Routes = [
       {
         path: 'user-profile',
         loadComponent: () =>
-          import('./pages/user-profile/user-profile.component').then(
-            (m) => m.UserProfileComponent
-          ),
+          import(
+            './pages/dashboard/user/user-profile/user-profile.component'
+          ).then((m) => m.UserProfileComponent),
         title: 'User Profile',
       },
     ],

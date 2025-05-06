@@ -1,0 +1,57 @@
+
+<section class="relative px-4 sm:px-6 md:px-12 xl:px-24 py-16 space-y-24 dark:bg-black bg-white"><div class="space-y-10">
+    <h2 [appTypewriter]="' How it works?'"
+        [line1Class]="'text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10'">
+    </h2>
+
+    <ng-container *ngFor="let step of steps">
+        <!-- Step Title Centered -->
+        <h3 class="text-left text-xl sm:text-2xl font-semibold text-gray-700 dark:text-gray-400">
+            {{ step.heading }}
+        </h3>
+
+        <!-- Image + Text Block -->
+        <div class="flex flex-col md:flex-row items-start gap-10">
+            <!-- Image Block -->
+            <div class="w-full md:w-1/5">
+                <img [src]="step.imgUrl" [alt]="step.alt" loading="lazy"
+                    class="rounded-xl shadow-md object-cover w-full" />
+            </div>
+
+            <!-- Text Block -->
+            <div class="w-full md:w-4/5 space-y-5 text-gray-700 dark:text-gray-300">
+                <p class="text-base md:text-lg leading-relaxed" *ngIf="step.text">{{ step.text }}</p>
+
+                <!-- Points with special case for 'Two-Tier Validation' -->
+                <ol *ngIf="step.points?.length" class="list-decimal pl-5 space-y-2">
+                    <li *ngFor="let point of step.points">
+                        <ng-container *ngIf="point !== 'Two-Tier Validation'; else twoTierBlock">
+                            {{ point }}
+                        </ng-container>
+                    </li>
+                </ol>
+
+                <ng-template #twoTierBlock>
+                    Two-Tier Validation:
+                    <ul class="list-disc pl-5 mt-2 space-y-1">
+                        <li *ngFor="let sub of step.subPoints">{{ sub }}</li>
+                    </ul>
+                </ng-template>
+
+                <!-- Billing Logic -->
+                <div *ngIf="step.billingLogic?.length">
+                    <h4 class="font-semibold text-gray-700 dark:text-gray-400 mt-4">Billing Logic:</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li *ngFor="let item of step.billingLogic">{{ item }}</li>
+                    </ul>
+                </div>
+
+                <!-- Optional Note -->
+                <div *ngIf="step.note" class=" pl-4 text-sm italic text-gray-700 dark:text-gray-300 mt-2">
+                    {{ step.note }}
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+</section>

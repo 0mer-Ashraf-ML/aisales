@@ -1,29 +1,25 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { TypewriterDirective } from '../../../../directives/typewriter.directive';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-cta',
   standalone: true,
-  imports: [CommonModule, RouterLink, TypewriterDirective],
+  imports: [CommonModule, TypewriterDirective],
   templateUrl: './cta.component.html',
-  styles: ``
 })
-export class CtaComponent {
-  @Input() heading1: string = '';
-  @Input() heading2: string = '';
-  @Input() imageUrl: string = '';
-  @Input() paragraph1: string = '';
-  @Input() paragraph2: string = '';
-  @Input() buttonText: string = 'Get Started';
-  @Input() isReverseLayout: boolean = true;
+export class CtaComponent implements OnInit {
+  isLoggedIn = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private commonSrv: CommonService) {}
 
-  @Input() isLoggedIn = false;
+  ngOnInit() {
+    this.isLoggedIn = this.commonSrv.isLoggedIn();
+  }
 
-  navigate(): void {
+  navigateToDashboardOrRegister(): void {
     if (this.isLoggedIn) {
       this.router.navigate(['/account']);
     } else {
