@@ -9,7 +9,7 @@
             <div *ngFor="let feature of features"
                 class="w-full max-w-sm p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition duration-300 bg-white dark:bg-gray-800 group">
                 <div class="relative overflow-hidden rounded-lg mb-4">
-                    <img [src]="feature.imgUrl" alt="feature image" loading="lazy"
+                    <img [src]="feature.imgUrl" [alt]="feature.alt" loading="lazy"
                         class="h-40 w-full object-cover object-top rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-105" />
                 </div>
                 <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-1 text-center">

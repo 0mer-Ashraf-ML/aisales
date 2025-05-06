@@ -227,15 +227,18 @@ export class PricingComponent {
     
   applications = [
     {
-      imgUrl: 'your-image-url-1.avif',
+      imgUrl: 'pricing/payment/zero-budget-commitments.jpg',
+      alt: 'zero-budget-commitments',
       desc: 'Zero Budget Commitments',
     },
     {
-      imgUrl: 'your-image-url-2.avif',
+      imgUrl: 'pricing/payment/no-monthly-annual-fees.jpg',
+      alt: 'zero-monthly-annual-fees',
       desc: 'No Monthly/Annual Fees',
     },
     {
-      imgUrl: 'your-image-url-3.avif',
+      imgUrl: 'pricing/payment/zero-budget-commitments.jpg',
+      alt: 'zero-budget-commitments',
       desc: 'Pay for Quality Work',
     },
   ];
@@ -244,6 +247,8 @@ export class PricingComponent {
     {
       heading: 'Step 1: Create Your First Project',
       text: 'Our AI dynamically calculates CPL (Cost Per Lead) based on your industry and market conditions. To get started:',
+      imgUrl: 'pricing/process/create-project.jpg',
+      alt: 'create-project',
       points: [
         'Register and create your initial project',
         'Provide basic business information through our onboarding flow',
@@ -254,6 +259,8 @@ export class PricingComponent {
     {
       heading: 'Step 2: Set Up Payment Methods',
       text: 'Before campaign launch:',
+      imgUrl: 'pricing/process/setup-payment-method.jpg',
+      alt: 'setup-payment-method',
       points: [
         'Securely add payment options to your account',
         "Maintain a minimum wallet balance (similar to Google Ads' prepay system)",
@@ -264,6 +271,8 @@ export class PricingComponent {
     {
       heading: 'Step 3: AI-Powered Lead Verification & Smart Billing',
       text: 'Our system autonomously applies your ICP criteria through three core mechanisms:',
+      imgUrl: 'pricing/process/lead-verification-and-smart-billing.jpg',
+      alt: 'lead-verification-and-smart-billing',
       points: [
         'Automated ICP Matching: Instant evaluation against 20+ key parameters',
         'Self-Optimizing Filters: Continuous calibration of qualification thresholds',

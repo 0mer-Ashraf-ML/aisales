@@ -11,7 +11,7 @@
 
       <!-- Image with Centered Overlay Text -->
       <div class="relative overflow-hidden rounded-lg mb-3 h-36">
-        <img [src]="application.imgUrl" alt="application image" loading="lazy"
+        <img [src]="application.imgUrl" [alt]="application.alt" loading="lazy"
           class="h-full w-full object-cover object-top rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-105" />
 
         <div class="absolute inset-0 flex items-center justify-center bg-black/40">
