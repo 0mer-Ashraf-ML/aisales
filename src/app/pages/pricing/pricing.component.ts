@@ -237,8 +237,8 @@ export class PricingComponent {
       desc: 'No Monthly/Annual Fees',
     },
     {
-      imgUrl: 'pricing/payment/zero-budget-commitments.jpg',
-      alt: 'zero-budget-commitments',
+      imgUrl: 'pricing/payment/pay-for-quality-work.jpg',
+      alt: 'pay-for-quality-work',
       desc: 'Pay for Quality Work',
     },
   ];
