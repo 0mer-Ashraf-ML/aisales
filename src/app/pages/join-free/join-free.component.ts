@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component';
+import { Cbutton1Component } from '../shared/components/cbutton1/cbutton1.component';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 

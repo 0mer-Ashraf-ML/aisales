@@ -7,8 +7,8 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Cbutton2Component } from '../../components/cbutton2/cbutton2.component';
-import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component';
+import { Cbutton2Component } from '../shared/components/cbutton2/cbutton2.component';
+import { Cbutton1Component } from '../shared/components/cbutton1/cbutton1.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ProspectsService } from '../../services/prospects.service';

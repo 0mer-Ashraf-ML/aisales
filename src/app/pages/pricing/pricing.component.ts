@@ -5,7 +5,7 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   inject,
 } from '@angular/core';
-import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component';
+import { Cbutton1Component } from '../shared/components/cbutton1/cbutton1.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import {

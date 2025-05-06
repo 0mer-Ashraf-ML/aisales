@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { CompanyService } from '../../services/company.service';
 import { RouterLink } from '@angular/router';
-import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component';
+import { Cbutton1Component } from '../shared/components/cbutton1/cbutton1.component';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerService } from '../../services/spinner.service';
 import { finalize } from 'rxjs/operators';

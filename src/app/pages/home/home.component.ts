@@ -1,21 +1,28 @@
 import { Component } from '@angular/core';
-import { HeroComponent } from '../../components/hero/hero.component';
-import { FeaturesComponent } from '../../components/features/features.component';
-import { SolutionComponent } from '../../components/solution/solution.component';
-import { TestimonialsComponent } from '../../components/testimonials/testimonials.component';
-import { CallToActionComponent } from "../../components/call-to-action/call-to-action.component";
-import { BlogsComponent } from '../../components/blogs/blogs.component';
-import { ApplicationComponent } from '../../components/application/application.component';
-import { ExperiencesComponent } from '../../components/experiences/experiences.component';
-import { ClientsComponent } from '../../components/clients/clients.component';
+import { HeroComponent } from './components/hero/hero.component';
+import { FeaturesComponent } from './components/features/features.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { TestimonialsComponent } from './components/testimonials/testimonials.component';
+import { ApplicationsComponent } from './components/applications/applications.component';
+import { SalesJourneyComponent } from './components/sales-journey/sales-journey.component';
+import { ClientsComponent } from './components/clients/clients.component';
+import { CtaComponent } from './components/cta/cta.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, ClientsComponent,SolutionComponent, FeaturesComponent, CallToActionComponent,TestimonialsComponent, BlogsComponent, ExperiencesComponent, ApplicationComponent, CallToActionComponent],
-  templateUrl: './home.component.html'
+  imports: [
+    HeroComponent,
+    FeaturesComponent,
+    ClientsComponent,
+    PaymentComponent,
+    ApplicationsComponent,
+    SalesJourneyComponent,
+    TestimonialsComponent,
+    CtaComponent
+],
+  templateUrl: './home.component.html',
 })
-
 export class HomeComponent {
   title = 'AI Sales';
 }

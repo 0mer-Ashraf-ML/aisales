@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { Page404Component } from './components/page404/page404.component';
+import { Page404Component } from './pages/page404/page404.component';
 import { SolutionsComponent } from './pages/solutions/solutions.component';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -32,7 +32,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./components/log-in/log-in.component').then(
+      import('./pages/auth/log-in/log-in.component').then(
         (m) => m.LogInComponent
       ),
     title: 'Log In',
@@ -40,7 +40,7 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () =>
-      import('./components/register/register.component').then(
+      import('./pages/auth/register/register.component').then(
         (m) => m.RegisterComponent
       ),
     title: 'Register',
@@ -48,7 +48,7 @@ export const routes: Routes = [
   {
     path: 'forgot-password',
     loadComponent: () =>
-      import('./components/forgot-password/forgot-password.component').then(
+      import('./pages/auth/forgot-password/forgot-password.component').then(
         (m) => m.ForgotPasswordComponent
       ),
     title: 'Forgot Password',
@@ -56,13 +56,13 @@ export const routes: Routes = [
   {
     path: 'otp-verification',
     loadComponent: () =>
-      import('./components/otp/otp.component').then((m) => m.OtpComponent),
+      import('./pages/auth/otp/otp.component').then((m) => m.OtpComponent),
     title: 'Verify Code',
   },
   {
     path: 'reset-password',
     loadComponent: () =>
-      import('./components/reset-password/reset-password.component').then(
+      import('./pages/auth/reset-password/reset-password.component').then(
         (m) => m.ResetPasswordComponent
       ),
     title: 'Reset Password',

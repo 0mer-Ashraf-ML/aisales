@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Cbutton1Component } from '../../components/cbutton1/cbutton1.component';
+import { Cbutton1Component } from '../shared/components/cbutton1/cbutton1.component';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 

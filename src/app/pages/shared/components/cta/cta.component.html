@@ -1,0 +1,30 @@
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Heading -->
+    <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl text-center font-bold mb-10">
+      <span [appTypewriter]="heading1" [text2]="heading2" [line1Class]="'inline'" [line2Class]="'inline ml-2 text-primary'"></span>
+    </h2>
+  
+    <!-- Content Layout -->
+    <div
+      class="flex items-center gap-12 text-gray-600 dark:text-gray-300"
+      [ngClass]="{ 'flex-col-reverse md:flex-row-reverse': isReverseLayout, 'flex-col md:flex-row': !isReverseLayout }"
+    >
+      <!-- Text Block -->
+      <div class="w-full md:w-7/12 lg:w-1/2">
+        <p class="text-base md:text-lg leading-relaxed">{{ paragraph1 }}</p>
+        <p class="mt-4 text-base md:text-lg leading-relaxed mb-4">{{ paragraph2 }}</p>
+        <button
+          (click)="navigate()"
+          class="relative h-11 text-sm px-4 lg:px-6 flex mt-10 w-full sm:w-max items-center justify-center rounded-full bg-primary text-white font-medium lg:font-semibold transition duration-300 hover:scale-105 active:scale-95"
+        >
+          {{ buttonText }}
+        </button>
+      </div>
+  
+      <!-- Image Block -->
+      <div class="w-full md:w-5/12 lg:w-1/2">
+        <img [src]="imageUrl" alt="call-to-action-image" loading="lazy" class="rounded-xl shadow-md object-cover" />
+      </div>
+    </div>
+  </section>
+  
