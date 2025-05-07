@@ -11,22 +11,22 @@ import { TypewriterDirective } from '../../../../directives/typewriter.directive
 })
 export class ClientsComponent {
   row1 = [
-    './images/clients/alibaba.png',
-    './images/clients/stp.png',
-    './images/clients/haier.png',
-    './images/clients/topease.jpeg',
-    './images/clients/optraffic.png',
-    './images/clients/holley.png',
-    './images/clients/midea.png',
+    'home/clients/alibaba.png',
+    'home/clients/stp.png',
+    'home/clients/haier.png',
+    'home/clients/topease.jpeg',
+    'home/clients/optraffic.png',
+    'home/clients/holley.png',
+    'home/clients/midea.png',
   ];
 
   row2 = [
-    './images/clients/yext.png',
-    './images/clients/meorient.png',
-    './images/clients/zeekr.png',
-    './images/clients/yiwu.jpeg',
-    './images/clients/luthai-textile.jpg',
-    './images/clients/lian-lian-global.png',
+    'home/clients/yext.png',
+    'home/clients/meorient.png',
+    'home/clients/zeekr.png',
+    'home/clients/yiwu.jpeg',
+    'home/clients/luthai-textile.jpg',
+    'home/clients/lian-lian-global.png',
   ];
 
   getDelay(index: number, total: number): string {

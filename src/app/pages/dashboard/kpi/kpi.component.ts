@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChartComponent } from '../../../components/chart/chart.component';
+import { ChartComponent } from '../chart/chart.component';
 
 @Component({
   selector: 'app-kpi',
