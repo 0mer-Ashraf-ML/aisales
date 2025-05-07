@@ -16,8 +16,8 @@ export class TypewriterDirective implements AfterViewInit {
   @Input() line1Class?: string;
   @Input() line2Class?: string;
 
-  private baseSpeed = 35;
-  private interAnimationDelay = 120;
+  private baseSpeed = 100;
+  private interAnimationDelay = 300;
   private hasAnimated = false;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
@@ -67,47 +67,60 @@ export class TypewriterDirective implements AfterViewInit {
     this.renderer.appendChild(container, line1);
     if (line2) this.renderer.appendChild(container, line2);
 
-    this.prepareText(line1, this.text1);
-
+    this.prepareWords(line1, this.text1);
     if (line2 && this.text2) {
-      this.prepareText(line2, this.text2);
+      this.prepareWords(line2, this.text2);
     }
 
-    this.animateText(line1, () => {
+    this.animateWords(line1, () => {
       if (line2 && this.text2) {
-        setTimeout(() => this.animateText(line2!), this.interAnimationDelay);
+        setTimeout(() => this.animateWords(line2!), this.interAnimationDelay);
       }
     });
   }
 
-  private prepareText(container: HTMLElement, text: string) {
+  private prepareWords(container: HTMLElement, text: string) {
     container.innerHTML = '';
-    for (const char of text) {
+    const words = text.split(' ');
+  
+    words.forEach((word, i) => {
       const span = this.renderer.createElement('span');
-      this.renderer.addClass(span, 'char');
+      this.renderer.addClass(span, 'word');
+  
+      // Initial styles
       this.renderer.setStyle(span, 'opacity', '0');
+      this.renderer.setStyle(span, 'transform', 'translateY(10px)');
       this.renderer.setStyle(span, 'display', 'inline-block');
-      this.renderer.setProperty(span, 'textContent', char === ' ' ? '\u00A0' : char);
+      this.renderer.setStyle(span, 'marginRight', '0.5rem');
+  
+      // Smooth wave-like transition per word
+      const delay = `${i * 100}ms`;
+      this.renderer.setStyle(
+        span,
+        'transition',
+        `opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1) ${delay}, transform 0.6s cubic-bezier(0.19, 1, 0.22, 1) ${delay}`
+      );
+  
+      this.renderer.setProperty(span, 'textContent', word);
       this.renderer.appendChild(container, span);
-    }
+    });
   }
 
-  private animateText(container: HTMLElement, onComplete?: () => void) {
-    const chars = Array.from(container.querySelectorAll('.char'));
+  private animateWords(container: HTMLElement, onComplete?: () => void) {
+    const words = Array.from(container.querySelectorAll('.word')) as HTMLElement[];
     let index = 0;
 
-    const animateChar = () => {
-      if (index < chars.length) {
-        const speed = this.baseSpeed * (0.8 + Math.random() * 0.4);
-        this.renderer.setStyle(chars[index], 'opacity', '1');
-        this.renderer.setStyle(chars[index], 'transform', 'translateY(0)');
+    const animateWord = () => {
+      if (index < words.length) {
+        this.renderer.setStyle(words[index], 'opacity', '1');
+        this.renderer.setStyle(words[index], 'transform', 'translateY(0)');
         index++;
-        setTimeout(animateChar, speed);
+        setTimeout(animateWord, this.baseSpeed);
       } else if (onComplete) {
         onComplete();
       }
     };
 
-    setTimeout(animateChar, 50);
+    setTimeout(animateWord, 100);
   }
 }
