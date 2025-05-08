@@ -89,8 +89,6 @@ export class UserProfileComponent implements OnInit {
   
     const fullContact = this.user?.contact || '';
     const { countryCode, contact } = this.extractCountryCodeFromContact(fullContact);
-    console.log('Country Code:', countryCode);
-    console.log('Contact:', contact);
     if (countryCode && contact) {
       patchData.countryCode = countryCode;
       patchData.contact = contact;
@@ -124,7 +122,6 @@ export class UserProfileComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching countries:', err);
         this.isLoading = false;
         // Fallback to a basic list if API fails
         this.countries = [
@@ -213,12 +210,10 @@ export class UserProfileComponent implements OnInit {
           this.setData();
         },
         error: (err) => {
-          console.error('Error updating profile:', err);
           this.toastr.error('Failed to update profile. Please try again.');
         },
       });
 
-      console.log('Form Submitted:', this.userForm.value);
     } else {
       console.log('Form is invalid');
       this.userForm.markAllAsTouched();
