@@ -75,5 +75,11 @@ export class AuthService {
     });
   }
 
+  updateUser(id: string, data: any): Observable<any> {
+    return this.http.patch<any>(`${this.api}/auth/user/${id}`, data)
+  }
 
+  getUser(id: string): Observable<any> {
+    return this.http.get<any>(`${this.api}/auth/${id}`)
+  }
 }

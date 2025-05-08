@@ -7,6 +7,7 @@ import {
   OnInit,
   ChangeDetectorRef,
   NgZone,
+  HostListener,
 } from '@angular/core';
 import { ThemeService } from '../../../services/theme.service';
 import { ChatbotService } from '../../../services/chatbot.service';
@@ -37,6 +38,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   prospects: any = null;
   showProspects: boolean = false;
   companyId: any;
+  showDropdown = false;
 
   constructor(
     private themeService: ThemeService,
@@ -49,7 +51,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     private chathistorySrv: ChatHistoryService,
     private commonSrv: CommonService,
     private cdRef: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
   ) {
     this.themeService.currentTheme.subscribe((theme) => {
       this.isDarkMode = theme;
@@ -81,7 +83,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
             },
             (error) => {
               console.error('Error fetching specific chat history:', error);
-            }
+            },
           );
         } else {
           localStorage.setItem('sessionId', uuidv4());
@@ -102,7 +104,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     textarea.value = message;
     this.onSubmitAnswer(
       new KeyboardEvent('keydown', { key: 'Enter' }),
-      textarea
+      textarea,
     );
   }
 
@@ -136,7 +138,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
 
     const newHeight = Math.min(
       Math.max(textarea.scrollHeight, minHeight),
-      maxHeight
+      maxHeight,
     );
     textarea.style.height = `${newHeight}px`;
 
@@ -155,27 +157,27 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     this.showProspects = false;
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
-  
+
     const question = textarea.value.trim();
     if (!question) return;
-  
+
     this.conversation.push({ role: 'user', content: question });
-  
+
     textarea.value = '';
     this.isTextareaEmpty = true;
     textarea.style.height = '48px';
     textarea.style.overflowY = 'hidden';
-  
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.scrollToBottom();
       });
     });
-  
+
     this.cdRef.detectChanges();
-  
+
     this.loading = true;
-  
+
     this.chatbotService
       .conservation({
         user_input: question,
@@ -186,7 +188,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
         next: (data) => {
           this.conversation = data.conversation;
           this.prospects = data.prospect_output;
-  
+
           if (this.prospects != null) {
             try {
               const std = data.standardized_json;
@@ -195,28 +197,37 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
                 next: (company) => {
                   console.log('Company: ', company);
                   this.companyId = company.data.id;
-  
+
                   try {
-                    const prospectsWithCompany = data.prospect_output.results.map((pros: any) => ({
-                      ...pros,
-                      company_id: company.data.id,
-                    }));
-  
-                    this.prospectsService.uploadProspects(prospectsWithCompany).subscribe({
-                      next: (propspects) => {
-                        // Force Angular to detect changes
-                        this.ngZone.run(() => {
-                          this.showProspects = true;
-                        });
-                        console.log('Prospects: ', propspects);
-                      },
-                      error: (uploadErr) => {
-                        console.error('Error uploading prospects:', uploadErr);
-                        this.toaster.error(uploadErr, 'Error');
-                      },
-                    });
+                    const prospectsWithCompany =
+                      data.prospect_output.results.map((pros: any) => ({
+                        ...pros,
+                        company_id: company.data.id,
+                      }));
+
+                    this.prospectsService
+                      .uploadProspects(prospectsWithCompany)
+                      .subscribe({
+                        next: (propspects) => {
+                          // Force Angular to detect changes
+                          this.ngZone.run(() => {
+                            this.showProspects = true;
+                          });
+                          console.log('Prospects: ', propspects);
+                        },
+                        error: (uploadErr) => {
+                          console.error(
+                            'Error uploading prospects:',
+                            uploadErr,
+                          );
+                          this.toaster.error(uploadErr, 'Error');
+                        },
+                      });
                   } catch (mapErr) {
-                    console.error('Error mapping prospects with company ID:', mapErr);
+                    console.error(
+                      'Error mapping prospects with company ID:',
+                      mapErr,
+                    );
                   }
                 },
                 error: (companyErr) => {
@@ -225,15 +236,18 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
                 },
               });
             } catch (error) {
-              console.error('Unexpected error during company service call:', error);
+              console.error(
+                'Unexpected error during company service call:',
+                error,
+              );
               this.toaster.error('Failed to fetch conversation', 'Error');
             }
-  
+
             setTimeout(() => {
               this.open();
             }, 0);
           }
-  
+
           this.loading = false;
           this.scrollToBottom();
         },
@@ -244,8 +258,36 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
         },
       });
   }
-  
+
   onTextareaInput(textarea: HTMLTextAreaElement) {
     this.isTextareaEmpty = textarea.value.trim().length === 0;
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  closeDropdown() {
+    this.showDropdown = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleOutsideClick(event: MouseEvent) {
+    const clickedInside = (event.target as HTMLElement).closest('.relative');
+    if (!clickedInside) {
+      this.showDropdown = false;
+    }
+  }
+
+  logout() {
+    this.commonSrv.logout();
+    this.router.navigate(['/login']);
+  }
+
+  goToAccount() {
+    this.router.navigate(['/account']);
+  }
+  goToProjects() {
+    this.router.navigate(['/account/projects']);
   }
 }

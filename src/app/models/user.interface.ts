@@ -15,5 +15,7 @@ export interface IUser {
     };
     stripe_customer_id?: string;
     updatedAt?: string;
+    contact?: string;
+    countryCode?: number;
   }
   

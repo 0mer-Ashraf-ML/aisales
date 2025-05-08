@@ -39,7 +39,7 @@ export class AiAgentComponent implements OnInit {
           this.sessionId = data.session_id;
           
           if (this.latestChat.length > 0) {
-            this.toastr.success('Conversation loaded successfully');
+            this.toastr.success('Latest conversation loaded successfully');
           } else {
             this.toastr.info('No conversation history available');
           }
@@ -54,6 +54,11 @@ export class AiAgentComponent implements OnInit {
           }
         }
       });
+  }
+
+  get recentChat(): any[] {
+    const maxMessages = 4;
+    return this.latestChat.slice(-maxMessages);
   }
 
   goToChatbot(): void {

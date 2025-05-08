@@ -12,11 +12,36 @@
         </a>
       </div>
       <a *ngIf="showProspects" class="px-3 py-2 text-sm bg-primary text-white font-medium rounded-3xl"
-  [routerLink]="['/prospects']"
-  [queryParams]="{ company_id: companyId }"
-  target="_blank">
-  Prospects
-</a>
+        [routerLink]="['/prospects']" [queryParams]="{ company_id: companyId }" target="_blank">
+        Prospects
+      </a>
+      <!-- Profile Dropdown -->
+<div class="relative" tabindex="0" (blur)="closeDropdown()">
+  <div class="flex items-center space-x-1 cursor-pointer select-none" (click)="toggleDropdown()">
+    <i class="fa-solid fa-user-circle fa-2xl text-gray-700 dark:text-gray-300"></i>
+    <i class="fa-solid fa-chevron-down text-sm text-gray-600 dark:text-gray-300 mt-[2px]"></i>
+  </div>
+
+  <!-- Profile dropdown menu -->
+  <div *ngIf="showDropdown"
+       class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#303030] rounded-lg shadow-lg z-50 border dark:border-gray-700">
+    <a (click)="goToAccount()"
+       routerLinkActive="bg-gray-100 dark:bg-[#404040]"
+       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#404040]">
+      <i class="fa-solid fa-user mr-2"></i>Account
+    </a>
+    <a (click)="goToProjects()"
+       routerLinkActive="bg-gray-100 dark:bg-[#404040]"
+       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#404040]">
+      <i class="fa-solid fa-diagram-project mr-2"></i>Projects
+    </a>
+    <button (click)="logout()"
+            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100 dark:hover:bg-[#502020]">
+      <i class="fa-solid fa-sign-out-alt mr-2"></i>Logout
+    </button>
+  </div>
+</div>
+
     </div>
   </header>
   <!-- Scrollable Content Area -->
