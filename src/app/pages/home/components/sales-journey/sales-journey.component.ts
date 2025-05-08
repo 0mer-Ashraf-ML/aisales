@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TypewriterDirective } from '../../../../directives/typewriter.directive';
+import { SlideUpDirective } from '../../../../directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-sales-journey',
   standalone: true,
-  imports: [CommonModule, TypewriterDirective],
+  imports: [CommonModule, TypewriterDirective, SlideUpDirective],
   templateUrl: './sales-journey.component.html'
 })
 export class SalesJourneyComponent {

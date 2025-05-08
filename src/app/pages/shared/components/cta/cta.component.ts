@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TypewriterDirective } from '../../../../directives/typewriter.directive';
 import { CommonService } from '../../../../services/common.service';
+import { SlideUpDirective } from '../../../../directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-cta',
   standalone: true,
-  imports: [CommonModule, TypewriterDirective],
+  imports: [CommonModule, TypewriterDirective, SlideUpDirective],
   templateUrl: './cta.component.html',
 })
 export class CtaComponent implements OnInit {
@@ -19,7 +20,7 @@ export class CtaComponent implements OnInit {
     this.isLoggedIn = this.commonSrv.isLoggedIn();
   }
 
-  navigateToDashboardOrRegister(): void {
+  navigate(): void {
     if (this.isLoggedIn) {
       this.router.navigate(['/account']);
     } else {

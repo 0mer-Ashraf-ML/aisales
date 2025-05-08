@@ -1,34 +1,34 @@
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
   <!-- Heading -->
   <h2 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl text-center font-bold mb-10">
-    <span [appTypewriter]="'Revolutionize Your Global Business with'" [text2]="'SellersGPT'" [line1Class]="'inline'"
+    <span [typewriter]="'Revolutionize Your Global Business with'" [text2]="'SellersGPT'" [line1Class]="'inline'"
       [line2Class]="'inline ml-2 text-primary'"></span>
   </h2>
 
   <!-- Content Layout -->
-  <div class="flex flex-col-reverse md:flex-row-reverse items-center gap-12 text-gray-600 dark:text-gray-300">
+  <div class="md:flex flex-row-reverse gap-10 lg:gap-16 space-y-10 sm:space-y-0 items-center text-gray-600 dark:text-gray-300">
     <!-- Text Block -->
-    <div class="w-full md:w-7/12 lg:w-1/2">
-      <p class="text-base md:text-lg leading-relaxed">
+    <div class="sm:w-1/2 space-y-4">
+      <p slideUp class="text-base md:text-lg leading-relaxed">
         Accelerate your global business growth with <strong class="text-primary">SellersGPT</strong> —
         an innovative AI-driven solution that transforms your sales processes.
         Predict customer needs, close deals faster, and expand into new markets
         with actionable insights and automation.
       </p>
-      <p class="mt-4 text-base md:text-lg leading-relaxed mb-4">
+      <p slideUp class="mt-4 text-base md:text-lg leading-relaxed mb-4">
         Redefine efficiency and profitability today with <strong class="text-primary">SellersGPT</strong>.
         Start now and unlock your business’s full potential.
       </p>
-      <button (click)="navigateToDashboardOrRegister()"
+      <button slideUp (click)="navigate()"
         class="relative h-11 text-sm px-4 lg:px-6 flex mt-10 w-full sm:w-max items-center justify-center rounded-full bg-primary text-white font-medium lg:font-semibold transition duration-300 hover:scale-105 active:scale-95">
         Launch Your Project Now
       </button>
     </div>
 
     <!-- Image Block -->
-    <div class="w-full md:w-5/12 lg:w-1/2">
+    <div slideUp class="sm:w-1/2 overflow-hidden rounded-2xl">
       <img src="shared/cta/revolutionize-global-business.jpg" alt="revolutionize-global-business"
-        loading="lazy" class="rounded-xl shadow-md object-cover" />
+        loading="lazy" class="w-full h-52 sm:h-64 lg:h-80 object-cover object-center hover:scale-105 transition-transform duration-500 ease-in-out" />
     </div>
   </div>
 </section>

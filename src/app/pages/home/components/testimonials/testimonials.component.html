@@ -1,17 +1,24 @@
-<section id="testimonials" class="text-gray-600 dark:text-gray-300 max-w-7xl mx-auto px-6 md:px-12 xl:px-6 py-6">
+<section class="text-gray-600 dark:text-gray-300 max-w-7xl mx-auto px-6 md:px-12 xl:px-6 py-6">
     <div class="mb-10 space-y-4 px-6 md:px-0">
-        <h2 appTypewriter="Don't take our words, hear what our clients said"
+        <h2 typewriter="Don't take our words, hear what our clients said"
             [line1Class]="'text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl text-center font-bold'">
         </h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div *ngFor="let testimonial of testimonials"
-            class="aspect-auto p-8 border border-gray-100 rounded-3xl bg-white dark:bg-gray-800 dark:border-gray-700 shadow-2xl shadow-gray-600/10 dark:shadow-none">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-10">
+        <div *ngFor="let testimonial of testimonials; let i = index"
+            class="col-span-12 sm:col-span-6 lg:col-span-4 relative transition-all duration-300 ease-in-out transform bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-3xl p-6 shadow-md hover:shadow-xl  hover:border-primary/20 hover:ring-2 hover:ring-primary/10 dark:hover:shadow-lg dark:hover:border-primary/50 dark:hover:ring-primary/20"
+            [ngClass]="{ 'lg:col-start-3': i === 3, 'sm:col-start-4': i === 4 }">
+
             <div class="flex flex-col gap-4">
-                <h6 class="text-lg font-medium text-gray-700 dark:text-white">{{ testimonial.name }}</h6>
-                <p class="text-sm text-gray-500 dark:text-gray-300">{{ testimonial.designation }}</p>
+                <h4 slideup class="text-xl text-primary font-extrabold">{{ testimonial.name }}</h4>
+                <p slideup class="text-gray-500 dark:text-gray-300 font-medium">{{ testimonial.designation }}</p>
             </div>
-            <p class="mt-8">{{ testimonial.desc }}</p>
+            <p slideup class="mt-8 text-lg italic text-gray-600 dark:text-gray-200 relative leading-relaxed">
+                <i class="fa-solid fa-quote-left text-primary mr-2 align-top"></i>
+                {{ testimonial.desc }}
+                <i class="fa-solid fa-quote-right text-primary ml-2 align-bottom"></i>
+            </p>
+
         </div>
     </div>
 </section>

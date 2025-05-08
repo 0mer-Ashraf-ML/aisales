@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { TypewriterDirective } from '../../../../directives/typewriter.directive';
 import { CommonModule } from '@angular/common';
+import { SlideUpDirective } from '../../../../directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-applications',
   standalone: true,
-  imports: [TypewriterDirective, CommonModule],
+  imports: [TypewriterDirective, CommonModule, SlideUpDirective],
   templateUrl: './applications.component.html',
   styles: ``
 })

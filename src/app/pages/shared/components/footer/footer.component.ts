@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Cbutton1Component } from '../cbutton1/cbutton1.component';
+import { SlideUpDirective } from '../../../../directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink, CommonModule, Cbutton1Component],
+  imports: [RouterLink, CommonModule, Cbutton1Component, SlideUpDirective],
   templateUrl: './footer.component.html'
 })
 export class FooterComponent {

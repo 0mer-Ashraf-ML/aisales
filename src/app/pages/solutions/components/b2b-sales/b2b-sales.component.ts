@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { TypewriterDirective } from '../../../../directives/typewriter.directive';
 import { CommonModule } from '@angular/common';
+import { SlideUpDirective } from '../../../../directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-b2b-sales',
   standalone: true,
-  imports: [TypewriterDirective, CommonModule],
+  imports: [TypewriterDirective, CommonModule, SlideUpDirective],
   templateUrl: './b2b-sales.component.html',
   styles: ``,
 })

@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TypewriterDirective } from '../../../../directives/typewriter.directive';
 import { CommonService } from '../../../../services/common.service';
@@ -8,8 +8,7 @@ import { CommonService } from '../../../../services/common.service';
   selector: 'app-hero',
   standalone: true,
   imports: [CommonModule, TypewriterDirective],
-  templateUrl: './hero.component.html',
-  styles: ``,
+  templateUrl: './hero.component.html'
 })
 export class HeroComponent implements OnInit {
   @Input() heading1: string = '';
@@ -23,7 +22,7 @@ export class HeroComponent implements OnInit {
     this.isLoggedIn = this.commonSrv.isLoggedIn();
   }
 
-  navigate(): void {
+  navigate() {
     if (this.isLoggedIn) {
       this.router.navigate(['/account']);
     } else {

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TypewriterDirective } from '../../../../directives/typewriter.directive';
+import { SlideUpDirective } from '../../../../directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-features',
   standalone: true,
-  imports: [CommonModule, TypewriterDirective],
+  imports: [CommonModule, TypewriterDirective, SlideUpDirective],
   templateUrl: './features.component.html'
 })
 export class FeaturesComponent {

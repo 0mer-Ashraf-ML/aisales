@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[appTypewriter]',
+  selector: '[typewriter]',
   standalone: true,
 })
 export class TypewriterDirective implements AfterViewInit {
-  @Input('appTypewriter') text1: string = '';
+  @Input('typewriter') text1: string = '';
   @Input() text2?: string;
   @Input() line1Class?: string;
   @Input() line2Class?: string;

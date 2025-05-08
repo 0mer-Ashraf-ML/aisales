@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appSlideUp]',
+  selector: '[slideUp]',
   standalone: true
 })
 export class SlideUpDirective implements OnInit, OnDestroy {

@@ -1,16 +1,16 @@
-<section class="relative px-4 sm:px-6 md:px-12 xl:px-24 py-16 space-y-24 dark:bg-black bg-white">
+<section class="max-w-7xl mx-auto px-6 md:px-12 xl:px-6 py-6 space-y-10">
     <div *ngFor="let application of applications" class="space-y-6">
         <h3 class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10"
-            [appTypewriter]="application.heading"
-            line1Class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center mb-10">
+            [typewriter]="application.heading"
+            line1Class="text-gray-700 dark:text-gray-400 text-xl md:text-2xl xl:text-4xl font-bold text-center">
         </h3>
-        <div class="flex flex-col-reverse md:flex-row-reverse items-center gap-12 text-gray-600 dark:text-gray-300">
-            <div class="w-full md:w-7/12 lg:w-1/2 space-y-4">
+        <div class="flex flex-col-reverse md:flex-row-reverse items-center gap-10 lg:gap-16 text-gray-600 dark:text-gray-300">
+            <div class="sm:w-1/2">
                 <p class="text-base md:text-lg leading-relaxed">{{ application.desc }}</p>
             </div>
-            <div class="w-full md:w-5/12 lg:w-1/2">
+            <div class="sm:w-1/2 overflow-hidden rounded-2xl">
                 <img [src]="application.imgUrl" [alt]="application.alt" loading="lazy"
-                    class="rounded-xl shadow-md object-cover w-full" />
+                    class="w-full h-52 sm:h-64 lg:h-80 object-cover object-center hover:scale-105 transition-transform duration-500 ease-in-out" />
             </div>
         </div>
     </div>
