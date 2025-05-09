@@ -20,7 +20,7 @@ export class ProspectsService {
   }
 
   getProspects(id: string): Observable<any> {
-    return this.http.get<any>(`${this.api}/prospects?company_id=${id}`);
+    return this.http.get<any>(`${this.api}/prospects?companyId=${id}`);
   }
 
   updateProspects(id: any, data: prospects): Observable<any> {
