@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProspectsService } from '../../../services/prospects.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { finalize, take } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-prospects',
@@ -38,15 +39,24 @@ export class ProspectsComponent implements OnInit, AfterViewInit {
   private readonly SCROLL_THRESHOLD = 1000;
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      const companyId = params['company_id'];
+    this.route.queryParams.pipe(take(1)).subscribe({
+      next: (params) => {
+        const companyId = params['company_id'];
 
-      if (!companyId) {
-        this.toastr.error('No company ID provided');
-        return;
+        if (!companyId) {
+          this.toastr.error('Company ID is required');
+          return;
+        }
+
+        this.fetchProspects(companyId);
+      },
+      error: (error) => {
+        if (error instanceof HttpErrorResponse) {
+          this.toastr.error(error.error?.message || 'Failed to load query parameters');
+        } else {
+          this.toastr.error('An unexpected error occurred');
+        }
       }
-
-      this.fetchProspects(companyId);
     });
   }
 
@@ -61,16 +71,22 @@ export class ProspectsComponent implements OnInit, AfterViewInit {
           this.prospects = response?.data ?? [];
 
           if (this.prospects.length > 0) {
-            this.toastr.success(`${this.prospects.length} prospects loaded`);
+            this.toastr.success(`${this.prospects.length} prospects loaded successfully`);
           } else {
-            this.toastr.info('No prospects found');
+            this.toastr.info('No prospects found for this company');
           }
         },
-        error: (error) => {
-          this.toastr.error('Failed to load prospects');
-          if (error.status === 404) {
-            this.toastr.warning('Company not found');
+        error: (error: unknown) => {
+          if (error instanceof HttpErrorResponse) {
+            if (error.status === 404) {
+              this.toastr.warning('No prospects found for this company');
+            } else {
+              this.toastr.error(error.error?.message || 'Failed to load prospects');
+            }
+          } else {
+            this.toastr.error('An unexpected error occurred while loading prospects');
           }
+          console.error('Error loading prospects:', error);
         },
       });
   }

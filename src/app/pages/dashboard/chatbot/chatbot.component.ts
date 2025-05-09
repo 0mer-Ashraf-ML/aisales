@@ -8,6 +8,7 @@ import {
   ChangeDetectorRef,
   NgZone,
   HostListener,
+  inject,
 } from '@angular/core';
 import { ThemeService } from '../../../services/theme.service';
 import { ChatbotService } from '../../../services/chatbot.service';
@@ -18,6 +19,7 @@ import { CompanyService } from '../../../services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { ChatHistoryService } from '../../../services/chatHistory.service';
 import { CommonService } from '../../../services/common.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-chatbot',
@@ -29,72 +31,81 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   @ViewChild('chatWindow') chatWindow!: ElementRef;
   @ViewChild('openTabLink') openTabLink!: ElementRef<HTMLAnchorElement>;
 
-  absoluteUrl: any;
+  // Services
+  private readonly themeService = inject(ThemeService);
+  private readonly chatbotService = inject(ChatbotService);
+  private readonly router = inject(Router);
+  private readonly prospectsService = inject(ProspectsService);
+  private readonly companyService = inject(CompanyService);
+  private readonly toastr = inject(ToastrService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly chatHistoryService = inject(ChatHistoryService);
+  private readonly commonService = inject(CommonService);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly ngZone = inject(NgZone);
+
+  // Component state
+  absoluteUrl: string = '';
   isTextareaEmpty: boolean = true;
   loading: boolean = false;
   isDarkMode: boolean = false;
-  sessionId = '';
+  sessionId: string = '';
   conversation: any[] = [];
   prospects: any = null;
   showProspects: boolean = false;
-  companyId: any;
-  showDropdown = false;
-
-  constructor(
-    private themeService: ThemeService,
-    private chatbotService: ChatbotService,
-    private router: Router,
-    private prospectsService: ProspectsService,
-    private companysrv: CompanyService,
-    private toaster: ToastrService,
-    private route: ActivatedRoute,
-    private chathistorySrv: ChatHistoryService,
-    private commonSrv: CommonService,
-    private cdRef: ChangeDetectorRef,
-    private ngZone: NgZone,
-  ) {
-    this.themeService.currentTheme.subscribe((theme) => {
-      this.isDarkMode = theme;
-    });
-  }
+  companyId: string | null = null;
+  showDropdown: boolean = false;
   queryMessage: string = '';
 
   ngOnInit(): void {
     this.showProspects = false;
-    this.absoluteUrl =
-      location.origin +
-      this.router.serializeUrl(this.router.createUrlTree(['/prospects']));
+    this.absoluteUrl = location.origin + this.router.serializeUrl(this.router.createUrlTree(['/prospects']));
 
-    this.route.queryParams.subscribe((params) => {
-      this.queryMessage = params['message'];
+    this.themeService.currentTheme.subscribe((theme) => {
+      this.isDarkMode = theme;
+    });
 
-      try {
-        if (params['sessionId']) {
-          this.sessionId = params['sessionId'];
-          localStorage.setItem('sessionId', this.sessionId);
+    this.route.queryParams.subscribe({
+      next: (params) => {
+        this.queryMessage = params['message'];
 
-          this.chathistorySrv.getSpecificChatHistory(this.sessionId).subscribe(
-            (data) => {
-              this.conversation = data.conversation;
-              if (data.company_id) {
-                this.companyId = data.company_id;
-                this.showProspects = true;
+        try {
+          if (params['sessionId']) {
+            this.sessionId = params['sessionId'];
+            localStorage.setItem('sessionId', this.sessionId);
+
+            this.chatHistoryService.getSpecificChatHistory(this.sessionId).subscribe({
+              next: (data) => {
+                this.conversation = data.conversation;
+                if (data.company_id) {
+                  this.companyId = data.company_id;
+                  this.showProspects = true;
+                }
+              },
+              error: (error) => {
+                if (error instanceof HttpErrorResponse) {
+                  this.toastr.error(error.error?.message || 'Failed to load chat history');
+                } else {
+                  this.toastr.error('An unexpected error occurred while loading chat history');
+                }
               }
-            },
-            (error) => {
-              console.error('Error fetching specific chat history:', error);
-            },
-          );
-        } else {
-          localStorage.setItem('sessionId', uuidv4());
-          this.sessionId = localStorage.getItem('sessionId')!;
-        }
+            });
+          } else {
+            localStorage.setItem('sessionId', uuidv4());
+            this.sessionId = localStorage.getItem('sessionId')!;
+          }
 
-        if (this.queryMessage && this.queryMessage.trim() !== '') {
-          this.startConversation(this.queryMessage);
+          if (this.queryMessage && this.queryMessage.trim() !== '') {
+            this.startConversation(this.queryMessage);
+          }
+        } catch (err) {
+          this.toastr.error('Failed to initialize chat session');
+          console.error('Error during initialization:', err);
         }
-      } catch (err) {
-        console.error('Error during initialization:', err);
+      },
+      error: (error) => {
+        this.toastr.error('Failed to load chat parameters');
+        console.error('Error loading query params:', error);
       }
     });
   }
@@ -109,11 +120,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   }
 
   open() {
-    const absoluteUrl =
-      location.origin +
-      this.router.serializeUrl(this.router.createUrlTree(['/prospects']));
+    const absoluteUrl = location.origin + this.router.serializeUrl(this.router.createUrlTree(['/prospects']));
     this.openTabLink.nativeElement.href = absoluteUrl;
-    console.log(absoluteUrl);
     this.openTabLink.nativeElement.click();
   }
 
@@ -154,15 +162,19 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   }
 
   async onSubmitAnswer(event: Event, textarea: HTMLTextAreaElement) {
-    this.showProspects = false;
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
 
     const question = textarea.value.trim();
-    if (!question) return;
+    if (!question) {
+      this.toastr.error('Please enter a message');
+      return;
+    }
 
+    this.showProspects = false;
     this.conversation.push({ role: 'user', content: question });
 
+    // Clear and reset textarea
     textarea.value = '';
     this.isTextareaEmpty = true;
     textarea.style.height = '48px';
@@ -175,88 +187,78 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     });
 
     this.cdRef.detectChanges();
-
     this.loading = true;
 
-    this.chatbotService
-      .conservation({
-        user_input: question,
-        session_id: this.sessionId,
-        user_id: this.commonSrv.getUser()?.id,
-      })
-      .subscribe({
-        next: (data) => {
-          this.conversation = data.conversation;
-          this.prospects = data.prospect_output;
+    this.chatbotService.conservation({
+      user_input: question,
+      session_id: this.sessionId,
+      user_id: this.commonService.getUser()?.id,
+    }).subscribe({
+      next: (data) => {
+        this.conversation = data.conversation;
+        this.prospects = data.prospect_output;
 
-          if (this.prospects != null) {
-            try {
-              const std = data.standardized_json;
-              const comp = { ...std, session_id: this.sessionId };
-              this.companysrv.postCompany(comp).subscribe({
-                next: (company) => {
-                  console.log('Company: ', company);
-                  this.companyId = company.data.id;
+        if (this.prospects != null) {
+          try {
+            const std = data.standardized_json;
+            const comp = { ...std, session_id: this.sessionId };
+            
+            this.companyService.postCompany(comp).subscribe({
+              next: (company) => {
+                this.companyId = company.data.id;
 
-                  try {
-                    const prospectsWithCompany =
-                      data.prospect_output.results.map((pros: any) => ({
-                        ...pros,
-                        company_id: company.data.id,
-                      }));
+                const prospectsWithCompany = data.prospect_output.results.map((pros: any) => ({
+                  ...pros,
+                  company_id: company.data.id,
+                }));
 
-                    this.prospectsService
-                      .uploadProspects(prospectsWithCompany)
-                      .subscribe({
-                        next: (propspects) => {
-                          // Force Angular to detect changes
-                          this.ngZone.run(() => {
-                            this.showProspects = true;
-                          });
-                          console.log('Prospects: ', propspects);
-                        },
-                        error: (uploadErr) => {
-                          console.error(
-                            'Error uploading prospects:',
-                            uploadErr,
-                          );
-                          this.toaster.error(uploadErr, 'Error');
-                        },
-                      });
-                  } catch (mapErr) {
-                    console.error(
-                      'Error mapping prospects with company ID:',
-                      mapErr,
-                    );
+                this.prospectsService.uploadProspects(prospectsWithCompany).subscribe({
+                  next: () => {
+                    this.ngZone.run(() => {
+                      this.showProspects = true;
+                    });
+                    this.toastr.success('Prospects processed successfully');
+                  },
+                  error: (uploadErr) => {
+                    if (uploadErr instanceof HttpErrorResponse) {
+                      this.toastr.error(uploadErr.error?.message || 'Failed to upload prospects');
+                    } else {
+                      this.toastr.error('An unexpected error occurred while uploading prospects');
+                    }
                   }
-                },
-                error: (companyErr) => {
-                  console.error('Error posting company:', companyErr);
-                  this.toaster.error(companyErr, 'Error');
-                },
-              });
-            } catch (error) {
-              console.error(
-                'Unexpected error during company service call:',
-                error,
-              );
-              this.toaster.error('Failed to fetch conversation', 'Error');
-            }
-
-            setTimeout(() => {
-              this.open();
-            }, 0);
+                });
+              },
+              error: (companyErr) => {
+                if (companyErr instanceof HttpErrorResponse) {
+                  this.toastr.error(companyErr.error?.message || 'Failed to create company record');
+                } else {
+                  this.toastr.error('An unexpected error occurred while creating company');
+                }
+              }
+            });
+          } catch (error) {
+            this.toastr.error('Failed to process company data');
+            console.error('Unexpected error during company service call:', error);
           }
 
-          this.loading = false;
-          this.scrollToBottom();
-        },
-        error: (error) => {
-          console.error('Error fetching Conversation:', error);
-          this.toaster.error(error, 'Error');
-          this.loading = false;
-        },
-      });
+          setTimeout(() => {
+            this.open();
+          }, 0);
+        }
+
+        this.loading = false;
+        this.scrollToBottom();
+      },
+      error: (error) => {
+        this.loading = false;
+        if (error instanceof HttpErrorResponse) {
+          this.toastr.error(error.error?.message || 'Failed to get chatbot response');
+        } else {
+          this.toastr.error('An unexpected error occurred');
+        }
+        console.error('Error fetching Conversation:', error);
+      }
+    });
   }
 
   onTextareaInput(textarea: HTMLTextAreaElement) {
@@ -280,13 +282,14 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   }
 
   logout() {
-    this.commonSrv.logout();
+    this.commonService.logout();
     this.router.navigate(['/login']);
   }
 
   goToAccount() {
     this.router.navigate(['/account']);
   }
+
   goToProjects() {
     this.router.navigate(['/account/projects']);
   }

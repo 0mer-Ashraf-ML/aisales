@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SpinnerService } from '../../../services/spinner.service';
 import { finalize } from 'rxjs/operators';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-projects',
@@ -47,19 +48,23 @@ export class ProjectsComponent implements OnInit {
           this.companies = data.data ?? [];
           
           if (this.companies.length > 0) {
-            this.toastr.success(`${this.companies.length} companies loaded`);
+            this.toastr.success(`${this.companies.length} companies loaded successfully`);
           } else {
             this.toastr.info('No companies found');
           }
         },
-        error: (error) => {
-          console.error('Error fetching companies:', error);
-          if (error.status === 404) {
-            this.companies = [];
-            this.toastr.info('No companies found');
+        error: (error: unknown) => {
+          if (error instanceof HttpErrorResponse) {
+            if (error.status === 404) {
+              this.companies = [];
+              this.toastr.info('No companies found');
+            } else {
+              this.toastr.error(error.error?.message || 'Failed to load companies');
+            }
           } else {
-            this.toastr.error('Failed to load companies');
+            this.toastr.error('An unexpected error occurred while loading companies');
           }
+          console.error('Error fetching companies:', error);
         }
       });
   }

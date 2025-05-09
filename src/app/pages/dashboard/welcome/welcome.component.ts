@@ -10,6 +10,7 @@ import { IUser } from '../../../models/user.interface';
 import { SpinnerService } from '../../../services/spinner.service';
 import { finalize } from 'rxjs/operators';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-welcome',
@@ -33,7 +34,12 @@ export class WelcomeComponent implements OnInit {
       this.user = this.commonService.getUser()!;
       this.fetchChatHistory();
     } catch (error) {
-      this.toastr.error('Failed to initialize component');
+      if (error instanceof HttpErrorResponse) {
+        this.toastr.error(error.error?.message || 'Failed to initialize component');
+      } else {
+        this.toastr.error('An unexpected error occurred during initialization');
+      }
+      console.error('Initialization error:', error);
     }
   }
 
@@ -49,16 +55,21 @@ export class WelcomeComponent implements OnInit {
           if (this.chatHistory.length === 0) {
             this.toastr.info('No chat history available');
           } else {
-            this.toastr.success(`${this.chatHistory.length} chat ${this.chatHistory.length === 1 ? 'session' : 'sessions'} loaded`);
+            this.toastr.success(`${this.chatHistory.length} chat ${this.chatHistory.length === 1 ? 'session' : 'sessions'} loaded successfully`);
           }
         },
-        error: (error) => {
-          if (error.status === 404) {
-            this.chatHistory = [];
-            this.toastr.info('No chat history available');
+        error: (error: unknown) => {
+          if (error instanceof HttpErrorResponse) {
+            if (error.status === 404) {
+              this.chatHistory = [];
+              this.toastr.info('No chat history available');
+            } else {
+              this.toastr.error(error.error?.message || 'Failed to load chat history');
+            }
           } else {
-            this.toastr.error('Failed to load chat history');
+            this.toastr.error('An unexpected error occurred while loading chat history');
           }
+          console.error('Error loading chat history:', error);
         }
       });
   }
@@ -68,7 +79,7 @@ export class WelcomeComponent implements OnInit {
       const trimmedMessage = this.message.trim();
       
       if (!trimmedMessage) {
-        this.toastr.warning('Please enter a message');
+        this.toastr.warning('Please enter a message to start the chat');
         return;
       }
 
@@ -77,7 +88,12 @@ export class WelcomeComponent implements OnInit {
       });
       
     } catch (error) {
-      this.toastr.error('Failed to start chat session');
+      if (error instanceof HttpErrorResponse) {
+        this.toastr.error(error.error?.message || 'Failed to start chat session');
+      } else {
+        this.toastr.error('An unexpected error occurred while starting chat');
+      }
+      console.error('Chat session error:', error);
     }
   }
 }
