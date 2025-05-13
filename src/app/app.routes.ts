@@ -9,7 +9,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./pages/home/home.component').then((m) => m.HomeComponent),
-    title: 'Home',
+    title: `SellersGPT: The World's First B2B AI Sales Agent for Global Manufacturers and Traders`,
   },
   {
     path: 'solutions',
@@ -17,7 +17,7 @@ export const routes: Routes = [
       import('./pages/solutions/solutions.component').then(
         (m) => m.SolutionsComponent
       ),
-    title: 'Solutions',
+    title: 'Customized B2B AI Sales Agent Solutions for Manufacturers, Retailers, High-Tech, SaaS Companies and Human Resources Companies | SellersGPT',
   },
   {
     path: 'pricing',
@@ -25,7 +25,7 @@ export const routes: Routes = [
       import('./pages/pricing/pricing.component').then(
         (m) => m.PricingComponent
       ),
-    title: 'Pricing',
+    title: 'Pay for Quality Work, Not Software | SellersGPT',
   },
   {
     path: 'login',
