@@ -17,5 +17,6 @@ export interface IUser {
     updatedAt?: string;
     contact?: string;
     countryCode?: number;
+    country?: string;
   }
   

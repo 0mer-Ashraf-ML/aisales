@@ -54,6 +54,7 @@ export class UserProfileComponent implements OnInit {
           Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
         ],
       ],
+      country: ['', Validators.required],
       countryCode: ['+1', Validators.required],
       contact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
     });
@@ -85,6 +86,8 @@ export class UserProfileComponent implements OnInit {
     const patchData: any = {
       name: this.user?.fullName,
       email: this.user?.email,
+      country: this.user?.country,
+
     };
   
     const fullContact = this.user?.contact || '';
@@ -96,10 +99,6 @@ export class UserProfileComponent implements OnInit {
   
     this.userForm.patchValue(patchData);
   }
-  
-  
-  
-  
 
   fetchCountries() {
     this.http.get<any[]>('https://restcountries.com/v3.1/all').subscribe({
@@ -197,6 +196,7 @@ export class UserProfileComponent implements OnInit {
         fullName: formData.name,
         email: formData.email,
         contact: formData.countryCode + formData.contact,
+        country: formData.country
       };
 
       if (formData.password) {
@@ -208,6 +208,7 @@ export class UserProfileComponent implements OnInit {
           this.toastr.success('Profile updated successfully!');
           this.userForm.reset();
           this.setData();
+          console.log(this.userForm.value)
         },
         error: (err) => {
           this.toastr.error('Failed to update profile. Please try again.');
