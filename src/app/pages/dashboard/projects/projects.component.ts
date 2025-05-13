@@ -13,13 +13,14 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-projects',
   standalone: true,
   imports: [CommonModule, RouterLink, Cbutton1Component, NgxSpinnerModule],
-  templateUrl: './projects.component.html'
+  templateUrl: './projects.component.html',
 })
 export class ProjectsComponent implements OnInit {
   companies: any[] = [];
   today = new Date();
   expandedCompanyId: number | null = null;
   isExpanded: boolean = false;
+  isRunning: boolean = false;
 
   private readonly companyService = inject(CompanyService);
   private readonly toastr = inject(ToastrService);
@@ -40,32 +41,42 @@ export class ProjectsComponent implements OnInit {
 
   private fetchCompanies(): void {
     this.spinner.show();
-    
-    this.companyService.getCompanies()
+
+    this.companyService
+      .getCompanies()
       .pipe(finalize(() => this.spinner.hide()))
       .subscribe({
         next: (data: { data: any[] }) => {
-          this.companies = data.data ?? [];
-          
+          this.companies = (data.data ?? []).map((company) => ({
+            ...company,
+            isRunning: false,
+          }));
+
           if (this.companies.length > 0) {
-            this.toastr.success(`${this.companies.length} companies loaded successfully`);
+            this.toastr.success(
+              `${this.companies.length} companies loaded successfully`,
+            );
           } else {
             this.toastr.info('No companies found');
           }
         },
+
         error: (error: unknown) => {
           if (error instanceof HttpErrorResponse) {
             if (error.status === 404) {
               this.companies = [];
               this.toastr.info('No companies found');
             } else {
-              this.toastr.error(error.error?.message || 'Failed to load companies');
+              this.toastr.error(
+                error.error?.message || 'Failed to load companies',
+              );
             }
           } else {
-            this.toastr.error('An unexpected error occurred while loading companies');
+            this.toastr.error(
+              'An unexpected error occurred while loading companies',
+            );
           }
-          console.error('Error fetching companies:', error);
-        }
+        },
       });
   }
 
@@ -76,6 +87,12 @@ export class ProjectsComponent implements OnInit {
   }
 
   toggleExpand(companyId: number): void {
-    this.expandedCompanyId = this.expandedCompanyId === companyId ? null : companyId;
+    this.expandedCompanyId =
+      this.expandedCompanyId === companyId ? null : companyId;
+  }
+
+  toggleRunningState(event: Event, company: any): void {
+    event.stopPropagation();
+    company.isRunning = !company.isRunning;
   }
 }
