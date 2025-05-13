@@ -11,6 +11,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { finalize } from 'rxjs/operators';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-welcome',
@@ -28,20 +29,36 @@ export class WelcomeComponent implements OnInit {
   private readonly toastr = inject(ToastrService);
   private readonly commonService = inject(CommonService);
   private readonly spinner = inject(SpinnerService);
+  private readonly authService = inject(AuthService);
 
   ngOnInit(): void {
-    try {
-      this.user = this.commonService.getUser()!;
-      this.fetchChatHistory();
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.toastr.error(error.error?.message || 'Failed to initialize component');
-      } else {
-        this.toastr.error('An unexpected error occurred during initialization');
+  try {
+    const userId = this.commonService.getUser()?.id;
+    if (!userId) {
+      this.toastr.error('User ID not found');
+      return;
+    }
+
+    this.authService.getUser(userId).subscribe({
+      next: (res) => {
+        this.user = res.data;
+        this.fetchChatHistory();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.error?.message || 'Failed to fetch user details');
+        console.error('User fetch error:', error);
       }
-      console.error('Initialization error:', error);
+    });
+    
+  } catch (error) {
+    if (error instanceof HttpErrorResponse) {
+      this.toastr.error(error.error?.message || 'Failed to initialize component');
+    } else {
+      this.toastr.error('An unexpected error occurred during initialization');
     }
   }
+}
+
 
   private fetchChatHistory(): void {
     this.spinner.show();
@@ -69,7 +86,6 @@ export class WelcomeComponent implements OnInit {
           } else {
             this.toastr.error('An unexpected error occurred while loading chat history');
           }
-          console.error('Error loading chat history:', error);
         }
       });
   }
@@ -93,7 +109,6 @@ export class WelcomeComponent implements OnInit {
       } else {
         this.toastr.error('An unexpected error occurred while starting chat');
       }
-      console.error('Chat session error:', error);
     }
   }
 }
